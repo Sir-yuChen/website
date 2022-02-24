@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.PersonInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.PersonInfoModel">
+        <id column="id" property="id" />
+        <result column="ch_name" property="chName" />
+        <result column="en_name" property="enName" />
+        <result column="hometown" property="hometown" />
+        <result column="born_time" property="bornTime" />
+        <result column="height" property="height" />
+        <result column="ethnic" property="ethnic" />
+        <result column="profession" property="profession" />
+        <result column="recent_photos" property="recentPhotos" />
+        <result column="film_profession" property="filmProfession" />
+        <result column="film_uid" property="filmUid" />
+        <result column="creact_time" property="creactTime" />
+        <result column="creator" property="creator" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, ch_name, en_name, hometown, born_time, height, ethnic, profession, recent_photos, film_profession, film_uid, creact_time, creator
+    </sql>
+
+</mapper>

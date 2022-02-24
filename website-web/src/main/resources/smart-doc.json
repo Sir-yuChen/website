@@ -1,0 +1,11 @@
+{
+  "serverUrl": "http://localhost:8090",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "./src/main/resources/static/doc",
+  "coverOld": true,
+  "createDebugPage": true,
+  "md5EncryptedHtmlName": false,
+  "projectName": "WEBSITE"
+}
+

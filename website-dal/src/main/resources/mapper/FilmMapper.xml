@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.FilmMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.FilmModel">
+        <id column="id" property="id" />
+        <result column="film_uid" property="filmUid" />
+        <result column="film_status" property="filmStatus" />
+        <result column="film_name" property="filmName" />
+        <result column="film_original_name" property="filmOriginalName" />
+        <result column="film_alias" property="filmAlias" />
+        <result column="film_genre_id" property="filmGenreId" />
+        <result column="film_language" property="filmLanguage" />
+        <result column="film_duration" property="filmDuration" />
+        <result column="film_scenarist_id" property="filmScenaristId" />
+        <result column="film_starring_id" property="filmStarringId" />
+        <result column="film_publish_country" property="filmPublishCountry" />
+        <result column="film_publish_time" property="filmPublishTime" />
+        <result column="film_lang" property="filmLang" />
+        <result column="film_url" property="filmUrl" />
+        <result column="film_poster" property="filmPoster" />
+        <result column="film_shareImage" property="filmShareimage" />
+        <result column="film_description" property="filmDescription" />
+        <result column="creact_time" property="creactTime" />
+        <result column="creator" property="creator" />
+        <result column="film_director" property="filmDirector" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, film_uid, film_status, film_name, film_original_name, film_alias, film_genre_id, film_language, film_duration, film_scenarist_id, film_starring_id, film_publish_country, film_publish_time, film_lang, film_url, film_poster, film_shareImage, film_description, creact_time, creator, film_director
+    </sql>
+
+</mapper>
