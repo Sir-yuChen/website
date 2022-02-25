@@ -21,6 +21,10 @@
             <groupId>com.zy.website</groupId>
             <artifactId>website-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-dal</artifactId>
+        </dependency>
 
         <!-- ====================  springboot starter ==================== -->
         <dependency>
@@ -43,7 +47,28 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
+        <!--aop 切面-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 
+        <!--热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.6.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
 
     </dependencies>
 

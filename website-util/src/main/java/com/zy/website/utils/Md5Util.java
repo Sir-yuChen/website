@@ -1,4 +1,4 @@
-package com.zy.website;
+package com.zy.website.utils;
 
 // 此处需要引入 commons-codec-1.13.jar
 import org.apache.commons.codec.binary.Hex;

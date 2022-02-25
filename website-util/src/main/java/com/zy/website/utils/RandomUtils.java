@@ -1,4 +1,4 @@
-package com.zy.website;
+package com.zy.website.utils;
 
 import java.util.Random;
 

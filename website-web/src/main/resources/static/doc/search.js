@@ -16,7 +16,7 @@ api[0].list[0].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/film-model/getFilm',
-    desc: '视频详情',
+    desc: '视频详情[条查分页]',
 });
 api[0].list.push({
     alias: 'FilmScoreController',
