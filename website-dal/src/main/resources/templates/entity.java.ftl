@@ -18,6 +18,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
 *  ${table.name} : ${table.comment!}
 *  @author ${author}
@@ -26,8 +29,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @TableName("${table.name}")
-public class ${entity} extends Model<${entity}> {
+public class ${entity} extends Model<${entity}> implements Serializable {
 
 private static final long serialVersionUID = 1L;
 <#-- ----------  属性私有化  ---------->

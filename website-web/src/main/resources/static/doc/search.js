@@ -6,40 +6,74 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'FilmController',
+    alias: 'DicDataController',
     order: '1',
+    link: '字典数据_dicdatacontroller',
+    desc: '字典数据 DicDataController',
+    list: []
+})
+api[0].list.push({
+    alias: 'DictionaryController',
+    order: '2',
+    link: '字典_dictionarycontroller',
+    desc: '字典 DictionaryController',
+    list: []
+})
+api[0].list.push({
+    alias: 'FilmController',
+    order: '3',
     link: '视频_filmcontroller',
     desc: '视频 FilmController',
     list: []
 })
-api[0].list[0].list.push({
+api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8090/film-model/getFilm',
-    desc: '视频详情[条查分页]',
+    url: 'http://localhost:8090/api/film/getFilm',
+    desc: '视频详情[单查]',
+});
+api[0].list.push({
+    alias: 'FilmImageController',
+    order: '4',
+    link: '图片_filmimagecontroller',
+    desc: '图片 FilmImageController',
+    list: []
+})
+api[0].list.push({
+    alias: 'FilmMenuController',
+    order: '5',
+    link: '菜单_filmmenucontroller',
+    desc: '菜单 FilmMenuController',
+    list: []
+})
+api[0].list[4].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/menu/getTopMenu',
+    desc: '菜单加载',
 });
 api[0].list.push({
     alias: 'FilmScoreController',
-    order: '2',
+    order: '6',
     link: '视频评分_filmscorecontroller',
     desc: '视频评分 FilmScoreController',
     list: []
 })
 api[0].list.push({
     alias: 'FilmTypeController',
-    order: '3',
+    order: '7',
     link: '视频类型_filmtypecontroller',
     desc: '视频类型 FilmTypeController',
     list: []
 })
 api[0].list.push({
     alias: 'HelloController',
-    order: '4',
+    order: '8',
     link: 'hellocontroller',
     desc: 'HelloController',
     list: []
 })
-api[0].list[3].list.push({
+api[0].list[7].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/index/hello',
@@ -47,9 +81,16 @@ api[0].list[3].list.push({
 });
 api[0].list.push({
     alias: 'PersonInfoController',
-    order: '5',
-    link: 'personinfocontroller',
-    desc: 'PersonInfoController',
+    order: '9',
+    link: '人物_personinfocontroller',
+    desc: '人物 PersonInfoController',
+    list: []
+})
+api[0].list.push({
+    alias: 'PlayRecordController',
+    order: '10',
+    link: '播放记录_playrecordcontroller',
+    desc: '播放记录 PlayRecordController',
     list: []
 })
 document.onkeydown = keyDownSearch;

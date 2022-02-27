@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.PlayRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.PlayRecordModel">
+        <id column="id" property="id" />
+        <result column="play_film_uid" property="playFilmUid" />
+        <result column="play_time" property="playTime" />
+        <result column="play_account" property="playAccount" />
+        <result column="play_duration" property="playDuration" />
+        <result column="play_ip" property="playIp" />
+        <result column="film_name" property="filmName" />
+        <result column="film_url" property="filmUrl" />
+        <result column="creact_time" property="creactTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, play_film_uid, play_time, play_account, play_duration, play_ip, film_name, film_url, creact_time
+    </sql>
+
+</mapper>

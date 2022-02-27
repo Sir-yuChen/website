@@ -1,7 +1,10 @@
 package com.zy.website.service;
 
-import com.zy.website.model.FilmModel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zy.website.dto.NoticeDTO;
+import com.zy.website.model.FilmModel;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,6 +16,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FilmService extends IService<FilmModel> {
 
-    FilmModel getFilmByName(String name);
+    FilmModel getFilmByUid(String uid);
+
+    List<NoticeDTO> videoChart(String typeCode);
 
 }

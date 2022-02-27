@@ -48,7 +48,6 @@
         <org.mapdb.version>2.0-beta10</org.mapdb.version>
         <!-- mybatis -->
         <mybatis.plus.starter.version>3.4.2</mybatis.plus.starter.version>
-        <mybatis.ehcache.version>1.1.0</mybatis.ehcache.version>
         <mybatis.plus.generator.version>3.3.0</mybatis.plus.generator.version>
         <freemarker.version>2.3.28</freemarker.version>
         <velocity.version>2.0</velocity.version>
@@ -135,12 +134,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mybatis.caches</groupId>
-                <artifactId>mybatis-ehcache</artifactId>
-                <version>${mybatis.ehcache.version}</version>
             </dependency>
 
             <!-- 连接池druid-->

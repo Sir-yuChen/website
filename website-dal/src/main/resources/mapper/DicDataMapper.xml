@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.DicDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.DicDataModel">
+        <id column="id" property="id" />
+        <result column="dic_type_uid" property="dicTypeUid" />
+        <result column="dic_sort" property="dicSort" />
+        <result column="dic_label" property="dicLabel" />
+        <result column="dic_value" property="dicValue" />
+        <result column="dic_default" property="dicDefault" />
+        <result column="dic_isFixed" property="dicIsfixed" />
+        <result column="dic_status" property="dicStatus" />
+        <result column="parent_id" property="parentId" />
+        <result column="dic_remark" property="dicRemark" />
+        <result column="update_time" property="updateTime" />
+        <result column="creact_time" property="creactTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dic_type_uid, dic_sort, dic_label, dic_value, dic_default, dic_isFixed, dic_status, parent_id, dic_remark, update_time, creact_time
+    </sql>
+
+</mapper>

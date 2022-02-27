@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.DictionaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.DictionaryModel">
+        <id column="id" property="id" />
+        <result column="dic_type_uid" property="dicTypeUid" />
+        <result column="dic_type_key" property="dicTypeKey" />
+        <result column="dic_type_value" property="dicTypeValue" />
+        <result column="dic_type_status" property="dicTypeStatus" />
+        <result column="dic_type_desc" property="dicTypeDesc" />
+        <result column="dic_remark" property="dicRemark" />
+        <result column="update_time" property="updateTime" />
+        <result column="creact_time" property="creactTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dic_type_uid, dic_type_key, dic_type_value, dic_type_status, dic_type_desc, dic_remark, update_time, creact_time
+    </sql>
+
+</mapper>

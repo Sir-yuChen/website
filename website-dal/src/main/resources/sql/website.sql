@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.37, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: website
 -- ------------------------------------------------------
--- Server version	5.7.34
+-- Server version	5.7.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -107,6 +107,7 @@ CREATE TABLE `t_film` (
   `creact_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `creator` varchar(255) DEFAULT NULL COMMENT '创建人',
   `film_director` varchar(255) DEFAULT NULL COMMENT '导演',
+  `film_play_count` int(11) DEFAULT '0' COMMENT '视频播放次数',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -117,7 +118,7 @@ CREATE TABLE `t_film` (
 
 LOCK TABLES `t_film` WRITE;
 /*!40000 ALTER TABLE `t_film` DISABLE KEYS */;
-INSERT INTO `t_film` (`id`, `film_uid`, `film_status`, `film_name`, `film_original_name`, `film_alias`, `film_genre_id`, `film_language`, `film_duration`, `film_scenarist_id`, `film_starring_id`, `film_publish_country`, `film_publish_time`, `film_lang`, `film_url`, `film_poster`, `film_shareImage`, `film_description`, `creact_time`, `creator`, `film_director`) VALUES (1,'5f968bfcee3680299115bbe6','Y','肖申克的救赎','肖申克的救赎','The Shawshank Redemption','1,2','英语',120,'1,5','2,3,4','美国','1994-09-10 00:00:00','cn',NULL,'https://wmdb.querydata.org/movie/poster/1603701754760-c50d8a.jpg','https://wmdb.querydata.org/movie/poster/1605355459683-5f968bfaee3680299115bb97.png','20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为鲨堡的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来...','2022-02-24 15:32:28','zhangyu','1');
+INSERT INTO `t_film` VALUES (1,'5f968bfcee3680299115bbe6','Y','肖申克的救赎','肖申克的救赎','The Shawshank Redemption','1,2','英语',120,'1,5','2,3,4','美国','1994-09-10 00:00:00','cn',NULL,'https://wmdb.querydata.org/movie/poster/1603701754760-c50d8a.jpg','https://wmdb.querydata.org/movie/poster/1605355459683-5f968bfaee3680299115bb97.png','20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为鲨堡的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来...','2022-02-24 15:32:28','zhangyu','1',2988987);
 /*!40000 ALTER TABLE `t_film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,8 +171,10 @@ CREATE TABLE `t_film_menu` (
   `menu_icon_url` varchar(255) DEFAULT NULL COMMENT '图标地址',
   `menu_url` varchar(255) DEFAULT NULL COMMENT '跳转地址',
   `creact_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `menu_type` varchar(100) DEFAULT NULL COMMENT '菜单类型',
+  `menu_is_child` tinyint(1) DEFAULT '0' COMMENT '是否有子类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,6 +183,7 @@ CREATE TABLE `t_film_menu` (
 
 LOCK TABLES `t_film_menu` WRITE;
 /*!40000 ALTER TABLE `t_film_menu` DISABLE KEYS */;
+INSERT INTO `t_film_menu` VALUES (1,0,'首页','FRONTPAGE','Y',1,NULL,NULL,'2022-02-26 11:11:45','TOP',0),(2,0,'电影','FILM_TOP','Y',2,NULL,NULL,'2022-02-26 11:13:20','TOP',0),(3,0,'剧集','EPISODE','Y',3,NULL,NULL,'2022-02-26 11:14:14','TOP',0),(4,0,'综艺','VARIETY','Y',4,NULL,NULL,'2022-02-26 11:15:17','TOP',0),(5,0,'动漫','CARTOON','Y',5,NULL,NULL,'2022-02-26 11:16:02','TOP',0),(6,0,'美剧','USDRAMA','Y',6,NULL,NULL,'2022-02-26 11:17:08','TOP',0),(7,0,'音乐','MUSICAL','Y',7,NULL,NULL,'2022-02-26 11:20:53','TOP',0),(8,0,'壁纸','WALLPAPER','Y',8,NULL,NULL,'2022-02-26 16:52:06','TOP',0),(9,0,'直播','LIVESTREAMING','Y',9,NULL,NULL,'2022-02-26 16:53:06','TOP',0),(10,0,'资讯','INFORMATION','Y',10,NULL,NULL,'2022-02-26 16:54:11','TOP',0),(11,0,'电影','FILM_MENU_ASSORT','Y',1,NULL,NULL,'2022-02-26 21:04:19','FILM_MENU',1),(12,0,'剧集','FILM_MENU_EPISODE','Y',2,NULL,NULL,'2022-02-26 21:05:01','FILM_MENU',1),(13,0,'综艺','FILM_MENU_VARIETY','Y',3,NULL,NULL,'2022-02-27 09:19:07','FILM_MENU',1),(14,0,'动漫','FILM_MENU_CARTOON','Y',4,NULL,NULL,'2022-02-27 09:19:59','FILM_MENU',1),(15,11,'喜剧','COMEDY','Y',1,NULL,NULL,'2022-02-27 09:21:26','FILM_MENU',0),(16,11,'爱情','LOVE','Y',2,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(17,11,'动作','ACTION','Y',3,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(18,11,'恐怖','HORROR','Y',4,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(19,11,'科幻','SCIENCE_FICTION','Y',5,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(20,11,'剧情','PLOT_OF_PLAY','Y',6,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(21,12,'警匪','GANGSTER','Y',1,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(22,12,'悬疑','SUSPEND','Y',2,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(23,12,'偶像','IDOL','Y',3,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(24,12,'都市','METROPOLIS','Y',4,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(25,12,'军事','MILITARY','Y',5,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(26,12,'古装','ANCIENT_COSTUME','Y',6,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(27,13,'选秀','DRAFT','Y',1,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(28,13,'搞笑','FUNNY','Y',2,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(29,13,'访谈','INTERVIEW','Y',3,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(30,13,'体育','SPORTS','Y',4,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(31,13,'纪实','DOCUMENTARY','Y',5,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(32,13,'科教','SCIENCE_EDUCATION','Y',6,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(33,14,'热血','BLOOD','Y',1,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(34,14,'恋爱','AMATIVENESS','Y',2,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(35,14,'校园','CAMPUS','Y',3,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(36,14,'幻想','FANTASY','Y',4,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(37,14,'悬疑','CARTOON_SUSPEND','Y',5,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(38,14,'成人','ADULT','Y',6,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0);
 /*!40000 ALTER TABLE `t_film_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +213,7 @@ CREATE TABLE `t_film_score` (
 
 LOCK TABLES `t_film_score` WRITE;
 /*!40000 ALTER TABLE `t_film_score` DISABLE KEYS */;
-INSERT INTO `t_film_score` (`id`, `score_platform`, `score_platform_icon`, `score_total`, `score_ratio`, `sequence`, `film_uid`, `creact_time`) VALUES (1,'豆瓣评分',NULL,2170679,9.70,1,'5f968bfcee3680299115bbe6','2022-02-24 16:02:30'),(2,'IMDB评分',NULL,2297852,9.30,2,'5f968bfcee3680299115bbe6','2022-02-24 16:03:13'),(3,'烂番茄指数',NULL,75,9.10,3,'5f968bfcee3680299115bbe6','2022-02-24 16:03:57'),(4,'xx评分',NULL,8586,9.60,4,'5f968bfcee3680299115bbe6','2022-02-25 16:22:22');
+INSERT INTO `t_film_score` VALUES (1,'豆瓣评分',NULL,2170679,9.70,1,'5f968bfcee3680299115bbe6','2022-02-24 16:02:30'),(2,'IMDB评分',NULL,2297852,9.30,2,'5f968bfcee3680299115bbe6','2022-02-24 16:03:13'),(3,'烂番茄指数',NULL,75,9.10,3,'5f968bfcee3680299115bbe6','2022-02-24 16:03:57'),(4,'xx评分',NULL,8586,9.60,4,'5f968bfcee3680299115bbe6','2022-02-25 16:22:22');
 /*!40000 ALTER TABLE `t_film_score` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,6 +229,7 @@ CREATE TABLE `t_film_type` (
   `type_name` varchar(255) DEFAULT NULL COMMENT '类型名称',
   `type_mark` varchar(255) NOT NULL COMMENT '类型标识唯一',
   `type_reveal_name` varchar(255) DEFAULT NULL COMMENT '展示类型名称',
+  `type_assort` varchar(100) NOT NULL COMMENT '类型归类：普通类型TYPE；电影榜类型NOTICE',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,7 +240,7 @@ CREATE TABLE `t_film_type` (
 
 LOCK TABLES `t_film_type` WRITE;
 /*!40000 ALTER TABLE `t_film_type` DISABLE KEYS */;
-INSERT INTO `t_film_type` (`id`, `type_name`, `type_mark`, `type_reveal_name`) VALUES (1,'犯罪','CRIME','犯罪'),(2,'剧情','DRAMA','剧情');
+INSERT INTO `t_film_type` VALUES (1,'犯罪','CRIME','犯罪','TYPE'),(2,'剧情','DRAMA','剧情','TYPE');
 /*!40000 ALTER TABLE `t_film_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +275,7 @@ CREATE TABLE `t_person_info` (
 
 LOCK TABLES `t_person_info` WRITE;
 /*!40000 ALTER TABLE `t_person_info` DISABLE KEYS */;
-INSERT INTO `t_person_info` (`id`, `ch_name`, `en_name`, `hometown`, `born_time`, `height`, `ethnic`, `profession`, `recent_photos`, `film_profession`, `film_uid`, `creact_time`, `creator`) VALUES (1,'弗兰克·达拉邦特','Frank A. Darabont','法国,杜省,蒙贝利亚尔','1959-01-28 00:00:00',175,NULL,'编剧/导演/制片人/演员','https://img3.doubanio.com/view/celebrity/raw/public/p230.jpg','DIRECTOR,SCENARIST','5f968bfcee3680299115bbe6','2022-02-24 15:41:23','zhangyu'),(2,'蒂姆·罗宾斯','Tim Robbins','美国,加利福尼亚州,西科维纳','1958-10-16 00:00:00',180,NULL,'演员/导演/制片人/编剧/配音','https://img9.doubanio.com/view/celebrity/raw/public/p17525.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(3,'摩根·弗里曼 Morgan Freeman','Morgan Porterfield Freeman Jr.','美国,田纳西州,孟菲斯','1937-06-01 00:00:00',180,NULL,'演员/制片人/配音/导演/主持人','https://img2.doubanio.com/view/celebrity/raw/public/p34642.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(4,'威廉姆·赛德勒 William Sadler','William Thomas Sadler','美国,纽约,布法罗','1950-04-13 00:00:00',185,NULL,'演员/导演','https://img1.doubanio.com/view/celebrity/raw/public/p7827.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(5,'斯蒂芬·金 Stephen King','Stephen Edwin King','美国,缅因,波特兰','1947-09-21 00:00:00',175,NULL,'编剧/演员/制片人/配音/导演','https://img9.doubanio.com/view/celebrity/raw/public/p1359443605.4.jpg','SCENARIST','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu');
+INSERT INTO `t_person_info` VALUES (1,'弗兰克·达拉邦特','Frank A. Darabont','法国,杜省,蒙贝利亚尔','1959-01-28 00:00:00',175,NULL,'编剧/导演/制片人/演员','https://img3.doubanio.com/view/celebrity/raw/public/p230.jpg','DIRECTOR,SCENARIST','5f968bfcee3680299115bbe6','2022-02-24 15:41:23','zhangyu'),(2,'蒂姆·罗宾斯','Tim Robbins','美国,加利福尼亚州,西科维纳','1958-10-16 00:00:00',180,NULL,'演员/导演/制片人/编剧/配音','https://img9.doubanio.com/view/celebrity/raw/public/p17525.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(3,'摩根·弗里曼 Morgan Freeman','Morgan Porterfield Freeman Jr.','美国,田纳西州,孟菲斯','1937-06-01 00:00:00',180,NULL,'演员/制片人/配音/导演/主持人','https://img2.doubanio.com/view/celebrity/raw/public/p34642.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(4,'威廉姆·赛德勒 William Sadler','William Thomas Sadler','美国,纽约,布法罗','1950-04-13 00:00:00',185,NULL,'演员/导演','https://img1.doubanio.com/view/celebrity/raw/public/p7827.jpg','STAR','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu'),(5,'斯蒂芬·金 Stephen King','Stephen Edwin King','美国,缅因,波特兰','1947-09-21 00:00:00',175,NULL,'编剧/演员/制片人/配音/导演','https://img9.doubanio.com/view/celebrity/raw/public/p1359443605.4.jpg','SCENARIST','5f968bfcee3680299115bbe6','2022-02-24 15:45:33','zhangyu');
 /*!40000 ALTER TABLE `t_person_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,4 +342,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-25 17:29:50
+-- Dump completed on 2022-02-27 20:02:03

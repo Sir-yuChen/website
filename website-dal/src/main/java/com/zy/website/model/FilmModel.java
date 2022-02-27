@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -13,10 +14,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author zhangyu
  * @since 2022-02-24
  */
@@ -24,6 +21,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_film")
+@JsonInclude(JsonInclude.Include.NON_NULL) //为null的字段不返回
 public class FilmModel extends Model<FilmModel> {
 
     private static final long serialVersionUID=1L;
@@ -72,12 +70,12 @@ public class FilmModel extends Model<FilmModel> {
     private String filmAlias;
 
     /**
-     * 类型
-     * @mock 1,2
+     * 视频分类
+     * @mock EPISODE(剧情)
      * @since v1.0
      */
-    @TableField("film_genre_id")
-    private String filmGenreId;
+    @TableField("film_genre")
+    private String filmGenre;
 
     /**
      * 语言
@@ -182,6 +180,14 @@ public class FilmModel extends Model<FilmModel> {
      */
     @TableField("film_director")
     private String filmDirector;
+
+    /**
+     * 视频播放次数
+     * @mock 10000
+     * @since v1.0
+     */
+    @TableField("film_play_count")
+    private String filmPlayCount;
 
 
     @Override

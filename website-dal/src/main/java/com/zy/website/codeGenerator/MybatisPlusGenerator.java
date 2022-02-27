@@ -22,6 +22,7 @@ public class MybatisPlusGenerator {
 
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
 //        {"t_film","t_film_score","t_film_type","t_person_info"}
+//        {"t_dic_data","t_dictionary","t_film_image","t_film_menu","t_play_record","t_type_relation_film"}
         String [] tableNames = new String[]{}; //需要生成的表
         String [] excludeTableNames = new String[]{};//需要排除的表
         String author = "zhangyu";//用户名

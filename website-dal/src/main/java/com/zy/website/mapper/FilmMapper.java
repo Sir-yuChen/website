@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Select;
 public interface FilmMapper extends BaseMapper<FilmModel> {
 
 
-    @Select("select * from t_film where film_name = #{name} ")
-    FilmModel getFilmByName(@Param("name") String name);
+    @Select("select * from t_film where film_uid = #{uid} ")
+    FilmModel getFilmByUid(@Param("uid") String uid);
 
 }

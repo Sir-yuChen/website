@@ -1,8 +1,11 @@
 package com.zy.website.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class FrontResponse implements Serializable {
     private static final long serialVersionUID = -6080858828270195838L;
     private String resultCode;

@@ -1,14 +1,16 @@
 package com.zy.website.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -22,7 +24,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_film_type")
-public class FilmTypeModel extends Model<FilmTypeModel> {
+@JsonInclude(JsonInclude.Include.NON_NULL) //为null的字段不返回
+public class FilmTypeModel extends Model<FilmTypeModel> implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -47,6 +50,11 @@ public class FilmTypeModel extends Model<FilmTypeModel> {
     @TableField("type_reveal_name")
     private String typeRevealName;
 
+    /**
+     * 类型归类：普通类型TYPE；电影榜类型NOTICE
+     */
+    @TableField("type_assort")
+    private String typeAssort;
 
     @Override
     protected Serializable pkVal() {

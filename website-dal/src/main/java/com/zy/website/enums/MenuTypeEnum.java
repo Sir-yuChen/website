@@ -2,12 +2,10 @@ package com.zy.website.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum UserStatusEnum implements BaseEnum{
+public enum MenuTypeEnum implements BaseEnum{
 
-    USER_STATE_NORMAL("1","正常"),
-    USER_STATE_FREEZE("2","冻结"),
-    USER_STATE_LOGOUT("0","已注销");
-
+    MENU_TOP("TOP","顶部菜单"),
+    MENU_FILM("FILM_MENU","视频菜单");
 
     private String code;
     private String desc;
@@ -20,14 +18,14 @@ public enum UserStatusEnum implements BaseEnum{
         return desc;
     }
 
-    UserStatusEnum(String code, String desc) {
+    MenuTypeEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    public static UserStatusEnum getByCode(String code) {
+    public static MenuTypeEnum getByCode(String code) {
         if (StringUtils.isNotBlank(code)) {
-            for (UserStatusEnum e : values()) {
+            for (MenuTypeEnum e : values()) {
                 if (e.code.equals(code)) {
                     return e;
                 }

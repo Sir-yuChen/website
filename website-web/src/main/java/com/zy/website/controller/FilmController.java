@@ -1,6 +1,11 @@
 package com.zy.website.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zy.website.ApiReturn;
+import com.zy.website.code.ApiReturnCode;
+import com.zy.website.dto.NoticeDTO;
 import com.zy.website.model.FilmModel;
+import com.zy.website.response.NoticeResponse;
 import com.zy.website.service.FilmService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 视频 FilmController
@@ -17,7 +23,7 @@ import javax.annotation.Resource;
  * @since 2022-02-24
  */
 @RestController
-@RequestMapping("/film-model")
+@RequestMapping("/api/film")
 public class FilmController extends BaseController {
 
     private static Logger logger = LogManager.getLogger(FilmController.class);
@@ -28,19 +34,45 @@ public class FilmController extends BaseController {
 
     //@deprecated 弃用注解 smart-doc
     /**
-     * 视频详情[条查分页]
+     * 视频详情[单查]
+     * @param uid 视频唯一UID|5f968bfcee3680299115bbe6
      * @author zhangyu
-     * @param name 视频名称|肖申克的救赎
-     * @description  根据视频名称获取视频详情
-     * @date 2022/2/25 10:35
-     * @return com.zy.website.model.FilmModel
+     * @date 2022/2/26 10:36
+     * @return com.zy.website.ApiReturn
      */
     @RequestMapping(value = "getFilm", method = RequestMethod.GET)
-    public FilmModel getFilmByName(@RequestParam String name) {
-        FilmModel filmModel = filmService.getFilmByName(name);
+    public ApiReturn getFilmByUid(@RequestParam String uid) {
+        ApiReturn apiReturn = new ApiReturn();
+        FilmModel filmModel = filmService.getFilmByUid(uid);
         logger.info("获取视频信息:filModel={}",filmModel);
-        return filmModel;
+        apiReturn.setData(filmModel);
+        apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        return apiReturn;
     }
+
+    /**
+     * 视频榜
+     * @param
+     * @author zhangyu
+     * @date 2022/2/26 10:36
+     * @return com.zy.website.ApiReturn
+     */
+    @RequestMapping(value = "videoChart", method = RequestMethod.GET)
+    public NoticeResponse videoChart(@RequestParam String typeCode) {
+        NoticeResponse noticeResponse = new NoticeResponse();
+
+        List<NoticeDTO> noticeDTOS = filmService.videoChart(typeCode);
+        if (noticeDTOS != null && noticeDTOS.size() > 0) {
+            logger.info("获取视频榜:noticeDTOS={}", JSONObject.toJSONString(noticeDTOS));
+            noticeResponse.setResultCode(ApiReturnCode.SUCCESSFUL.getCode());
+            noticeResponse.setResultMsg(ApiReturnCode.SUCCESSFUL.getMessage());
+            noticeResponse.setNoticeList(noticeDTOS);
+        }
+        return noticeResponse;
+    }
+
+
+
 
 }
 

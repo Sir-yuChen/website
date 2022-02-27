@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.FilmMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.FilmMenuModel">
+        <id column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="menu_name" property="menuName" />
+        <result column="menu_mark" property="menuMark" />
+        <result column="menu_status" property="menuStatus" />
+        <result column="menu_sequence" property="menuSequence" />
+        <result column="menu_icon_url" property="menuIconUrl" />
+        <result column="menu_url" property="menuUrl" />
+        <result column="creact_time" property="creactTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id, menu_name, menu_mark, menu_status, menu_sequence, menu_icon_url, menu_url, creact_time
+    </sql>
+
+</mapper>

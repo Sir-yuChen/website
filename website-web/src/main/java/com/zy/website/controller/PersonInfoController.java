@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * PersonInfoController
+ * 人物 PersonInfoController
  * @author zhangyu
- * @since 2022-02-24
+ * @since 2022-02-26
  */
 @RestController
 @RequestMapping("/person-info-model")
