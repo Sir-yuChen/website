@@ -30,7 +30,7 @@ public final class RedisUtil {
      * 指定缓存失效时间
      * @param key 键
      * @param time 时间(秒)
-     * @return
+     * @return6
      */
     public boolean expire(String key, long time) {
         try {
@@ -46,7 +46,6 @@ public final class RedisUtil {
     /**
      * @Author zhangyu
      * @Description
-     * @Date 15:23 2022/1/6
      * @Param 模糊删除
      * @return
      **/
@@ -63,7 +62,6 @@ public final class RedisUtil {
     /**
      * @Author zhangyu
      * @Description
-     * @Date 15:23 2022/1/6
      * @Param  如果旧值存在时，将旧值改为新值
      * @return
      **/

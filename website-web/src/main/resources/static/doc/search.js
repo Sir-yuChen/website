@@ -32,6 +32,18 @@ api[0].list[2].list.push({
     url: 'http://localhost:8090/api/film/getFilm',
     desc: '视频详情[单查]',
 });
+api[0].list[2].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/film/videoChart',
+    desc: '视频榜',
+});
+api[0].list[2].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/film/filmSearchBar',
+    desc: '搜索框搜索',
+});
 api[0].list.push({
     alias: 'FilmImageController',
     order: '4',

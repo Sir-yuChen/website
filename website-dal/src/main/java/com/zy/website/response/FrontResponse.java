@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class FrontResponse implements Serializable {
+public abstract class FrontResponse  implements Serializable {
     private static final long serialVersionUID = -6080858828270195838L;
     private String resultCode;
     private String resultMsg;

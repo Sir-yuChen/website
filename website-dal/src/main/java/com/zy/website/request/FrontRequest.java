@@ -1,10 +1,12 @@
 package com.zy.website.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class FrontRequest implements Serializable {
     private static final long serialVersionUID = -7250473166523181107L;
     /***
@@ -20,6 +22,13 @@ public abstract class FrontRequest implements Serializable {
       */
     private int pageSize = 10;
 
+    /***
+     * 总页数
+     * @mock 100
+     * @since
+     */
+    private long total;
+
     public FrontRequest() {
     }
 
@@ -29,6 +38,13 @@ public abstract class FrontRequest implements Serializable {
 
     public void setPageNum(int pageNum) {
         this.pageNum = pageNum;
+    }
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(int pageNum) {
+        this.total = total;
     }
 
     public int getPageSize() {

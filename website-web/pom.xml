@@ -58,16 +58,18 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <!--热部署-->
-        <dependency>
+      <!--  <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            &lt;!&ndash; 防止将依赖传递到其他模块中 &ndash;&gt;
             <optional>true</optional>
-        </dependency>
+            &lt;!&ndash; 只在运行时起作用，打包时不打进去（防止线上执行打包后的程序，启动文件监听线程File Watcher，耗费大量的内存资源） &ndash;&gt;
+            <scope>runtime</scope>
+            <version>2.6.3</version>
+        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.6.3</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -76,6 +78,10 @@
         <dependency>
             <groupId>ma.glasnost.orika</groupId>
             <artifactId>orika-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
 
     </dependencies>
