@@ -138,6 +138,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
     public ApiReturn filmSearchBar(FilmSearchBarRequest filmSearchBarRequest) {
         ApiReturn apiReturn = new ApiReturn();
         apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        // TODO 加入ES 关键词搜索 高亮 【es 应一个完整的视频信息】
         if (Optional.ofNullable(filmSearchBarRequest.getSearchWord()).isPresent()) {
             List<FilmSearchBarResponse> data = new ArrayList<>();
             //电影

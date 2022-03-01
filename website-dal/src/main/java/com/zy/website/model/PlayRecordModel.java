@@ -43,7 +43,7 @@ public class PlayRecordModel extends Model<PlayRecordModel> {
     private Date playTime;
 
     /**
-     * 播放时间
+     * 播放账号
      */
     @TableField("play_account")
     private Date playAccount;
@@ -71,6 +71,11 @@ public class PlayRecordModel extends Model<PlayRecordModel> {
      */
     @TableField("film_url")
     private String filmUrl;
+    /**
+     * 播放记录状态 1/0
+     */
+    @TableField("record_status")
+    private Integer recordStatus;
 
     /**
      * 创建时间

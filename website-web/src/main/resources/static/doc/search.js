@@ -105,6 +105,24 @@ api[0].list.push({
     desc: '播放记录 PlayRecordController',
     list: []
 })
+api[0].list[9].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/play/record',
+    desc: '获取视频播放记录',
+});
+api[0].list[9].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/play/saveRecord',
+    desc: '保存视频播放记录',
+});
+api[0].list[9].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/play/clearRecord',
+    desc: '清除播放记录',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

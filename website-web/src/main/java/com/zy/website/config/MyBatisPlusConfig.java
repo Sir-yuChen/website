@@ -8,13 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * @Author zhangyu
- * @Description
- * @Date 13:59 2022/2/23
- * @Param  mybatis-plus
- * @return
- **/
+
 @Configuration
 @PropertySource("classpath:application.properties")
 public class MyBatisPlusConfig {

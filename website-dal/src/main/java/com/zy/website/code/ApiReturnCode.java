@@ -24,6 +24,8 @@ public enum ApiReturnCode {
     USER_STATE_LOGOUT("10007", "账户不存在,请注册后在登录！"),
     USER_NEW_PWD_SUCCESS("10008", "重置密码成功,请使用新密码登录！"),
 
+    NO_PLAY_RECORD_DATA("10009", "无播放记录"),
+
 
 
     /**

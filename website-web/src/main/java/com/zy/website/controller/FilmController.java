@@ -35,7 +35,6 @@ public class FilmController extends BaseController {
 
     /**
      * 视频详情[单查]
-     *
      * @param uid 视频唯一UID|5f968bfcee3680299115bbe6
      * @return com.zy.website.ApiReturn
      * @author zhangyu
@@ -53,7 +52,6 @@ public class FilmController extends BaseController {
 
     /**
      * 视频榜
-     *
      * @param typeCode 视频排榜唯一标识|FILM_ALL_NOTICE,FILM_NOTICE
      * @return com.zy.website.response.NoticeResponse
      * @author zhangyu
