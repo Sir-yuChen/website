@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.ExternalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.ExternalModel">
+        <id column="id" property="id" />
+        <result column="platform_name" property="platformName" />
+        <result column="api_name" property="apiName" />
+        <result column="platform_mark" property="platformMark" />
+        <result column="domain" property="domain" />
+        <result column="specific_url" property="specificUrl" />
+        <result column="request_type" property="requestType" />
+        <result column="specific_params" property="specificParams" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, platform_name, api_name, platform_mark, domain, specific_url, request_type, specific_params, status, remark, create_time
+    </sql>
+
+</mapper>

@@ -37,7 +37,6 @@
         <shiro.ehcache.version>1.5.3</shiro.ehcache.version>
         <spring.starter.version>2.3.1.RELEASE</spring.starter.version>
         <commons.pool2.version>2.8.0</commons.pool2.version>
-        <commons.lang3.version>3.8.1</commons.lang3.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <pagehelper.starter.version>1.2.3</pagehelper.starter.version>
         <mail.starter.version>2.5.4</mail.starter.version>
@@ -225,6 +224,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis.plus.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons.collections4.version}</version>
             </dependency>
 
         </dependencies>

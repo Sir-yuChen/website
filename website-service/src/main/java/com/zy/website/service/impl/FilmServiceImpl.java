@@ -8,13 +8,16 @@ import com.zy.website.ApiReturn;
 import com.zy.website.code.ApiReturnCode;
 import com.zy.website.dto.MenuDTO;
 import com.zy.website.dto.NoticeDTO;
+import com.zy.website.enums.ExternalEnum;
 import com.zy.website.enums.FilmLeaderboardEnum;
 import com.zy.website.enums.MenuTypeEnum;
 import com.zy.website.enums.WebsiteStatusEnum;
 import com.zy.website.exception.WebsiteBusinessException;
+import com.zy.website.mapper.ExternalMapper;
 import com.zy.website.mapper.FilmMapper;
 import com.zy.website.mapper.FilmMenuMapper;
 import com.zy.website.mapper.PersonInfoMapper;
+import com.zy.website.model.ExternalModel;
 import com.zy.website.model.FilmMenuModel;
 import com.zy.website.model.FilmModel;
 import com.zy.website.model.PersonInfoModel;
@@ -23,6 +26,8 @@ import com.zy.website.response.FilmSearchBarResponse;
 import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
 import com.zy.website.utils.RedisUtil;
+import com.zy.website.utils.RestTemplateUtils;
+import com.zy.website.utils.multi.FileUtils;
 import com.zy.website.variable.Variable;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +35,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -50,18 +52,21 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
 
     @Resource
     FilmMapper filmMapper;
-
     @Resource
     PersonInfoMapper personInfoMapper;
-
     @Resource
     FilmMenuMapper filmMenuMapper;
-
+    @Resource
+    ExternalMapper externalMapper;
     @Resource
     MapperFacade mapperFacade;
-
     @Resource
     RedisUtil redisUtil;
+
+    @Resource
+    RestTemplateUtils restTemplateUtils;
+    private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevie\\website\\website-web\\src\\main\\resources\\files\\";//文件下载地址
+
 
     @Override
     public FilmModel getFilmByUid(String uid) {
@@ -235,13 +240,43 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             }
         });
         List<MenuDTO> collect = menuDTOs.stream().sorted().collect(Collectors.toList());
-        logger.info("首页菜单类型 视频展示列表 数据集合collect={}",JSONObject.toJSONString(collect));
+        logger.info("首页菜单类型 视频展示列表 数据集合collect={}", JSONObject.toJSONString(collect));
         topFilmResponse.setTopFimlList(collect);
         return topFilmResponse;
     }
 
-    //榜单数据处理方法
-    //1. 电影排行榜  FILM_NOTICE
+    @Override
+    public ApiReturn refreshFilmData() {
+        //定时任务刷新 视频数据  包括新视频入库  视频地址刷新
+        ExternalModel externalModel = externalMapper.selectOne(new QueryWrapper<ExternalModel>().lambda()
+                .eq(ExternalModel::getStatus,"Y").eq(ExternalModel::getPlatformMark, ExternalEnum.WMDB_TV.getCode()));
+        if (externalModel == null) {
+            logger.error("视频接口为空 视频模糊查询第三方接口异常 请检查配置");
+            throw new WebsiteBusinessException("视频接口为空 视频模糊查询第三方接口",ApiReturnCode.HTTP_ERROR.getCode());
+        }
+        //将电影名称放到文件服务器中 ，下载文件批量请求加载数据  这里使用gitee作为文件服务器
+        //1.下载文件到本地
+        FileUtils.downloadToServer("", DOWN_PATH, externalModel.getApiName() + ".text");
+        //todo 视频数据加载
+
+        if (externalModel.getRequestType().equals("POST")) {
+
+        }
+
+        List<String> params = new ArrayList<>();
+        getFilmInfoByExternalApi(ExternalEnum.WMDB_TV.getCode(), Collections.singletonList(params));
+        return null;
+    }
+
+    //调用第三方API 接口 获取视频详情落库 搜索条件 视频名 人名
+    public void getFilmInfoByExternalApi(String mark, List<Object> params) {
+        //根据标识查接口信息
+
+
+    }
+
+
+    //1. 电影排行榜  FILM_NOTICE 榜单数据处理方法
     private NoticeDTO getFilmNoticeData(String redisKey, String typeCode) {
         List<FilmModel> redisNotice = this.getRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_FILM_NOTICE.getOrder());
         NoticeDTO noticeDTO = new NoticeDTO();

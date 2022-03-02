@@ -23,4 +23,7 @@ public interface FilmService extends IService<FilmModel> {
 
     TopFilmResponse frontPageFilm();
 
+    ApiReturn refreshFilmData();
+
+
 }

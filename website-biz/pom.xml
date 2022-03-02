@@ -10,6 +10,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>website-biz</artifactId>
+    <dependencies>
+        <!-- ==================== self ==================== -->
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ltsopensource</groupId>
+            <artifactId>lts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+    </dependencies>
 
 
 </project>
