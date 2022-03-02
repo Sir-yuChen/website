@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.37, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: website
 -- ------------------------------------------------------
--- Server version	5.7.37
+-- Server version	5.7.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -79,6 +79,39 @@ LOCK TABLES `t_dictionary` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_external`
+--
+
+DROP TABLE IF EXISTS `t_external`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_external` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `platform_name` varchar(150) DEFAULT NULL COMMENT '接口平台',
+  `api_name` varchar(150) DEFAULT NULL COMMENT '接口名称',
+  `platform_mark` varchar(100) DEFAULT NULL COMMENT '平台标识，自定义',
+  `domain` varchar(100) DEFAULT NULL COMMENT '域名/IP',
+  `specific_url` varchar(255) NOT NULL COMMENT '具体路径',
+  `request_type` varchar(100) NOT NULL COMMENT '请求方式post/get',
+  `specific_params` varchar(255) DEFAULT NULL COMMENT '入参名 逗号分隔',
+  `status` varchar(20) DEFAULT 'Y' COMMENT 'Y/N',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_external`
+--
+
+LOCK TABLES `t_external` WRITE;
+/*!40000 ALTER TABLE `t_external` DISABLE KEYS */;
+INSERT INTO `t_external` VALUES (1,'全球影视剧多语言数据库API系统','模糊查电影信息','WMDB_TV','api.wmdb.tv','http://api.wmdb.tv/api/v1/movie/search','GET','q,limit,skip,lang,year','Y','全文模糊搜索，根据匹配分数排序,q为必填，其他为选填，limit和skip用于分页，lang用于返回指定语言的查询数据，支持Cn或者En，year支持限定年份，例如q=英雄&year=2002，则只会返回张艺谋导演、李连杰主演的那一部英雄，可用于各种使用片名+年份精准获取数据的场景！\n','2022-03-02 18:07:59');
+/*!40000 ALTER TABLE `t_external` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_film`
 --
 
@@ -92,7 +125,7 @@ CREATE TABLE `t_film` (
   `film_name` varchar(200) NOT NULL COMMENT '名称',
   `film_original_name` varchar(200) NOT NULL COMMENT '原名',
   `film_alias` varchar(200) NOT NULL COMMENT '别名',
-  `film_genre_id` varchar(150) NOT NULL COMMENT '类型',
+  `film_genre` varchar(150) NOT NULL COMMENT '类型',
   `film_language` varchar(200) DEFAULT NULL COMMENT '语言',
   `film_duration` int(6) DEFAULT NULL COMMENT '电影时长单位分钟',
   `film_scenarist_id` varchar(200) DEFAULT NULL COMMENT '编剧',
@@ -118,7 +151,7 @@ CREATE TABLE `t_film` (
 
 LOCK TABLES `t_film` WRITE;
 /*!40000 ALTER TABLE `t_film` DISABLE KEYS */;
-INSERT INTO `t_film` VALUES (1,'5f968bfcee3680299115bbe6','Y','肖申克的救赎','肖申克的救赎','The Shawshank Redemption','1,2','英语',120,'1,5','2,3,4','美国','1994-09-10 00:00:00','cn',NULL,'https://wmdb.querydata.org/movie/poster/1603701754760-c50d8a.jpg','https://wmdb.querydata.org/movie/poster/1605355459683-5f968bfaee3680299115bb97.png','20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为鲨堡的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来...','2022-02-24 15:32:28','zhangyu','1',2988987);
+INSERT INTO `t_film` VALUES (1,'5f968bfcee3680299115bbe6','Y','肖申克的救赎','肖申克的救赎','The Shawshank Redemption','GENRE_FILM','英语',120,'1,5','2,3,4','美国','1994-09-10 00:00:00','cn',NULL,'https://wmdb.querydata.org/movie/poster/1603701754760-c50d8a.jpg','https://wmdb.querydata.org/movie/poster/1605355459683-5f968bfaee3680299115bb97.png','20世纪40年代末，小有成就的青年银行家安迪（蒂姆·罗宾斯 Tim Robbins 饰）因涉嫌杀害妻子及她的情人而锒铛入狱。在这座名为鲨堡的监狱内，希望似乎虚无缥缈，终身监禁的惩罚无疑注定了安迪接下来...','2022-02-24 15:32:28','zhangyu','1',2988987);
 /*!40000 ALTER TABLE `t_film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +216,7 @@ CREATE TABLE `t_film_menu` (
 
 LOCK TABLES `t_film_menu` WRITE;
 /*!40000 ALTER TABLE `t_film_menu` DISABLE KEYS */;
-INSERT INTO `t_film_menu` VALUES (1,0,'首页','FRONTPAGE','Y',1,NULL,NULL,'2022-02-26 11:11:45','TOP',0),(2,0,'电影','FILM_TOP','Y',2,NULL,NULL,'2022-02-26 11:13:20','TOP',0),(3,0,'剧集','EPISODE','Y',3,NULL,NULL,'2022-02-26 11:14:14','TOP',0),(4,0,'综艺','VARIETY','Y',4,NULL,NULL,'2022-02-26 11:15:17','TOP',0),(5,0,'动漫','CARTOON','Y',5,NULL,NULL,'2022-02-26 11:16:02','TOP',0),(6,0,'美剧','USDRAMA','Y',6,NULL,NULL,'2022-02-26 11:17:08','TOP',0),(7,0,'音乐','MUSICAL','Y',7,NULL,NULL,'2022-02-26 11:20:53','TOP',0),(8,0,'壁纸','WALLPAPER','Y',8,NULL,NULL,'2022-02-26 16:52:06','TOP',0),(9,0,'直播','LIVESTREAMING','Y',9,NULL,NULL,'2022-02-26 16:53:06','TOP',0),(10,0,'资讯','INFORMATION','Y',10,NULL,NULL,'2022-02-26 16:54:11','TOP',0),(11,0,'电影','FILM_MENU_ASSORT','Y',1,NULL,NULL,'2022-02-26 21:04:19','FILM_MENU',1),(12,0,'剧集','FILM_MENU_EPISODE','Y',2,NULL,NULL,'2022-02-26 21:05:01','FILM_MENU',1),(13,0,'综艺','FILM_MENU_VARIETY','Y',3,NULL,NULL,'2022-02-27 09:19:07','FILM_MENU',1),(14,0,'动漫','FILM_MENU_CARTOON','Y',4,NULL,NULL,'2022-02-27 09:19:59','FILM_MENU',1),(15,11,'喜剧','COMEDY','Y',1,NULL,NULL,'2022-02-27 09:21:26','FILM_MENU',0),(16,11,'爱情','LOVE','Y',2,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(17,11,'动作','ACTION','Y',3,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(18,11,'恐怖','HORROR','Y',4,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(19,11,'科幻','SCIENCE_FICTION','Y',5,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(20,11,'剧情','PLOT_OF_PLAY','Y',6,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(21,12,'警匪','GANGSTER','Y',1,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(22,12,'悬疑','SUSPEND','Y',2,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(23,12,'偶像','IDOL','Y',3,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(24,12,'都市','METROPOLIS','Y',4,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(25,12,'军事','MILITARY','Y',5,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(26,12,'古装','ANCIENT_COSTUME','Y',6,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(27,13,'选秀','DRAFT','Y',1,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(28,13,'搞笑','FUNNY','Y',2,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(29,13,'访谈','INTERVIEW','Y',3,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(30,13,'体育','SPORTS','Y',4,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(31,13,'纪实','DOCUMENTARY','Y',5,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(32,13,'科教','SCIENCE_EDUCATION','Y',6,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(33,14,'热血','BLOOD','Y',1,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(34,14,'恋爱','AMATIVENESS','Y',2,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(35,14,'校园','CAMPUS','Y',3,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(36,14,'幻想','FANTASY','Y',4,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(37,14,'悬疑','CARTOON_SUSPEND','Y',5,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(38,14,'成人','ADULT','Y',6,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0);
+INSERT INTO `t_film_menu` VALUES (1,0,'首页','','Y',1,NULL,NULL,'2022-02-26 11:11:45','TOP',0),(2,0,'电影','FILM','Y',2,NULL,NULL,'2022-02-26 11:13:20','TOP',0),(3,0,'剧集','EPISODE','Y',3,NULL,NULL,'2022-02-26 11:14:14','TOP',0),(4,0,'综艺','VARIETY','Y',4,NULL,NULL,'2022-02-26 11:15:17','TOP',0),(5,0,'动漫','CARTOON','Y',5,NULL,NULL,'2022-02-26 11:16:02','TOP',0),(6,0,'美剧','USDRAMA','Y',6,NULL,NULL,'2022-02-26 11:17:08','TOP',0),(7,0,'音乐','MUSICAL','Y',7,NULL,NULL,'2022-02-26 11:20:53','TOP',0),(8,0,'壁纸','WALLPAPER','Y',8,NULL,NULL,'2022-02-26 16:52:06','TOP',0),(9,0,'直播','LIVESTREAMING','Y',9,NULL,NULL,'2022-02-26 16:53:06','TOP',0),(10,0,'资讯','INFORMATION','Y',10,NULL,NULL,'2022-02-26 16:54:11','TOP',0),(11,0,'电影','FILM_MENU_ASSORT','Y',1,NULL,NULL,'2022-02-26 21:04:19','FILM_MENU',1),(12,0,'剧集','FILM_MENU_EPISODE','Y',2,NULL,NULL,'2022-02-26 21:05:01','FILM_MENU',1),(13,0,'综艺','FILM_MENU_VARIETY','Y',3,NULL,NULL,'2022-02-27 09:19:07','FILM_MENU',1),(14,0,'动漫','FILM_MENU_CARTOON','Y',4,NULL,NULL,'2022-02-27 09:19:59','FILM_MENU',1),(15,11,'喜剧','COMEDY','Y',1,NULL,NULL,'2022-02-27 09:21:26','FILM_MENU',0),(16,11,'爱情','LOVE','Y',2,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(17,11,'动作','ACTION','Y',3,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(18,11,'恐怖','HORROR','Y',4,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(19,11,'科幻','SCIENCE_FICTION','Y',5,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(20,11,'剧情','PLOT_OF_PLAY','Y',6,NULL,NULL,'2022-02-27 09:26:20','FILM_MENU',0),(21,12,'警匪','GANGSTER','Y',1,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(22,12,'悬疑','SUSPEND','Y',2,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(23,12,'偶像','IDOL','Y',3,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(24,12,'都市','METROPOLIS','Y',4,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(25,12,'军事','MILITARY','Y',5,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(26,12,'古装','ANCIENT_COSTUME','Y',6,NULL,NULL,'2022-02-27 09:32:14','FILM_MENU',0),(27,13,'选秀','DRAFT','Y',1,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(28,13,'搞笑','FUNNY','Y',2,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(29,13,'访谈','INTERVIEW','Y',3,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(30,13,'体育','SPORTS','Y',4,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(31,13,'纪实','DOCUMENTARY','Y',5,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(32,13,'科教','SCIENCE_EDUCATION','Y',6,NULL,NULL,'2022-02-27 09:37:51','FILM_MENU',0),(33,14,'热血','BLOOD','Y',1,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(34,14,'恋爱','AMATIVENESS','Y',2,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(35,14,'校园','CAMPUS','Y',3,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(36,14,'幻想','FANTASY','Y',4,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(37,14,'悬疑','CARTOON_SUSPEND','Y',5,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0),(38,14,'成人','ADULT','Y',6,NULL,NULL,'2022-02-27 09:44:37','FILM_MENU',0);
 /*!40000 ALTER TABLE `t_film_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,6 +329,7 @@ CREATE TABLE `t_play_record` (
   `film_name` varchar(200) DEFAULT NULL COMMENT '电影名称',
   `film_url` varchar(200) DEFAULT NULL COMMENT '跳转地址',
   `creact_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `record_status` int(4) DEFAULT '1' COMMENT '播放记录状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -342,4 +376,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-27 20:02:03
+-- Dump completed on 2022-03-02 19:00:10
