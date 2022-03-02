@@ -5,6 +5,7 @@ import com.zy.website.ApiReturn;
 import com.zy.website.dto.NoticeDTO;
 import com.zy.website.model.FilmModel;
 import com.zy.website.request.FilmSearchBarRequest;
+import com.zy.website.response.TopFilmResponse;
 
 import java.util.List;
 
@@ -19,5 +20,7 @@ public interface FilmService extends IService<FilmModel> {
     List<NoticeDTO> videoChart(String typeCode);
 
     ApiReturn filmSearchBar(FilmSearchBarRequest filmSearchBarRequest);
+
+    TopFilmResponse frontPageFilm();
 
 }

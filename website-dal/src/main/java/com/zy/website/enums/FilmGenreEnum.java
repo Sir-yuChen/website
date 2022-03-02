@@ -9,12 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum FilmGenreEnum implements BaseEnum{
 
-    GENRE_FILM("GENRE_FILM","电影"),
-    GENRE_VARIETY("GENRE_VARIETY","综艺"),
-    GENRE_CARTOON("GENRE_CARTOON","动漫"),
-    GENRE_USDRAMA("GENRE_USDRAMA","美剧"),
-    GENRE_MICROFILM("GENRE_MICROFILM","微电影"),
-    GENRE_EPISODE("GENRE_EPISODE","剧集");
+    GENRE_FILM("FILM","电影"),
+    GENRE_VARIETY("VARIETY","综艺"),
+    GENRE_CARTOON("CARTOON","动漫"),
+    GENRE_USDRAMA("USDRAMA","美剧"),
+    GENRE_MICROFILM("MICROFILM","微电影"),
+    GENRE_EPISODE("EPISODE","剧集");
 
     private String code;
     private String desc;

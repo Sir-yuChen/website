@@ -68,5 +68,5 @@ public class MenuDTO implements Serializable {
     /**
      * 子菜单集合
      */
-    private List<MenuDTO> childList;
+    private List childList;
 }

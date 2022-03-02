@@ -44,6 +44,12 @@ api[0].list[2].list.push({
     url: 'http://localhost:8090/api/film/filmSearchBar',
     desc: '搜索框搜索',
 });
+api[0].list[2].list.push({
+    order: '4',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/film/frontPageFilm',
+    desc: '首页视频展示',
+});
 api[0].list.push({
     alias: 'FilmImageController',
     order: '4',

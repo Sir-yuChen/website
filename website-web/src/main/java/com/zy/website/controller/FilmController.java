@@ -7,6 +7,7 @@ import com.zy.website.dto.NoticeDTO;
 import com.zy.website.model.FilmModel;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.NoticeResponse;
+import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,6 +86,21 @@ public class FilmController extends BaseController {
         ApiReturn apiReturn = filmService.filmSearchBar(filmSearchBarRequest);
         return apiReturn;
     }
+
+    /**
+     * 首页视频展示
+     * @author zhangyu
+     * @description  首页根据顶部菜单视频展示
+     * @date 2022/3/2 11:33
+     * @return com.zy.website.response.TopFilmResponse
+     */
+    @RequestMapping(value = "frontPageFilm", method = RequestMethod.GET)
+    public TopFilmResponse frontPageFilm() {
+        TopFilmResponse topFilmResponse = filmService.frontPageFilm();
+        return topFilmResponse;
+    }
+
+
 
 
 }

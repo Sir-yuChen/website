@@ -6,17 +6,25 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zy.website.ApiReturn;
 import com.zy.website.code.ApiReturnCode;
+import com.zy.website.dto.MenuDTO;
 import com.zy.website.dto.NoticeDTO;
 import com.zy.website.enums.FilmLeaderboardEnum;
+import com.zy.website.enums.MenuTypeEnum;
+import com.zy.website.enums.WebsiteStatusEnum;
+import com.zy.website.exception.WebsiteBusinessException;
 import com.zy.website.mapper.FilmMapper;
+import com.zy.website.mapper.FilmMenuMapper;
 import com.zy.website.mapper.PersonInfoMapper;
+import com.zy.website.model.FilmMenuModel;
 import com.zy.website.model.FilmModel;
 import com.zy.website.model.PersonInfoModel;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.FilmSearchBarResponse;
+import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
 import com.zy.website.utils.RedisUtil;
 import com.zy.website.variable.Variable;
+import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -27,9 +35,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * 服务实现类
+ *
  * @author zhangyu
  * @since 2022-02-24
  */
@@ -43,6 +53,12 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
 
     @Resource
     PersonInfoMapper personInfoMapper;
+
+    @Resource
+    FilmMenuMapper filmMenuMapper;
+
+    @Resource
+    MapperFacade mapperFacade;
 
     @Resource
     RedisUtil redisUtil;
@@ -187,6 +203,41 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             apiReturn.setMsg(ApiReturnCode.PARAMS_ERROR.getCode());
         }
         return apiReturn;
+    }
+
+    @Override
+    public TopFilmResponse frontPageFilm() {
+        TopFilmResponse topFilmResponse = new TopFilmResponse();
+        topFilmResponse.setResultCode(ApiReturnCode.SUCCESSFUL.getCode());
+        topFilmResponse.setResultMsg(ApiReturnCode.SUCCESSFUL.getMessage());
+        //查配置的首页顶部的菜单
+        QueryWrapper<FilmMenuModel> query = new QueryWrapper<>();
+        query.lambda()
+                .eq(FilmMenuModel::getMenuType, MenuTypeEnum.MENU_TOP.getCode())
+                .eq(FilmMenuModel::getMenuStatus, WebsiteStatusEnum.STATUS_MENU_Y.getCode());
+        List<FilmMenuModel> filmMenuModels = filmMenuMapper.selectList(query);
+        if (filmMenuModels == null || filmMenuModels.size() == 0) {
+            logger.error("首页菜单类型 视频展示列表 ，查询菜单集合为空,配置异常 filmMenuModels={}",
+                    JSONObject.toJSONString(filmMenuModels));
+            topFilmResponse.setResultCode(ApiReturnCode.HTTP_ERROR.getCode());
+            topFilmResponse.setResultMsg(ApiReturnCode.HTTP_ERROR.getMessage());
+            throw new WebsiteBusinessException("菜单集合为空,配置异常", ApiReturnCode.HTTP_ERROR.getCode());
+        }
+        List<MenuDTO> menuDTOs = new ArrayList<>();
+        filmMenuModels.stream().filter(item -> Optional.ofNullable(item.getMenuMark()).isPresent()).forEach(menu -> {
+            //视频筛选条件 时间排序 播放量大于 1000 在以播放量排序
+            List<FilmModel> filmModel = filmMapper.selectFrontList(menu.getMenuMark());
+            //拼装参数
+            MenuDTO menuDTO = mapperFacade.map(menu, MenuDTO.class);
+            menuDTO.setChildList(filmModel);
+            if (filmModel != null) {
+                menuDTOs.add(menuDTO);
+            }
+        });
+        List<MenuDTO> collect = menuDTOs.stream().sorted().collect(Collectors.toList());
+        logger.info("首页菜单类型 视频展示列表 数据集合collect={}",JSONObject.toJSONString(collect));
+        topFilmResponse.setTopFimlList(collect);
+        return topFilmResponse;
     }
 
     //榜单数据处理方法
