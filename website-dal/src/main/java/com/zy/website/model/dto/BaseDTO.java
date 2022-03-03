@@ -1,4 +1,4 @@
-package com.zy.website.dto;
+package com.zy.website.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

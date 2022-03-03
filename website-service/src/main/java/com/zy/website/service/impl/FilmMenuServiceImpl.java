@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zy.website.code.ApiReturnCode;
-import com.zy.website.dto.MenuDTO;
+import com.zy.website.model.dto.MenuDTO;
 import com.zy.website.enums.MenuTypeEnum;
 import com.zy.website.exception.WebsiteBusinessException;
 import com.zy.website.mapper.FilmMenuMapper;

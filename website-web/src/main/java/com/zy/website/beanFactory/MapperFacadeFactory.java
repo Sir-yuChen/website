@@ -1,6 +1,6 @@
 package com.zy.website.beanFactory;
 
-import com.zy.website.dto.MenuDTO;
+import com.zy.website.model.dto.MenuDTO;
 import com.zy.website.model.FilmMenuModel;
 import com.zy.website.utils.DateUtil;
 import ma.glasnost.orika.CustomMapper;

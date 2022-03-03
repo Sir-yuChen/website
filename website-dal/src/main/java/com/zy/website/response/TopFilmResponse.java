@@ -1,6 +1,6 @@
 package com.zy.website.response;
 
-import com.zy.website.dto.MenuDTO;
+import com.zy.website.model.dto.MenuDTO;
 import lombok.Data;
 
 import java.util.List;

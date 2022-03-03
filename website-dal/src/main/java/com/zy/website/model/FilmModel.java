@@ -187,7 +187,7 @@ public class FilmModel extends Model<FilmModel> {
      * @since v1.0
      */
     @TableField("film_play_count")
-    private String filmPlayCount;
+    private Long filmPlayCount;
 
 
     @Override

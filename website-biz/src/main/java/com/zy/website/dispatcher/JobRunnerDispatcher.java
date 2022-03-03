@@ -22,7 +22,7 @@ public class JobRunnerDispatcher implements JobRunner {
 
     static {
 //        JOB_RUNNER_MAP.put("initializeSpikeData", ApplicationContextUtil.getBean(JobRunnerFilm.class));
-        JOB_RUNNER_MAP.put("initializeSpikeData",new JobRunnerFilm());
+        JOB_RUNNER_MAP.put("LOADVIDEOINFO",new JobRunnerFilm());
     }
     @Override
     public Result run(JobContext jobContext) throws Throwable {

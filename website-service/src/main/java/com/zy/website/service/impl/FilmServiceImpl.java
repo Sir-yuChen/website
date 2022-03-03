@@ -6,35 +6,35 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zy.website.ApiReturn;
 import com.zy.website.code.ApiReturnCode;
-import com.zy.website.dto.MenuDTO;
-import com.zy.website.dto.NoticeDTO;
-import com.zy.website.enums.ExternalEnum;
-import com.zy.website.enums.FilmLeaderboardEnum;
-import com.zy.website.enums.MenuTypeEnum;
-import com.zy.website.enums.WebsiteStatusEnum;
+import com.zy.website.enums.*;
 import com.zy.website.exception.WebsiteBusinessException;
-import com.zy.website.mapper.ExternalMapper;
-import com.zy.website.mapper.FilmMapper;
-import com.zy.website.mapper.FilmMenuMapper;
-import com.zy.website.mapper.PersonInfoMapper;
-import com.zy.website.model.ExternalModel;
-import com.zy.website.model.FilmMenuModel;
-import com.zy.website.model.FilmModel;
-import com.zy.website.model.PersonInfoModel;
+import com.zy.website.mapper.*;
+import com.zy.website.model.*;
+import com.zy.website.model.dto.FilmInfoExternalDTO;
+import com.zy.website.model.dto.FilmInfoExternalDataDTO;
+import com.zy.website.model.dto.MenuDTO;
+import com.zy.website.model.dto.NoticeDTO;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.FilmSearchBarResponse;
 import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
+import com.zy.website.utils.DateUtil;
 import com.zy.website.utils.RedisUtil;
 import com.zy.website.utils.RestTemplateUtils;
+import com.zy.website.utils.UUIDGenerator;
 import com.zy.website.utils.multi.FileUtils;
 import com.zy.website.variable.Variable;
 import ma.glasnost.orika.MapperFacade;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -57,16 +57,25 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
     @Resource
     FilmMenuMapper filmMenuMapper;
     @Resource
+    FilmImageMapper filmImageMapper;
+    @Resource
     ExternalMapper externalMapper;
+    @Resource
+    FilmTypeMapper filmTypeMapper;
+    @Resource
+    TypeRelationFilmMapper typeRelationFilmMapper;
     @Resource
     MapperFacade mapperFacade;
     @Resource
     RedisUtil redisUtil;
+    @Resource
+    FileService fileService;
 
     @Resource
     RestTemplateUtils restTemplateUtils;
-    private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevie\\website\\website-web\\src\\main\\resources\\files\\";//文件下载地址
 
+    private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevie\\website\\website-web\\src\\main\\resources\\files\\";//文件下载地址
+    private String DOWN_GITEE_PATH = "https://gitee.com/Sir-yuChen/backstage_ant_upload/raw/master/file/down_file_film/电影名称.text";//文件下载地址
 
     @Override
     public FilmModel getFilmByUid(String uid) {
@@ -247,34 +256,139 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
 
     @Override
     public ApiReturn refreshFilmData() {
-        //定时任务刷新 视频数据  包括新视频入库  视频地址刷新
-        ExternalModel externalModel = externalMapper.selectOne(new QueryWrapper<ExternalModel>().lambda()
-                .eq(ExternalModel::getStatus,"Y").eq(ExternalModel::getPlatformMark, ExternalEnum.WMDB_TV.getCode()));
-        if (externalModel == null) {
-            logger.error("视频接口为空 视频模糊查询第三方接口异常 请检查配置");
-            throw new WebsiteBusinessException("视频接口为空 视频模糊查询第三方接口",ApiReturnCode.HTTP_ERROR.getCode());
-        }
-        //将电影名称放到文件服务器中 ，下载文件批量请求加载数据  这里使用gitee作为文件服务器
-        //1.下载文件到本地
-        FileUtils.downloadToServer("", DOWN_PATH, externalModel.getApiName() + ".text");
-        //todo 视频数据加载
+        ApiReturn apiReturn = new ApiReturn();
+        //加载外部视频信息
+        getFilmInfoByExternalApi();
 
-        if (externalModel.getRequestType().equals("POST")) {
-
-        }
-
-        List<String> params = new ArrayList<>();
-        getFilmInfoByExternalApi(ExternalEnum.WMDB_TV.getCode(), Collections.singletonList(params));
-        return null;
+        apiReturn.setCode(ApiReturnCode.SUCCESSFUL.getCode());
+        apiReturn.setMsg(ApiReturnCode.SUCCESSFUL.getMessage());
+        return apiReturn;
     }
 
     //调用第三方API 接口 获取视频详情落库 搜索条件 视频名 人名
-    public void getFilmInfoByExternalApi(String mark, List<Object> params) {
+    public void getFilmInfoByExternalApi() {
         //根据标识查接口信息
+        try {
+            //定时任务刷新 视频数据  包括新视频入库  视频地址刷新
+            ExternalModel externalModel = externalMapper.selectOne(new QueryWrapper<ExternalModel>().lambda()
+                    .eq(ExternalModel::getStatus, "Y").eq(ExternalModel::getPlatformMark, ExternalEnum.WMDB_TV.getCode()));
+            if (externalModel == null) {
+                logger.error("视频接口为空 视频模糊查询第三方接口异常 请检查配置");
+                throw new WebsiteBusinessException("视频接口为空 视频模糊查询第三方接口", ApiReturnCode.HTTP_ERROR.getCode());
+            }
+            //将电影名称放到文件服务器中 ，下载文件批量请求加载数据  这里使用gitee作为文件服务器
+            //1.下载文件到本地  下载地址配置
+            FileUtils.downloadToServer(DOWN_GITEE_PATH, DOWN_PATH, externalModel.getApiName() + ".text");
+            //2. 多线程读取本地文件
+            File file = new File(DOWN_PATH + externalModel.getApiName() + ".text");
+            FileInputStream input = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile(externalModel.getApiName() + ".txt", file.getName(), "text/plain", IOUtils.toByteArray(input));
+            List<String> filmNameList = fileService.uploadByThread(multipartFile);
 
+            String specificParams = externalModel.getSpecificParams();
+            String[] paramsName = specificParams.split(",");
+
+            // 视频数据加载 请求第三方API
+            filmNameList.forEach(filmName -> {
+                Map<String, Object> params = new HashMap<>();
+                Arrays.stream(paramsName).forEach(n -> {
+                    // 从配置中心取 与数据库中比较 来传递本次需要添加的参数
+                    if (n.equals("q")) {
+                        params.put(n, filmName);
+                    }
+                    if (n.equals("lang")) {
+                        params.put(n, "Cn");
+                    }
+                    //其他参数
+                });
+                FilmInfoExternalDTO filmInfoExternalDTO = null;
+                if (externalModel.getRequestType().equals("POST")) {
+                    filmInfoExternalDTO = restTemplateUtils.httpPostJson(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
+                } else if (externalModel.getRequestType().equals("GET")) {
+                    filmInfoExternalDTO = restTemplateUtils.httpGetTraditional(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
+                }
+                if (filmInfoExternalDTO == null || filmInfoExternalDTO.getData() == null || filmInfoExternalDTO.getData().size() == 0) {
+                    logger.error("视频模糊查询第三方接口 未获取到数据,URL={},params={}",
+                            externalModel.getSpecificUrl(), JSONObject.toJSONString(params));
+                    return;
+                }
+                //3. 数据整理落库
+                List<FilmInfoExternalDataDTO> data = filmInfoExternalDTO.getData();
+                FilmInfoExternalDTO finalFilmInfoExternalDTO = filmInfoExternalDTO;
+                data.forEach(dto -> {
+                    //封面
+                    String uuidReplace = UUIDGenerator.getUUIDReplace();
+                    String poster = dto.getPoster().substring(dto.getPoster().lastIndexOf("/") + 1, dto.getPoster().lastIndexOf(".") + 1);
+                    FilmImageModel imageModel = new FilmImageModel().setCreactTime(new Date()).setImgName(uuidReplace).setImgRemark("视频封面").setImgUid(uuidReplace)
+                            .setImgOriginal(poster).setImgType(FilmImageEnum.POSTER.getCode()).setImgSuffix(dto.getPoster().substring(dto.getPoster().lastIndexOf(".") + 1));
+                    filmImageMapper.insert(imageModel);
+                    //视频类型
+                    String genre = dto.getGenre();
+                    String[] split = genre.trim().split("/");
+                    Arrays.stream(split).forEach(g -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("type_name", g);
+
+                        //类型不存在新增
+                        List<FilmTypeModel> filmTypeModels = filmTypeMapper.selectByMap(map);
+                        //类型视频新增
+                        TypeRelationFilmModel typeRelationFilmModel = new TypeRelationFilmModel();
+                        typeRelationFilmModel.setFilmUid(dto.getMovie());
+                        FilmTypeModel filmTypeModel = new FilmTypeModel();
+                        if (filmTypeModels == null || filmTypeModels.size() == 0) {
+                            filmTypeModel.setTypeAssort("TYPE");
+                            filmTypeModel.setTypeName(g);
+                            filmTypeModel.setTypeRevealName(g);
+                            filmTypeModel.setTypeMark(getRandomString(8));
+                            filmTypeMapper.insert(filmTypeModel);
+                            typeRelationFilmModel.setTypeId(filmTypeModel.getId());
+                        }else {
+                            typeRelationFilmModel.setTypeId(filmTypeModel.getId());
+                        }
+                        typeRelationFilmMapper.insert(typeRelationFilmModel);
+                    });
+                    //视频评分信息
+
+                    //视频信息新增
+                    FilmModel filmModel = new FilmModel().setCreactTime(new Date())
+                            .setFilmAlias(finalFilmInfoExternalDTO.getAlias())
+                            .setFilmDescription(dto.getDescription())
+                            .setFilmUid(dto.getMovie())
+                            .setFilmName(dto.getName())
+                            .setFilmOriginalName(finalFilmInfoExternalDTO.getOriginalName())
+                            .setFilmLanguage(dto.getLanguage())
+                            .setFilmLang(dto.getLang())
+                            .setFilmPublishCountry(dto.getCountry())
+                            .setFilmPublishTime(DateUtil.parseDate(finalFilmInfoExternalDTO.getDateReleased(), DateUtil.YYYY_MM_DD))
+                            .setFilmPoster(String.valueOf(imageModel.getId()))
+                            .setFilmShareimage(dto.getShareImage())
+                            .setFilmPlayCount(Long.valueOf(new Random().nextInt(100000) % (100000 - 1000 + 1) + 1000));
+                    //处理类型
+                    if (finalFilmInfoExternalDTO.getType().equals("Movie")) {
+                        filmModel.setFilmGenre(FilmGenreEnum.GENRE_FILM.getCode());
+                    }else if (finalFilmInfoExternalDTO.getType().equals("TVSeries")){
+                        filmModel.setFilmGenre(FilmGenreEnum.GENRE_EPISODE.getCode());
+                    }
+                    filmMapper.insert(filmModel);
+                });
+            });
+        } catch (Exception e) {
+            logger.error("视频模糊查询第三方接口异常", e);
+            throw new WebsiteBusinessException("视频模糊查询第三方接口异常", ApiReturnCode.HTTP_ERROR.getCode());
+        }
 
     }
-
+    //length用户要求产生字符串的长度
+    public static String getRandomString(int length){
+        String str="QWERTYUIOPASDFGHJKLZXCVBNM_";
+        Random random=new Random();
+        StringBuffer sb=new StringBuffer();
+        for(int i=0;i<length;i++){
+            int number=random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
+    }
 
     //1. 电影排行榜  FILM_NOTICE 榜单数据处理方法
     private NoticeDTO getFilmNoticeData(String redisKey, String typeCode) {

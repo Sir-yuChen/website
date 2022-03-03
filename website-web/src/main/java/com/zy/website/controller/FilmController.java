@@ -3,12 +3,13 @@ package com.zy.website.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zy.website.ApiReturn;
 import com.zy.website.code.ApiReturnCode;
-import com.zy.website.dto.NoticeDTO;
 import com.zy.website.model.FilmModel;
+import com.zy.website.model.dto.NoticeDTO;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.NoticeResponse;
 import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
+import com.zy.website.service.impl.FileService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,8 @@ public class FilmController extends BaseController {
     FilmService filmService;
     //https://smart-doc-group.github.io/#/zh-cn/start/javadoc?id=_11-param-%e7%89%b9%e6%ae%8a%e7%94%a8%e6%b3%95  官网smart-doc
     //@deprecated 弃用注解 smart-doc
-
+    @Resource
+    FileService fileService;
     /**
      * 视频详情[单查]
      * @param uid 视频唯一UID|5f968bfcee3680299115bbe6
@@ -41,7 +43,7 @@ public class FilmController extends BaseController {
      * @date 2022/2/26 10:36
      */
     @RequestMapping(value = "getFilm", method = RequestMethod.GET)
-    public ApiReturn getFilmByUid(@RequestParam String uid) {
+    public ApiReturn getFilmByUid(@RequestParam String uid) throws Exception {
         ApiReturn apiReturn = new ApiReturn();
         FilmModel filmModel = filmService.getFilmByUid(uid);
         logger.info("获取视频信息:filModel={}", filmModel);

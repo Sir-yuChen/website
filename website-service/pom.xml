@@ -20,6 +20,14 @@
             <groupId>com.zy.website</groupId>
             <artifactId>website-dal</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
 
 
     </dependencies>

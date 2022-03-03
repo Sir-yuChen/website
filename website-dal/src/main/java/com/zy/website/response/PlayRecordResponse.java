@@ -1,6 +1,6 @@
 package com.zy.website.response;
 
-import com.zy.website.dto.PlayRecordDTO;
+import com.zy.website.model.dto.PlayRecordDTO;
 
 import java.util.List;
 

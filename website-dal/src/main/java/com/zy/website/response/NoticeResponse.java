@@ -1,6 +1,6 @@
 package com.zy.website.response;
 
-import com.zy.website.dto.NoticeDTO;
+import com.zy.website.model.dto.NoticeDTO;
 import lombok.Data;
 
 import java.util.List;

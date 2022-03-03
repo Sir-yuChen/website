@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zy.website.ApiReturn;
 import com.zy.website.code.ApiReturnCode;
-import com.zy.website.dto.PlayRecordDTO;
+import com.zy.website.model.dto.PlayRecordDTO;
 import com.zy.website.mapper.PlayRecordMapper;
 import com.zy.website.model.PlayRecordModel;
 import com.zy.website.response.PlayRecordResponse;

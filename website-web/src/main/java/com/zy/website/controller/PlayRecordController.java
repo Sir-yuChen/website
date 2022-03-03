@@ -2,7 +2,7 @@ package com.zy.website.controller;
 
 
 import com.zy.website.ApiReturn;
-import com.zy.website.dto.PlayRecordDTO;
+import com.zy.website.model.dto.PlayRecordDTO;
 import com.zy.website.request.PlayRecordRequest;
 import com.zy.website.response.PlayRecordResponse;
 import com.zy.website.service.PlayRecordService;
