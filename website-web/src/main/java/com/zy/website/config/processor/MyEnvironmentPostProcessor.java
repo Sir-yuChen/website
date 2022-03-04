@@ -15,14 +15,14 @@ import org.springframework.util.ResourceUtils;
 import java.io.IOException;
 import java.util.List;
 
-public class CustomEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     //配置文件名称匹配
     private ResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
     //配置文件加载处理器
     private List<PropertySourceLoader> propertySourceLoaders;
 
-    public CustomEnvironmentPostProcessor() {
+    public MyEnvironmentPostProcessor() {
         super();
         this.propertySourceLoaders = SpringFactoriesLoader.loadFactories(PropertySourceLoader.class, getClass().getClassLoader());
     }

@@ -74,7 +74,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
     @Resource
     RestTemplateUtils restTemplateUtils;
 
-    private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevie\\website\\website-web\\src\\main\\resources\\files\\";//文件下载地址
+    private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevice\\website\\website-web\\src\\main\\resources\\static\\text";//文件下载地址
     private String DOWN_GITEE_PATH = "https://gitee.com/Sir-yuChen/backstage_ant_upload/raw/master/file/down_file_film/电影名称.text";//文件下载地址
 
     @Override
@@ -272,6 +272,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             //定时任务刷新 视频数据  包括新视频入库  视频地址刷新
             ExternalModel externalModel = externalMapper.selectOne(new QueryWrapper<ExternalModel>().lambda()
                     .eq(ExternalModel::getStatus, "Y").eq(ExternalModel::getPlatformMark, ExternalEnum.WMDB_TV.getCode()));
+            logger.error("视频模糊查询第三方API 配置 externalModel={}", JSONObject.toJSONString(externalModel));
             if (externalModel == null) {
                 logger.error("视频接口为空 视频模糊查询第三方接口异常 请检查配置");
                 throw new WebsiteBusinessException("视频接口为空 视频模糊查询第三方接口", ApiReturnCode.HTTP_ERROR.getCode());
@@ -280,7 +281,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             //1.下载文件到本地  下载地址配置
             FileUtils.downloadToServer(DOWN_GITEE_PATH, DOWN_PATH, externalModel.getApiName() + ".text");
             //2. 多线程读取本地文件
-            File file = new File(DOWN_PATH + externalModel.getApiName() + ".text");
+            File file = new File(DOWN_PATH + "//" + externalModel.getApiName() + ".text");
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile(externalModel.getApiName() + ".txt", file.getName(), "text/plain", IOUtils.toByteArray(input));
             List<String> filmNameList = fileService.uploadByThread(multipartFile);
@@ -301,14 +302,24 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                     }
                     //其他参数
                 });
+                //设置请求头 TODO
+
                 FilmInfoExternalDTO filmInfoExternalDTO = null;
-                if (externalModel.getRequestType().equals("POST")) {
-                    filmInfoExternalDTO = restTemplateUtils.httpPostJson(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
-                } else if (externalModel.getRequestType().equals("GET")) {
-                    filmInfoExternalDTO = restTemplateUtils.httpGetTraditional(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
-                }
-                if (filmInfoExternalDTO == null || filmInfoExternalDTO.getData() == null || filmInfoExternalDTO.getData().size() == 0) {
-                    logger.error("视频模糊查询第三方接口 未获取到数据,URL={},params={}",
+                try {
+                    filmInfoExternalDTO = null;
+                    if (externalModel.getRequestType().equals("POST")) {
+                        filmInfoExternalDTO = restTemplateUtils.httpPostJson(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
+                    } else if (externalModel.getRequestType().equals("GET")) {
+                        filmInfoExternalDTO = restTemplateUtils.httpGetTraditional(externalModel.getSpecificUrl(), params, null, FilmInfoExternalDTO.class);
+                    }
+                    if (filmInfoExternalDTO == null || filmInfoExternalDTO.getData() == null || filmInfoExternalDTO.getData().size() == 0) {
+                        logger.error("视频模糊查询第三方接口 未获取到数据,URL={},params={}",
+                                externalModel.getSpecificUrl(), JSONObject.toJSONString(params));
+                        return;
+                    }
+                    logger.info("视频模糊查询第三方API filmInfoExternalDTO={}", JSONObject.toJSONString(filmInfoExternalDTO));
+                } catch (Exception e) {
+                    logger.error("视频模糊查询第三方接口 接口调用异常,URL={},params={}",
                             externalModel.getSpecificUrl(), JSONObject.toJSONString(params));
                     return;
                 }
@@ -342,7 +353,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                             filmTypeModel.setTypeMark(getRandomString(8));
                             filmTypeMapper.insert(filmTypeModel);
                             typeRelationFilmModel.setTypeId(filmTypeModel.getId());
-                        }else {
+                        } else {
                             typeRelationFilmModel.setTypeId(filmTypeModel.getId());
                         }
                         typeRelationFilmMapper.insert(typeRelationFilmModel);
@@ -366,25 +377,28 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                     //处理类型
                     if (finalFilmInfoExternalDTO.getType().equals("Movie")) {
                         filmModel.setFilmGenre(FilmGenreEnum.GENRE_FILM.getCode());
-                    }else if (finalFilmInfoExternalDTO.getType().equals("TVSeries")){
+                    } else if (finalFilmInfoExternalDTO.getType().equals("TVSeries")) {
                         filmModel.setFilmGenre(FilmGenreEnum.GENRE_EPISODE.getCode());
                     }
                     filmMapper.insert(filmModel);
                 });
             });
+            //删除本地文件
+            FileUtils.deleteFile(DOWN_PATH + "//" + externalModel.getApiName() + ".text");
         } catch (Exception e) {
             logger.error("视频模糊查询第三方接口异常", e);
             throw new WebsiteBusinessException("视频模糊查询第三方接口异常", ApiReturnCode.HTTP_ERROR.getCode());
         }
 
     }
+
     //length用户要求产生字符串的长度
-    public static String getRandomString(int length){
-        String str="QWERTYUIOPASDFGHJKLZXCVBNM_";
-        Random random=new Random();
-        StringBuffer sb=new StringBuffer();
-        for(int i=0;i<length;i++){
-            int number=random.nextInt(62);
+    public static String getRandomString(int length) {
+        String str = "QWERTYUIOPASDFGHJKLZXCVBNM_";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
             sb.append(str.charAt(number));
         }
         return sb.toString();

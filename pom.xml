@@ -51,6 +51,8 @@
         <freemarker.version>2.3.28</freemarker.version>
         <velocity.version>2.0</velocity.version>
         <hutool.all.version>5.6.3</hutool.all.version>
+        <zookeeper.version>3.6.2</zookeeper.version>
+        <com.101tec.zkclient.version>0.3</com.101tec.zkclient.version>
 
     </properties>
 
@@ -133,7 +135,18 @@
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
             </dependency>
-
+            <!--zk注册中心 -->
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${com.101tec.zkclient.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper -->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
             <!-- 连接池druid-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -263,7 +276,4 @@
             </plugin>
         </plugins>
     </build>
-
-
-
 </project>

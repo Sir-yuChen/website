@@ -21,8 +21,8 @@ public class JobRunnerDispatcher implements JobRunner {
     private static final ConcurrentHashMap<String/*type*/, JobRunner> JOB_RUNNER_MAP = new ConcurrentHashMap<String, JobRunner>();
 
     static {
-//        JOB_RUNNER_MAP.put("initializeSpikeData", ApplicationContextUtil.getBean(JobRunnerFilm.class));
-        JOB_RUNNER_MAP.put("LOADVIDEOINFO",new JobRunnerFilm());
+//        JOB_RUNNER_MAP.put("loadFilmInfo", ApplicationContextUtil.getBean(JobRunnerFilm.class));
+        JOB_RUNNER_MAP.put("loadFilmInfo",new JobRunnerFilm());
     }
     @Override
     public Result run(JobContext jobContext) throws Throwable {

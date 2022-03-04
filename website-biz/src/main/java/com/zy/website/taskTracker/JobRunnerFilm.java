@@ -17,7 +17,7 @@ public class JobRunnerFilm implements JobRunner {
     //秒杀活动初始化数据定时任务
     @Override
     public Result run(JobContext jobContext){
-        logger.info("视频刷新 JOB 开始");
+        logger.info("视频信息加载 JOB 开始");
         try {
             FilmService filmService = ApplicationContextUtil.getBean(FilmService.class);
             ApiReturn apiReturn = filmService.refreshFilmData();
@@ -25,9 +25,9 @@ public class JobRunnerFilm implements JobRunner {
                 return new Result(Action.EXECUTE_FAILED, apiReturn.getMsg());
             }
         }catch (Exception e){
-            logger.error("视频刷新 JOB 执行异常",e);
-            return new Result(Action.EXECUTE_FAILED, "视频刷新 JOB任务，执行失败");
+            logger.error("视频信息加载 JOB 执行异常",e);
+            return new Result(Action.EXECUTE_FAILED, "视频信息加载 JOB任务，执行失败");
         }
-        return new Result(Action.EXECUTE_SUCCESS, "视频刷新 JOB任务，执行成功");
+        return new Result(Action.EXECUTE_SUCCESS, "视频信息加载 JOB任务，执行成功");
     }
 }

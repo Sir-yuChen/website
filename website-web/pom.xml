@@ -25,6 +25,11 @@
             <groupId>com.zy.website</groupId>
             <artifactId>website-dal</artifactId>
         </dependency>
+<!--        biz模块必须关联 否则lts执行为null-->
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-biz</artifactId>
+        </dependency>
 
         <!-- ====================  springboot starter ==================== -->
         <dependency>
@@ -56,6 +61,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- 连接池druid-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
         <!--热部署-->
       <!--  <dependency>
@@ -89,6 +99,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!--集成lts轻量级定时任务框架 -->
+        <dependency>
+            <groupId>com.github.ltsopensource</groupId>
+            <artifactId>lts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
         </dependency>
     </dependencies>
 
