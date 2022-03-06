@@ -1,5 +1,7 @@
 package com.zy.website.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +21,16 @@ import java.util.*;
 @Component
 public class RestTemplateUtils {
 
-    @Autowired
+    private static Logger logger = LogManager.getLogger(RestTemplateUtils.class);
+
+
     private RestTemplate httpClientTemplate;
+
+    @Autowired
+    public void seThttpClientTemplate(RestTemplate httpClientTemplate) {
+        this.httpClientTemplate = httpClientTemplate;
+    }
+
 
     /**
      * POST请求-JSON参数
@@ -78,6 +88,7 @@ public class RestTemplateUtils {
         sb.append("?");
         params.forEach((o1, o2) -> sb.append(o1).append("=").append(o2).append("&"));
         url = sb.toString().replaceAll("&$+|\\?$+", "");
+        logger.info("REST 请求URL={}",url);
         ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), clazz);
         return exchange.getBody();
     }
@@ -145,4 +156,24 @@ public class RestTemplateUtils {
         ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity(null, httpHeaders), clazz);
         return exchange.getBody();
     }
+
+    public static void main(String[] args) {
+        RestTemplate restTemplate = new RestTemplate();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("q","张艺谋");
+        params.put("lang","Cn");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        params = params == null ? new LinkedHashMap<>() : params;
+        String url ="https://api.wmdb.tv/api/v1/movie/search";
+        StringBuilder sb = new StringBuilder(url);
+        sb.append("?");
+        params.forEach((o1, o2) -> sb.append(o1).append("=").append(o2).append("&"));
+        url = sb.toString().replaceAll("&$+|\\?$+", "");
+        logger.info("REST 请求URL={}",url);
+        ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), String.class);
+
+        System.out.println("s ======================>>>>>>>>>> " + exchange);
+    }
+
 }

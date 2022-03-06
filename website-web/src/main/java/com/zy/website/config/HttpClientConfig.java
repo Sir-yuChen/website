@@ -83,7 +83,8 @@ public class HttpClientConfig {
     /**
      * 初始化RestTemplate,并加入spring的Bean工厂，由spring统一管理
      */
-    @Bean(name = "httpClientTemplate")
+//    @Bean(name = "httpClientTemplate")
+    @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
         return createRestTemplate(factory);
     }
