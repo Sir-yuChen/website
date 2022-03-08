@@ -20,31 +20,38 @@ api[0].list.push({
     list: []
 })
 api[0].list.push({
-    alias: 'FilmController',
+    alias: 'ExternalController',
     order: '3',
+    link: '&lt;p&gt;_前端控制器&lt;/p&gt;',
+    desc: '&lt;p&gt; 前端控制器&lt;/p&gt;',
+    list: []
+})
+api[0].list.push({
+    alias: 'FilmController',
+    order: '4',
     link: '视频_filmcontroller',
     desc: '视频 FilmController',
     list: []
 })
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/api/film/getFilm',
     desc: '视频详情[单查]',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8090/api/film/videoChart',
     desc: '视频榜',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:8090/api/film/filmSearchBar',
     desc: '搜索框搜索',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://localhost:8090/api/film/frontPageFilm',
@@ -52,19 +59,19 @@ api[0].list[2].list.push({
 });
 api[0].list.push({
     alias: 'FilmImageController',
-    order: '4',
+    order: '5',
     link: '图片_filmimagecontroller',
     desc: '图片 FilmImageController',
     list: []
 })
 api[0].list.push({
     alias: 'FilmMenuController',
-    order: '5',
+    order: '6',
     link: '菜单_filmmenucontroller',
     desc: '菜单 FilmMenuController',
     list: []
 })
-api[0].list[4].list.push({
+api[0].list[5].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/api/menu/getTopMenu',
@@ -72,26 +79,26 @@ api[0].list[4].list.push({
 });
 api[0].list.push({
     alias: 'FilmScoreController',
-    order: '6',
+    order: '7',
     link: '视频评分_filmscorecontroller',
     desc: '视频评分 FilmScoreController',
     list: []
 })
 api[0].list.push({
     alias: 'FilmTypeController',
-    order: '7',
+    order: '8',
     link: '视频类型_filmtypecontroller',
     desc: '视频类型 FilmTypeController',
     list: []
 })
 api[0].list.push({
     alias: 'HelloController',
-    order: '8',
+    order: '9',
     link: 'hellocontroller',
     desc: 'HelloController',
     list: []
 })
-api[0].list[7].list.push({
+api[0].list[8].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/index/hello',
@@ -99,31 +106,31 @@ api[0].list[7].list.push({
 });
 api[0].list.push({
     alias: 'PersonInfoController',
-    order: '9',
+    order: '10',
     link: '人物_personinfocontroller',
     desc: '人物 PersonInfoController',
     list: []
 })
 api[0].list.push({
     alias: 'PlayRecordController',
-    order: '10',
+    order: '11',
     link: '播放记录_playrecordcontroller',
     desc: '播放记录 PlayRecordController',
     list: []
 })
-api[0].list[9].list.push({
+api[0].list[10].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/api/play/record',
     desc: '获取视频播放记录',
 });
-api[0].list[9].list.push({
+api[0].list[10].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8090/api/play/saveRecord',
     desc: '保存视频播放记录',
 });
-api[0].list[9].list.push({
+api[0].list[10].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:8090/api/play/clearRecord',

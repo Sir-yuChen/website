@@ -21,6 +21,7 @@ import java.util.List;
 
 @Service("fileService")
 public class FileService{
+    //日志
     private static Logger logger = LogManager.getLogger(FileService.class);
 
     @Value("${file.thread.num}")
@@ -31,10 +32,8 @@ public class FileService{
 
     /**
      * 启用多个线程分段读取文件
-     * <p>
      * PS:若文件行数小于线程数会造成线程浪费
      * 适用于读取一行一行的数据报文
-     *
      * @return
      */
     public List uploadByThread(MultipartFile file) throws Exception {
@@ -89,7 +88,7 @@ public class FileService{
 
         boolean isComplete = false;
         if (resultCompleteList != null ) {
-            //校验行数
+            //校验行数 由于本项目使用的是读取行为一个条件 所以只校验行数 也可以校验字节
             int i = resultCompleteList.size() - lines;
             if (i == 0) {
                 isComplete = true;
@@ -97,7 +96,7 @@ public class FileService{
         }
         if (!isComplete) {
             logger.error(">>>>>====uploadByThread====>>>>>>文件完整性校验失败！");
-            throw new WebsiteBusinessException("The file is incomplete！", ApiReturnCode.HTTP_ERROR.getCode());
+            throw new WebsiteBusinessException("The file is incomplete！", ApiReturnCode.HTTP_ERROR.getCode());//自定义异常以及错误码
         } else {
             return resultCompleteList;
         }

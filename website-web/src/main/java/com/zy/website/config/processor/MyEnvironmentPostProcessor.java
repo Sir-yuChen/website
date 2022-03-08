@@ -10,7 +10,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +33,7 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
             for (String fileExtension : loader.getFileExtensions()) {
                 //这里定义了一下配置文件的前缀【my-】，加载所有前缀为my-的配置文件。前缀可以自定义
                 //注意要加载的自定义配置文件需要和 CustomEnvironmentPostProcessor 在同一个子项目中
-                String location = ResourceUtils.CLASSPATH_URL_PREFIX + "my-*." + fileExtension;
+                String location = "classpath*:/properties/my-*." + fileExtension;
                 try {
                     Resource[] resources = this.resourceLoader.getResources(location);
                     for (Resource resource : resources) {

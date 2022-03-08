@@ -7,6 +7,7 @@ import com.github.ltsopensource.tasktracker.Result;
 import com.github.ltsopensource.tasktracker.runner.JobContext;
 import com.github.ltsopensource.tasktracker.runner.JobRunner;
 import com.zy.website.taskTracker.JobRunnerFilm;
+import com.zy.website.taskTracker.JobRunnerTopFilm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +24,7 @@ public class JobRunnerDispatcher implements JobRunner {
     static {
 //        JOB_RUNNER_MAP.put("loadFilmInfo", ApplicationContextUtil.getBean(JobRunnerFilm.class));
         JOB_RUNNER_MAP.put("loadFilmInfo",new JobRunnerFilm());
+        JOB_RUNNER_MAP.put("loadTopFilmInfo",new JobRunnerTopFilm());
     }
     @Override
     public Result run(JobContext jobContext) throws Throwable {

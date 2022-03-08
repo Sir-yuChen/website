@@ -7,7 +7,6 @@ import com.zy.website.model.dto.NoticeDTO;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.TopFilmResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,6 +24,10 @@ public interface FilmService extends IService<FilmModel> {
     TopFilmResponse frontPageFilm();
 
     ApiReturn refreshFilmData() throws Exception;
+
+    ApiReturn refreshTop250FilmData() ;
+
+    void getFilmInfoByExternalApi(String filmKeyWord) ;
 
 
 }
