@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author zhangyu
  * RabbitMQ的配置 主要是队列，交换机的配置绑定
  **/
 @Configuration
@@ -97,27 +96,6 @@ public class RabbitConfig {
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        // 消息发送失败返回到队列中, yml需要配置 publisher-returns: true
-        rabbitTemplate.setMandatory(true);
-
-        /**
-         * 使用该功能需要开启消息确认，yml需要配置 publisher-confirms: true
-         * 通过实现ConfirmCallBack接口，用于实现消息发送到交换机Exchange后接收ack回调
-         * correlationData  消息唯一标志
-         * ack              确认结果
-         * cause            失败原因
-         */
-        rabbitTemplate.setConfirmCallback(new MsgSendConfirmCallback());
-        /**
-         * 使用该功能需要开启消息返回确认，yml需要配置 publisher-returns: true
-         * 通过实现ReturnCallback接口，如果消息从交换机发送到对应队列失败时触发
-         * message    消息主体 message
-         * replyCode  消息主体 message
-         * replyText  描述
-         * exchange   消息使用的交换机
-         * routingKey 消息使用的路由键
-         */
-        rabbitTemplate.setReturnCallback(new MsgSendReturnCallback());
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }

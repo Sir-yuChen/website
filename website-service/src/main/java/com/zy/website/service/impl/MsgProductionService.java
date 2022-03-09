@@ -26,11 +26,9 @@ public class MsgProductionService {
             return message;
         });
     }
-
     // 发送普通消息
     public void sendMsg(String exchange,String routingKey, String content) {
         // DirectExchange类型的交换机，必须指定对应的路由键
         rabbitTemplate.convertAndSend(exchange, routingKey, content);
     }
-
 }

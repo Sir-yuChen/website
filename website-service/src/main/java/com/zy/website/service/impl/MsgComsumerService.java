@@ -2,6 +2,7 @@ package com.zy.website.service.impl;
 
 import com.rabbitmq.client.Channel;
 import com.zy.website.service.FilmService;
+import com.zy.website.variable.MqConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.Message;
@@ -21,16 +22,16 @@ public class MsgComsumerService {
     private static Logger logger = LogManager.getLogger(MsgComsumerService.class);
 
     @Resource
-    FilmService filmService;
+    FilmService filmService;//自己业务具体实现类注入
 
     // 监听消费延时消息
-    @RabbitListener(queues = {"website_film_delay_queue"})
+    @RabbitListener(queues = MqConstant.MQ_WEBSITE_FILM_QUEUE)
     @RabbitHandler
     public void process(String content, Message message, Channel channel) throws IOException {
         try {
             // 消息的可定确认，第二个参数如果为true将一次性确认所有小于deliveryTag的消息
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            //调用方法消费消息
+            //调用方法消费消息 自己业务具体实现类
             filmService.getFilmInfoByExternalApi(content);
             logger.info("延迟队列消息[{}]被消费！！",content);
         } catch (Exception e) {
@@ -43,7 +44,7 @@ public class MsgComsumerService {
     }
 
     // 消费普通消息
-    @RabbitListener(queues = {"website_normal_queue"})
+    @RabbitListener(queues = MqConstant.MQ_WEBSITE_NORMAL_QUEUE)
     @RabbitHandler
     public void process1(String content, Message message, Channel channel) throws IOException {
         try {
@@ -57,6 +58,4 @@ public class MsgComsumerService {
             channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
         }
     }
-
-
 }

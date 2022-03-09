@@ -304,6 +304,8 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 //交换机 ，MQ内容，路由键这里没有实质作用 延迟时间单位S
                 msgProductionService.sendTimeoutMsg(MqConstant.MQ_WEBSITE_FILM_DELAY_EXCHANGE, filmName, UUIDGenerator.getUUIDReplace(), time.get());
             });
+            //删除本地文件  确认MQ中的所有延时消息已经处理完成 则删除文件
+            FileUtils.deleteFile(DOWN_PATH + "//" + externalModel.getApiName() + ".text");
         } catch (Exception e) {
             logger.error("视频模糊查询 文件读取/发送MQ 异常", e);
             throw new WebsiteBusinessException("视频模糊查询 文件读取/发送MQ 异常", ApiReturnCode.HTTP_ERROR.getCode());
@@ -427,8 +429,6 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 return;
             }
         });
-        //删除本地文件  确认MQ中的所有延时消息已经处理完成 则删除文件
-//        FileUtils.deleteFile(DOWN_PATH + "//" + externalModel.getApiName() + ".text");
     }
 
     //事务
