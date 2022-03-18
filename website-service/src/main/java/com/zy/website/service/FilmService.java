@@ -29,5 +29,7 @@ public interface FilmService extends IService<FilmModel> {
 
     void getFilmInfoByExternalApi(String filmKeyWord) ;
 
+    void largeDataJob() ;
+
 
 }

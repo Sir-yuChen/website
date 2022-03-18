@@ -18,6 +18,7 @@ import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.FilmSearchBarResponse;
 import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
+import com.zy.website.service.thread.LargeDataThread;
 import com.zy.website.utils.DateUtil;
 import com.zy.website.utils.RedisUtil;
 import com.zy.website.utils.RestTemplateUtils;
@@ -30,6 +31,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -82,8 +84,17 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
     @Resource
     private MsgProductionService msgProductionService;
 
+    private ThreadPoolTaskExecutor testTaskExecutor;//线程池;
+
+    private int pageSize = 100;
+    private int threadNum = 5;
+    private static int queueCapacity = 1000;
+
+    private static BlockingQueue<FilmModel> queue = new ArrayBlockingQueue<>(queueCapacity);
+
+
     private String DOWN_PATH = "D:\\idea-develop-project\\Project_All\\projectSevice\\website\\website-web\\src\\main\\resources\\static\\text";//文件下载地址
-    private String DOWN_GITEE_PATH = "https://gitee.com/Sir-yuChen/backstage_ant_upload/raw/master/file/down_file_film/filmName.text";//文件下载地址
+    private String DOWN_GITEE_PATH = "https://gitee.com/Sir-yuChen/backstage_ant_upload/raw/master/file/down_file_film/film.xml";//文件下载地址
 
     @Override
     public FilmModel getFilmByUid(String uid) {
@@ -430,6 +441,59 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             }
         });
     }
+
+
+    @Override
+    public void largeDataJob() {
+
+        try {
+            Page<FilmModel> filmPage = new Page<>(0, pageSize);   //查询第pageNum页，每页pageSize条数据
+            Page<FilmModel> filmModelPage = filmMapper.selectPage(filmPage, new QueryWrapper<>());
+            List<FilmModel> records = filmModelPage.getRecords();
+            if (records.size() == 0 || records.isEmpty()) {
+                logger.info("未查询到数据 JOB 处理完成");
+                return;
+            }
+
+            long totalPages = filmModelPage.getTotal();
+            for (FilmModel filmModel : records) {
+                queue.offer(filmModel, 5, TimeUnit.SECONDS);
+            }
+            List<Future<Integer>> failList = new ArrayList<>();
+            for (int i = 0; i < threadNum; i++) {
+                Future<Integer> failCount = testTaskExecutor
+                        .submit(new LargeDataThread(queue));
+                failList.add(failCount);
+            }
+
+            if (totalPages > 1) {
+                for (int i = 2; i <= totalPages; i++) {
+                    records = filmMapper.selectPage(new Page<>(i-1, pageSize), new QueryWrapper<>()).getRecords();
+                    for (FilmModel filmModel : records) {
+                        queue.offer(filmModel, 5, TimeUnit.SECONDS);
+                    }
+                }
+            }
+            int count;
+            count = failList.stream().mapToInt(this::getCount).sum();
+            logger.warn("线程池 统计失败数量：{}", count);
+        } catch (InterruptedException e) {
+            logger.error("线程池 job 发生中断异常：", e);
+        }
+    }
+
+    private int getCount(Future<Integer> fail) {
+        int n = 0;
+        try {
+            n = fail.get();
+        } catch (InterruptedException e) {
+            logger.error("线程池 job 发生中断异常：", e);
+        } catch (ExecutionException e) {
+            logger.error("线程池 线程返回结果异常：", e);
+        }
+        return n;
+    }
+
 
     //事务
     @Transactional(rollbackFor = Exception.class)

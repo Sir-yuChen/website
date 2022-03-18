@@ -1,7 +1,6 @@
 package com.zy.website.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
