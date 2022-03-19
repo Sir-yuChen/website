@@ -83,7 +83,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
     RestTemplateUtils restTemplateUtils;
     @Resource
     private MsgProductionService msgProductionService;
-
+    @Resource
     private ThreadPoolTaskExecutor testTaskExecutor;//线程池;
 
     private int pageSize = 100;
@@ -455,7 +455,8 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 return;
             }
 
-            long totalPages = filmModelPage.getTotal();
+            long totalPages = (filmModelPage.getTotal() + filmPage.getSize() - 1) / filmPage.getSize();
+
             for (FilmModel filmModel : records) {
                 queue.offer(filmModel, 5, TimeUnit.SECONDS);
             }
@@ -467,8 +468,8 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             }
 
             if (totalPages > 1) {
-                for (int i = 2; i <= totalPages; i++) {
-                    records = filmMapper.selectPage(new Page<>(i-1, pageSize), new QueryWrapper<>()).getRecords();
+                for (int i = 1; i <= totalPages; i++) {
+                    records = filmMapper.selectPage(new Page<>(i, pageSize), new QueryWrapper<>()).getRecords();
                     for (FilmModel filmModel : records) {
                         queue.offer(filmModel, 5, TimeUnit.SECONDS);
                     }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zy.website.mapper.ProxyIpMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zy.website.model.ProxyIpModel">
+        <id column="id" property="id" />
+        <result column="platform_address" property="platformAddress" />
+        <result column="ip_address" property="ipAddress" />
+        <result column="ip_type" property="ipType" />
+        <result column="ip_status" property="ipStatus" />
+        <result column="validate_url" property="validateUrl" />
+        <result column="delat_time" property="delatTime" />
+        <result column="validate_count" property="validateCount" />
+        <result column="validate_date" property="validateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, platform_address, ip_address, ip_type, ip_status, validate_url, delat_time, validate_count, validate_date
+    </sql>
+
+</mapper>
