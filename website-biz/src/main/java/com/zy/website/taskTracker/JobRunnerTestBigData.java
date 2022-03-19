@@ -5,7 +5,7 @@ import com.github.ltsopensource.tasktracker.Result;
 import com.github.ltsopensource.tasktracker.runner.JobContext;
 import com.github.ltsopensource.tasktracker.runner.JobRunner;
 import com.zy.website.service.FilmService;
-import com.zy.website.utils.ioc.ApplicationContextUtil;
+import com.zy.website.utils.spring.ApplicationContextUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

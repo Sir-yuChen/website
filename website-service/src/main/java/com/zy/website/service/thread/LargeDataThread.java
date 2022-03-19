@@ -3,7 +3,7 @@ package com.zy.website.service.thread;
 
 import com.zy.website.model.FilmModel;
 import com.zy.website.service.FilmService;
-import com.zy.website.utils.ioc.ApplicationContextUtil;
+import com.zy.website.utils.spring.ApplicationContextUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

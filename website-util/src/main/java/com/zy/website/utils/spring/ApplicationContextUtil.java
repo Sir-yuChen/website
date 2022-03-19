@@ -1,4 +1,4 @@
-package com.zy.website.utils.ioc;
+package com.zy.website.utils.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
