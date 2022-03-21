@@ -2,7 +2,6 @@ package com.zy.website.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,26 +9,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
  * RestTemplate工具类
+ *
  * @ClassName RestTemplateUtils
  **/
-@Component
-public class RestTemplateUtils {
+@Component("restTemplateUtils")
+public final class RestTemplateUtils {
 
     private static Logger logger = LogManager.getLogger(RestTemplateUtils.class);
 
-
+    @Resource
     private RestTemplate httpClientTemplate;
 
-    @Autowired
-    public void seThttpClientTemplate(RestTemplate httpClientTemplate) {
+ /*   @Resource
+    public void setHttpClientTemplate(RestTemplate httpClientTemplate) {
         this.httpClientTemplate = httpClientTemplate;
-    }
+    }*/
 
 
     /**
@@ -88,7 +90,7 @@ public class RestTemplateUtils {
         sb.append("?");
         params.forEach((o1, o2) -> sb.append(o1).append("=").append(o2).append("&"));
         url = sb.toString().replaceAll("&$+|\\?$+", "");
-        logger.info("REST 请求URL={}",url);
+        logger.info("REST 请求URL={}", url);
         ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), clazz);
         return exchange.getBody();
     }
@@ -97,21 +99,27 @@ public class RestTemplateUtils {
      * GET请求-分隔符参数
      *
      * @param url
-     * @param params LinkedHashMap
+     * @param params  LinkedHashMap
      * @param headers
      * @return
      */
     public <T> T httpGetPlaceholder(String url, List<String> params, Map<String, String> headers, Class<T> clazz) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        params = params == null ? new ArrayList<>() : params;
-        if (headers != null) {
-            headers.forEach((o1, o2) -> httpHeaders.add(o1, o2));
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            params = params == null ? new ArrayList<>() : params;
+            if (headers != null) {
+                headers.forEach((o1, o2) -> httpHeaders.add(o1, o2));
+            }
+            StringBuilder sb = new StringBuilder(url);
+            params.forEach(o2 -> sb.append("/").append(o2));
+            url = sb.toString().replaceAll("&$+|\\?$+", "");
+            logger.info("REST 请求URL={}", url);
+            ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), clazz);
+            return exchange.getBody();
+        } catch (RestClientException e) {
+            logger.error("REST 请求URL={} 异常{}", url, e);
         }
-        StringBuilder sb = new StringBuilder(url);
-        params.forEach(o2 -> sb.append("/").append(o2));
-        url = sb.toString().replaceAll("&$+|\\?$+", "");
-        ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), clazz);
-        return exchange.getBody();
+        return null;
     }
 
     /**
@@ -159,13 +167,14 @@ public class RestTemplateUtils {
 
     public static void main(String[] args) {
         RestTemplate restTemplate = new RestTemplate();
+        /*
         HashMap<String, Object> params = new HashMap<>();
         params.put("q","张艺谋");
         params.put("lang","Cn");
 
         HttpHeaders httpHeaders = new HttpHeaders();
         params = params == null ? new LinkedHashMap<>() : params;
-        String url ="https://api.wmdb.tv/api/v1/movie/search";
+        String url ="http://ip-api.com/json/221.122.91.65";
         StringBuilder sb = new StringBuilder(url);
         sb.append("?");
         params.forEach((o1, o2) -> sb.append(o1).append("=").append(o2).append("&"));
@@ -173,7 +182,22 @@ public class RestTemplateUtils {
         logger.info("REST 请求URL={}",url);
         ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), String.class);
 
-        System.out.println("s ======================>>>>>>>>>> " + exchange);
+        System.out.println("s ======================>>>>>>>>>> " + exchange);*/
+        List<String> params = new ArrayList<>();
+        HashMap<String, String> headers = new HashMap<>();
+        String url = "http://ip-api.com/json";
+        params.add("221.122.91.65");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        params = params == null ? new ArrayList<>() : params;
+        if (headers != null) {
+            headers.forEach((o1, o2) -> httpHeaders.add(o1, o2));
+        }
+        StringBuilder sb = new StringBuilder(url);
+        params.forEach(o2 -> sb.append("/").append(o2));
+        url = sb.toString().replaceAll("&$+|\\?$+", "");
+        logger.info("REST 请求URL={}", url);
+        ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), String.class);
+        System.out.println("exchange = " + exchange.getBody());
     }
 
 }

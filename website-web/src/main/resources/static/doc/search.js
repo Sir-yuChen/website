@@ -22,8 +22,8 @@ api[0].list.push({
 api[0].list.push({
     alias: 'ExternalController',
     order: '3',
-    link: '&lt;p&gt;_前端控制器&lt;/p&gt;',
-    desc: '&lt;p&gt; 前端控制器&lt;/p&gt;',
+    link: '第三方接口信息',
+    desc: '第三方接口信息',
     list: []
 })
 api[0].list.push({
@@ -135,6 +135,19 @@ api[0].list[10].list.push({
     deprecated: 'false',
     url: 'http://localhost:8090/api/play/clearRecord',
     desc: '清除播放记录',
+});
+api[0].list.push({
+    alias: 'ProxyIpController',
+    order: '12',
+    link: 'ip代理池',
+    desc: 'IP代理池',
+    list: []
+})
+api[0].list[11].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/proxyIp/getIp',
+    desc: '批量爬取IP',
 });
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {

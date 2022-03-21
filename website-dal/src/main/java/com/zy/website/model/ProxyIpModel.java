@@ -48,12 +48,17 @@ public class ProxyIpModel extends Model<ProxyIpModel> {
      */
     @TableField("ip_type")
     private String ipType;
+    /**
+     * 端口
+     */
+    @TableField("port")
+    private Long port;
 
     /**
      * IP状态 1可用 0不可用
      */
     @TableField("ip_status")
-    private Integer ipStatus;
+    private String ipStatus;
 
     /**
      * 验证地址
@@ -78,7 +83,59 @@ public class ProxyIpModel extends Model<ProxyIpModel> {
      */
     @TableField("validate_date")
     private Date validateDate;
-
+    /***
+     *  国家
+     * @mock 中国
+     * @since
+     */
+    @TableField("country")
+    private String country;
+    @TableField("country_code")
+    private String countryCode;
+    @TableField("region")
+    private String region;
+    /***
+     * 地区/州
+     * @mock California
+     * @since
+     */
+    @TableField("region_name")
+    private String regionName;
+    /***
+     * 城市
+     * @mock 北京
+     * @since
+     */
+    @TableField("city")
+    private String city;
+    /***
+     * 邮政编码
+     * @mock 94043
+     * @since
+     */
+    @TableField("zip_code")
+    private String zip;
+    /***
+     *  纬度
+     * @mock 37.4192
+     * @since
+     */
+    @TableField("lat")
+    private float lat;
+    /***
+     *  经度
+     * @mock -122.0574
+     * @since
+     */
+    @TableField("lon")
+    private float lon;
+    /***
+     * 时区 (tz)
+     * @mock
+     * @since
+     */
+    @TableField("timezone")
+    private String timezone;
 
     @Override
     protected Serializable pkVal() {

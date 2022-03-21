@@ -2,15 +2,10 @@ package com.zy.website.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-import com.zy.website.controller.BaseController;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 第三方接口信息
  * @author zhangyu
  * @since 2022-03-02
  */
