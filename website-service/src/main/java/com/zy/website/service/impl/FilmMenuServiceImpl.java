@@ -108,7 +108,7 @@ public class FilmMenuServiceImpl extends ServiceImpl<FilmMenuMapper, FilmMenuMod
 
     public MenuDTO getMenuChild(MenuDTO menu,List<MenuDTO> filmMenuModels){
         filmMenuModels.forEach(item->{
-            if (menu.getId() == item.getParentId()) {
+            if (menu.getId().equals(item.getParentId())) {
                 if (menu.getMenuIsChild() && menu.getChildList() == null ) {
                     menu.setChildList(new ArrayList<MenuDTO>());
                 }

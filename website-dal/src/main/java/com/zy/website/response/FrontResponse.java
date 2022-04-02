@@ -39,6 +39,7 @@ public abstract class FrontResponse  implements Serializable {
 //        this.traceNo = traceNo;
 //    }
 
+    @Override
     public String toString() {
         try {
             return ReflectionToStringBuilder.toString(this);

@@ -11,6 +11,7 @@ import java.net.URL;
 
 public class NetStateUtil {
     static HostnameVerifier hv = new HostnameVerifier() {
+        @Override
         public boolean verify(String urlHostName, SSLSession session) {
             return true;
         }
@@ -97,6 +98,7 @@ public class NetStateUtil {
 
     static class miTM implements javax.net.ssl.TrustManager,
             javax.net.ssl.X509TrustManager {
+        @Override
         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
             return null;
         }
@@ -111,12 +113,14 @@ public class NetStateUtil {
             return true;
         }
 
+        @Override
         public void checkServerTrusted(
                 java.security.cert.X509Certificate[] certs, String authType)
                 throws java.security.cert.CertificateException {
             return;
         }
 
+        @Override
         public void checkClientTrusted(
                 java.security.cert.X509Certificate[] certs, String authType)
                 throws java.security.cert.CertificateException {

@@ -143,8 +143,9 @@ public class DateUtil extends DateUtils {
      */
     public static Date getFirstDayOfTheMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
-        if (date != null)
+        if (date != null) {
             calendar.setTime(DateUtil.clone(date));
+        }
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -161,8 +162,9 @@ public class DateUtil extends DateUtils {
      */
     public static Date getLastDayOfTheMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
-        if (date != null)
+        if (date != null) {
             calendar.setTime(DateUtil.clone(date));
+        }
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);

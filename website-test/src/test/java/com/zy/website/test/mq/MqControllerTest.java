@@ -7,6 +7,7 @@ import com.zy.website.variable.MqConstant;
 import org.junit.Test;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 public class MqControllerTest extends BaseTest {
 
@@ -26,5 +27,16 @@ public class MqControllerTest extends BaseTest {
         msgProductionService.sendMsg(UUIDGenerator.getUUIDReplace(), MqConstant.MQ_WEBSITE_NORMAL_EXCHANGE,"test", "欢迎");
         System.out.println("向MQ发送了消息");
     }
+
+
+    public static void main(String[] args) {
+        BigDecimal zero = BigDecimal.ZERO;
+        BigDecimal decimal = zero.add(new BigDecimal(5000));
+        System.out.println("bigDecimal = " + decimal);
+    }
+
+
+
+
 
 }

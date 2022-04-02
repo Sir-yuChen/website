@@ -534,7 +534,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                         filmTypeModel.setTypeAssort("TYPE");
                         filmTypeModel.setTypeName(split[i]);
                         filmTypeModel.setTypeRevealName(split[i]);
-                        filmTypeModel.setTypeMark(this.getRandomString(8));
+                        filmTypeModel.setTypeMark(getRandomString(8));
                         filmTypeMapper.insert(filmTypeModel);
                         typeRelationFilmModel.setTypeId(filmTypeModel.getId());
                         typeRelationFilmMapper.insert(typeRelationFilmModel);

@@ -54,6 +54,7 @@ public abstract class FrontRequest implements Serializable {
         this.pageSize = pageSize;
     }
 
+    @Override
     public String toString() {
         try {
             return ReflectionToStringBuilder.toString(this);
