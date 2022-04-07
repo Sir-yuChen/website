@@ -72,7 +72,7 @@ public class MybatisPlusGenerator {
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
 
-        // TODO: 设置为null时，则不会生成xml文件，controller、service等Java类
+        //  设置为null时，则不会生成xml文件，controller、service等Java类
         templateConfig.setXml("/templates/mapper.xml")
                 .setEntity("/templates/entity.java")		        				// 设置生成entity的模板
                 .setMapper("/templates/mapper.java")		        				// 设置生成mapper的模板

@@ -44,7 +44,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * 服务实现类
@@ -109,20 +108,20 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             FilmLeaderboardEnum byCode = FilmLeaderboardEnum.getByCode(code);
             if (byCode == null) {
                 logger.error("枚举值获取异常 未定义 code={}", code);
-//                throw new WebsiteBusinessException(ApiReturnCode.HTTP_ERROR.getMessage(), ApiReturnCode.HTTP_ERROR.getCode());
                 return;
             }
             switch (byCode) {
                 case LEADERBOARD_ALL_NOTICE:   //所有榜单
                     //  所有榜单数据  使用异步执行多个方法
                     try {
+                        noticeDTOS.clear();//查询所以保证返回的集合为null，避免数据重复
                         CompletableFuture<NoticeDTO> filmDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_FILM_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> varietyDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_VARIETY_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> cartoonDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_CARTOON_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> usdramaDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_USDRAMA_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> hitDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_HIT_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> scoreDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> episodeDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> varietyDto = CompletableFuture.supplyAsync(() -> getVarietyNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_VARIETY_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> cartoonDto = CompletableFuture.supplyAsync(() -> getCartoonNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_CARTOON_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> usdramaDto = CompletableFuture.supplyAsync(() -> getUsdramaNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_USDRAMA_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> hitDto = CompletableFuture.supplyAsync(() -> getHitNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_HIT_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> scoreDto = CompletableFuture.supplyAsync(() -> getScoreNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> episodeDto = CompletableFuture.supplyAsync(() -> getEpisodeNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getCode()));
                         CompletableFuture.allOf(filmDto, varietyDto, cartoonDto, usdramaDto, hitDto, scoreDto, episodeDto).join();
                         noticeDTOS.add(filmDto.get());
                         noticeDTOS.add(varietyDto.get());
@@ -135,6 +134,8 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                     } catch (Exception e) {
                         logger.error("所有视频榜单数据获取异常", e);
                     }
+                    // todo 如果FILM_ALL_NOTICE 标识，这不在执行其它标识下代码打断所以循环
+
                     break;
                 case LEADERBOARD_FILM_NOTICE:   //电影总榜
                     NoticeDTO filmDto = this.getFilmNoticeData(Variable.REDIS_NOTICES_KEY, code);
@@ -267,9 +268,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 menuDTOs.add(menuDTO);
             }
         });
-        List<MenuDTO> collect = menuDTOs.stream().sorted().collect(Collectors.toList());
-        logger.info("首页菜单类型 视频展示列表 数据集合collect={}", JSONObject.toJSONString(collect));
-        topFilmResponse.setTopFimlList(collect);
+        menuDTOs.stream().sorted(Comparator.comparing(MenuDTO::getMenuSequence));
+        logger.info("首页菜单类型 视频展示列表 数据集合menuDTOs={}", JSONObject.toJSONString(menuDTOs));
+        topFilmResponse.setTopFimlList(menuDTOs);
         return topFilmResponse;
     }
 
