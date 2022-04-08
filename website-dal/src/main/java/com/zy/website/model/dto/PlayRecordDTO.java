@@ -3,6 +3,8 @@ package com.zy.website.model.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class PlayRecordDTO  extends BaseDTO {
 
@@ -18,7 +20,7 @@ public class PlayRecordDTO  extends BaseDTO {
     /**
      * 播放时间
      */
-    private String playTime;
+    private Date playTime;
 
     /**
      * 视频地址

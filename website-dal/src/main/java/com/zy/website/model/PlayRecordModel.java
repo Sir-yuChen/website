@@ -46,7 +46,7 @@ public class PlayRecordModel extends Model<PlayRecordModel> {
      * 播放账号
      */
     @TableField("play_account")
-    private Date playAccount;
+    private String playAccount;
 
     /**
      * 播放时长

@@ -12,7 +12,7 @@ import com.zy.website.response.PlayRecordResponse;
  */
 public interface PlayRecordService extends IService<PlayRecordModel> {
 
-    PlayRecordResponse getPlayRecord(String ipAddr);
+    PlayRecordResponse getPlayRecord(String key);
 
     void setPlayRecord(PlayRecordDTO dto);
 

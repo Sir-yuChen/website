@@ -1,6 +1,7 @@
 package com.zy.website.response;
 
 import com.zy.website.model.dto.PlayRecordDTO;
+import lombok.Data;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2022/3/1 17:18
  * @return
  */
+@Data
 public class PlayRecordResponse extends FrontResponse{
 
     /***

@@ -23,7 +23,7 @@ public interface FilmMapper extends BaseMapper<FilmModel> {
     @Select("select * from t_film where film_uid = #{uid} ")
     FilmModel getFilmByUid(@Param("uid") String uid);
 
-    @Select("SELECT * FROM t_film WHERE film_status='Y' AND film_genre =#{mark} AND film_play_count>=1000 ORDER BY creact_time DESC ,film_play_count DESC")
+    @Select("SELECT * FROM t_film WHERE film_status='Y' AND film_genre =#{mark} AND film_play_count>=1000 ORDER BY creact_time DESC , film_play_count DESC limit 12")
     List<FilmModel> selectFrontList(@Param("mark") String mark);
 
 }

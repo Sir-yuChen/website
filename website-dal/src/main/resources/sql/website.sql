@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.37, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: website
 -- ------------------------------------------------------
--- Server version	5.7.37
+-- Server version	5.7.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -324,7 +324,7 @@ CREATE TABLE `t_play_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `play_film_uid` varchar(200) DEFAULT NULL COMMENT '播放的电影',
   `play_time` datetime DEFAULT NULL COMMENT '播放时间',
-  `play_account` datetime DEFAULT NULL COMMENT '播放时间',
+  `play_account` varchar(150) NOT NULL COMMENT '用户UID',
   `play_duration` int(11) DEFAULT NULL COMMENT '播放时长',
   `play_ip` varchar(20) DEFAULT NULL COMMENT '客户端IP',
   `film_name` varchar(200) DEFAULT NULL COMMENT '电影名称',
@@ -332,7 +332,7 @@ CREATE TABLE `t_play_record` (
   `creact_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `record_status` int(4) DEFAULT '1' COMMENT '播放记录状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -341,6 +341,7 @@ CREATE TABLE `t_play_record` (
 
 LOCK TABLES `t_play_record` WRITE;
 /*!40000 ALTER TABLE `t_play_record` DISABLE KEYS */;
+INSERT INTO `t_play_record` VALUES (1,'5faf53981f33ba6a48816d50','2022-04-08 10:56:18','zhangyu123',120,'192.168.8.1','肖申克的救赎','www.hollis-wolf.net','2022-04-08 10:55:55',1);
 /*!40000 ALTER TABLE `t_play_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,4 +409,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-07 22:47:40
+-- Dump completed on 2022-04-08 18:59:26

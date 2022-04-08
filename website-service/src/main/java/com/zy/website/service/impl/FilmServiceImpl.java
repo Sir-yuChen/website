@@ -1,6 +1,7 @@
 package com.zy.website.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -206,7 +207,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 filmResponse.setPageSize(filmModelPage.getSize());
                 filmResponse.setPageNum(filmModelPage.getCurrent());
                 filmResponse.setTotal(filmModelPage.getTotal());
-                data.add(filmResponse);
+                if (filmModelPage.getRecords().size() > 0) {
+                    data.add(filmResponse);
+                }
             }
             //明星
             Page<PersonInfoModel> personPage = new Page<>(filmSearchBarRequest.getPageNum(), filmSearchBarRequest.getPageSize());   //查询第pageNum页，每页pageSize条数据
@@ -226,7 +229,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 personResponse.setPageSize(personInfoModelPage.getSize());
                 personResponse.setPageNum(personInfoModelPage.getCurrent());
                 personResponse.setTotal(personInfoModelPage.getTotal());
-                data.add(personResponse);
+                if (personInfoModelPage.getTotal() > 0) {
+                    data.add(personResponse);
+                }
             }
             logger.info("搜索框 搜索结果集合 data={}", JSONObject.toJSONString(data));
             apiReturn.setData(data);
@@ -696,7 +701,15 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             noticeDTO.setNoticeData(redisNotice);
             return noticeDTO;
         }
-        List<FilmModel> filmModels = this.selectSqlData(typeCode, 20);
+        //1. 查分数 然后根据分数 筛选
+        List<FilmScoreModel> filmScoreModels = this.selectSocreSqlData(20);
+        List<FilmModel> filmModels = new ArrayList<>();
+        filmScoreModels.forEach(filmScoreModel -> {
+            QueryWrapper<FilmModel> query = new QueryWrapper<>();
+            query.lambda().eq(FilmModel::getFilmUid, filmScoreModel.getFilmUid());
+            FilmModel filmModel = filmMapper.selectOne(query);
+            filmModels.add(filmModel);
+        });
         noticeDTO.setNoticeData(filmModels);
         this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getOrder(), filmModels);
         return noticeDTO;
@@ -715,17 +728,27 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
         }
         List<FilmModel> filmModels = this.selectSqlData(typeCode, 20);
         noticeDTO.setNoticeData(filmModels);
-        this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_FILM_NOTICE.getOrder(), filmModels);
+        this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getOrder(), filmModels);
         return noticeDTO;
     }
 
-
-    private List<FilmModel> selectSqlData(String typeCode, Integer number) {
+    private List<FilmModel> selectSqlData(String code, Integer number) {
+        //获取对应的视频分类标识
         QueryWrapper<FilmModel> query = new QueryWrapper<>();
-        // TODO 大数据了优化sql 条查 排序
-        query.lambda().eq(FilmModel::getFilmGenre, typeCode).orderByAsc(FilmModel::getFilmPlayCount).last("limit " + number);
-        List<FilmModel> filmModels = filmMapper.selectList(query);
+        LambdaQueryWrapper<FilmModel> last = query.lambda().orderByAsc(FilmModel::getFilmPlayCount).last("limit " + number);
+        FilmLeaderboardEnum enumObj = FilmLeaderboardEnum.getByCode(code);
+        if (Optional.ofNullable(enumObj.getTypeCode()).isPresent()) {
+            last.eq(FilmModel::getFilmGenre, enumObj.getTypeCode());
+        }
+        List<FilmModel> filmModels = filmMapper.selectList(last);
         return filmModels;
+    }
+    private List<FilmScoreModel> selectSocreSqlData(Integer number) {
+        //获取对应的视频分类标识
+        QueryWrapper<FilmScoreModel> query = new QueryWrapper<>();
+        query.lambda().orderByAsc(FilmScoreModel::getScoreRatio).last("limit " + number);
+        List<FilmScoreModel> filmScoreModels = filmScoreMapper.selectList(query);
+        return filmScoreModels;
     }
 
     //获取缓存中的排行榜信息
