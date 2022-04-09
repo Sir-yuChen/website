@@ -5,7 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum  FilmImageEnum implements BaseEnum{
 
-    POSTER("POSTER","视频封面");
+    //
+    POSTER("POSTER","视频封面"),
+    CAROUSEL("CAROUSEL","轮播图");
 
     private String code;
     private String desc;

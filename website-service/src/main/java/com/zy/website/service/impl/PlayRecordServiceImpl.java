@@ -8,6 +8,7 @@ import com.zy.website.code.ApiReturnCode;
 import com.zy.website.mapper.PlayRecordMapper;
 import com.zy.website.model.PlayRecordModel;
 import com.zy.website.model.dto.PlayRecordDTO;
+import com.zy.website.request.PlayClearRecordRequest;
 import com.zy.website.response.PlayRecordResponse;
 import com.zy.website.service.PlayRecordService;
 import com.zy.website.utils.RedisUtil;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangyu
@@ -68,9 +70,14 @@ public class PlayRecordServiceImpl extends ServiceImpl<PlayRecordMapper, PlayRec
             dto.setPlayAccount("zhangyu123");
             List<PlayRecordDTO> recordDTOS = new ArrayList<>();
             if (redisUtil.hHasKey(Variable.REDIS_PLAYRECORD_KEY, dto.getPlayIp())) {
+                //缓存合并
                 List<PlayRecordDTO> playRecordDTOS = (List<PlayRecordDTO>) redisUtil.hget(Variable.REDIS_PLAYRECORD_KEY, dto.getPlayAccount() == null ? dto.getPlayIp() : dto.getPlayAccount());
+                List<PlayRecordDTO> playRecordIpDTOS = (List<PlayRecordDTO>) redisUtil.hget(Variable.REDIS_PLAYRECORD_KEY,dto.getPlayIp());
                 if (playRecordDTOS != null) {
                     recordDTOS.addAll(playRecordDTOS);
+                }
+                if (playRecordIpDTOS != null) {
+                    recordDTOS.addAll(playRecordIpDTOS);
                 }
             }
             AtomicBoolean falg = new AtomicBoolean(false);
@@ -81,7 +88,8 @@ public class PlayRecordServiceImpl extends ServiceImpl<PlayRecordMapper, PlayRec
             });
             if (!falg.get()) {
                 recordDTOS.add(dto);
-                redisUtil.hset(Variable.REDIS_PLAYRECORD_KEY, dto.getPlayAccount() == null ? dto.getPlayIp() : dto.getPlayAccount(), recordDTOS, 12 * 60 * 60);
+                List<PlayRecordDTO> collect = recordDTOS.stream().distinct().collect(Collectors.toList());
+                redisUtil.hset(Variable.REDIS_PLAYRECORD_KEY, dto.getPlayAccount() == null ? dto.getPlayIp() : dto.getPlayAccount(), collect, 12 * 60 * 60);
             }
             if (Optional.ofNullable(dto.getPlayAccount()).isPresent()) {
                 PlayRecordModel playRecordModel = playRecordMapper.selectOne(
@@ -109,17 +117,21 @@ public class PlayRecordServiceImpl extends ServiceImpl<PlayRecordMapper, PlayRec
     }
 
     @Override
-    public ApiReturn clearPlayRecord(String playRecordIds, String ipAddr) {
+    public ApiReturn clearPlayRecord(PlayClearRecordRequest playClearRecordRequest, String ipAddr) {
         ApiReturn apiReturn = new ApiReturn();
-        //登录用户 修改库中状态
-        String[] split = playRecordIds.trim().split(",");
-        Arrays.stream(split).forEach(item -> {
-            PlayRecordModel playRecordModel = new PlayRecordModel();
-            playRecordModel.setRecordStatus(0);
-            playRecordModel.setId(Integer.valueOf(item));
-            playRecordMapper.updateById(playRecordModel);
-        });
-        redisUtil.hdel(Variable.REDIS_PLAYRECORD_KEY, ipAddr);
+        if (Optional.ofNullable(playClearRecordRequest.getUserUid()).isPresent()) {
+            //登录用户 修改库中状态
+            String[] split = playClearRecordRequest.getPlayRecordIds().trim().split(",");
+            Arrays.stream(split).forEach(item -> {
+                PlayRecordModel playRecordModel = new PlayRecordModel();
+                playRecordModel.setRecordStatus(0);
+                playRecordModel.setId(Integer.valueOf(item));
+                playRecordMapper.updateById(playRecordModel);
+            });
+            redisUtil.hdel(Variable.REDIS_PLAYRECORD_KEY, playClearRecordRequest.getUserUid());
+        }else {
+            redisUtil.hdel(Variable.REDIS_PLAYRECORD_KEY, ipAddr);
+        }
         apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
         return apiReturn;
     }

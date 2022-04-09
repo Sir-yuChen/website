@@ -26,6 +26,12 @@ api[0].list.push({
     desc: '第三方接口信息',
     list: []
 })
+api[0].list[2].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/external/friendLinks',
+    desc: '友链',
+});
 api[0].list.push({
     alias: 'FilmController',
     order: '4',
@@ -64,6 +70,12 @@ api[0].list.push({
     desc: '图片 FilmImageController',
     list: []
 })
+api[0].list[4].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/filmImage/carousel',
+    desc: '获取首页轮播图',
+});
 api[0].list.push({
     alias: 'FilmMenuController',
     order: '6',

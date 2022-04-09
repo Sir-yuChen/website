@@ -5,8 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ExternalEnum implements BaseEnum{
 
+    //
     WMDB_TV("WMDB_TV","视频模糊查"),
-    WMDB_TV_250("WMDB_TV_250","视频250");
+    WMDB_TV_250("WMDB_TV_250","视频250"),
+    FRIEND_LINKS("FRIEND_LINKS","友链");
 
     private String code;
     private String desc;

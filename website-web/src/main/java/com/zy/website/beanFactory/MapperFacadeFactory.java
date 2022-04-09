@@ -1,7 +1,9 @@
 package com.zy.website.beanFactory;
 
-import com.zy.website.model.dto.MenuDTO;
 import com.zy.website.model.FilmMenuModel;
+import com.zy.website.model.FilmModel;
+import com.zy.website.model.dto.FilmInfoDTO;
+import com.zy.website.model.dto.MenuDTO;
 import com.zy.website.utils.DateUtil;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
@@ -45,6 +47,15 @@ public class MapperFacadeFactory implements FactoryBean<MapperFacade> {
                 dto.setCreactTime(DateUtil.format(model.getCreactTime(), DateUtil.YYYY_MM_DD)); //统一进行时间转换
             }
         }).byDefault().register();
+
+        factory.classMap(FilmModel.class,FilmInfoDTO.class).customize(new CustomMapper<FilmModel, FilmInfoDTO>() {
+            @Override
+            public void mapAtoB(FilmModel model, FilmInfoDTO dto, MappingContext context) {
+                dto.setCreactTime(DateUtil.format(model.getCreactTime(), DateUtil.YYYY_MM_DD)); //统一进行时间转换
+                dto.setFilmPublishTime(DateUtil.format(model.getCreactTime(), DateUtil.YYYY_MM_DD)); //统一进行时间转换
+            }
+        }).byDefault().register();
+
 
 
         return factory;

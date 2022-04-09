@@ -11,10 +11,7 @@ import com.zy.website.enums.*;
 import com.zy.website.exception.WebsiteBusinessException;
 import com.zy.website.mapper.*;
 import com.zy.website.model.*;
-import com.zy.website.model.dto.FilmInfoExternalDTO;
-import com.zy.website.model.dto.FilmInfoExternalDataDTO;
-import com.zy.website.model.dto.MenuDTO;
-import com.zy.website.model.dto.NoticeDTO;
+import com.zy.website.model.dto.*;
 import com.zy.website.request.FilmSearchBarRequest;
 import com.zy.website.response.FilmSearchBarResponse;
 import com.zy.website.response.TopFilmResponse;
@@ -268,8 +265,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             List<FilmModel> filmModel = filmMapper.selectFrontList(menu.getMenuMark());
             //拼装参数
             MenuDTO menuDTO = mapperFacade.map(menu, MenuDTO.class);
-            menuDTO.setChildList(filmModel);
-            if (filmModel != null) {
+            List<FilmInfoDTO> filmInfoDTOS = mapperFacade.mapAsList(filmModel, FilmInfoDTO.class);
+            menuDTO.setChildList(filmInfoDTOS);
+            if (filmInfoDTOS != null) {
                 menuDTOs.add(menuDTO);
             }
         });

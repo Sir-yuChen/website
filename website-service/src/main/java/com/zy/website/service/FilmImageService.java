@@ -1,5 +1,6 @@
 package com.zy.website.service;
 
+import com.zy.website.ApiReturn;
 import com.zy.website.model.FilmImageModel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-02-26
  */
 public interface FilmImageService extends IService<FilmImageModel> {
+
+    ApiReturn getCarousel();
 
 }
