@@ -8,9 +8,9 @@ import org.jsoup.select.Elements;
 import org.springframework.util.CollectionUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +76,7 @@ public class FilmMagic implements PageProcessor {
                 Elements a = item.getElementsByTag("a");
                 List<String> list = new ArrayList<>();
                 a.forEach(aTag -> list.add(aTag.text()));
-                if (list == null) {
+                if (CollectionUtils.isEmpty(list)) {
                     Elements span = item.getElementsByTag("span");
                     span.forEach(spanTag -> list.add(spanTag.text()));
                 }
@@ -100,9 +100,15 @@ public class FilmMagic implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new FilmMagic())
+        /*Spider.create(new FilmMagic())
                 .addUrl("http://www.czspp.com/movie_bt")
-                .run();
+                .run();*/
+        BigDecimal bigDecimal = new BigDecimal(0);
+        BigDecimal bigDecimal1 = new BigDecimal(3);
+        BigDecimal add = bigDecimal.add(bigDecimal1);
+        System.out.println("bigDecimal1 = " + bigDecimal);
+
+
     }
 
 }

@@ -69,13 +69,14 @@ public class PlayRecordController extends BaseController {
      * @date 2022/3/1 18:19
      */
     @RequestMapping(value = "saveRecord", method = RequestMethod.POST)
-    public void setPlayRecord(@RequestBody PlayRecordRequest playRecordRequest, HttpServletRequest request) {
+    public ApiReturn setPlayRecord(@RequestBody PlayRecordRequest playRecordRequest, HttpServletRequest request) {
         String ipAddr = NetUtils.getIpAddr(request);
         logger.info("保存视频播放记录 接口 入参：{}",JSONObject.toJSONString(playRecordRequest));
         PlayRecordDTO dto = mapperFacade.map(playRecordRequest, PlayRecordDTO.class);
         dto.setPlayIp(ipAddr);
         dto.setPlayTime(new Date());
-        playRecordService.setPlayRecord(dto);
+        ApiReturn apiReturn = playRecordService.setPlayRecord(dto);
+        return apiReturn;
     }
 
     /**
@@ -86,7 +87,7 @@ public class PlayRecordController extends BaseController {
      * @date 2022/4/9 13:35
      * @return com.zy.website.ApiReturn
      */
-    @RequestMapping(value = "clearRecord", method = RequestMethod.GET)
+    @RequestMapping(value = "clearRecord", method = RequestMethod.POST)
     public ApiReturn clearPlayRecord(@RequestBody PlayClearRecordRequest playClearRecordRequest,HttpServletRequest request) {
         String ipAddr = NetUtils.getIpAddr(request);
         logger.info("清除播放记录 接口 入参：{} IP:{}",JSONObject.toJSONString(playClearRecordRequest),ipAddr);

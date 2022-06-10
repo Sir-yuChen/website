@@ -35,8 +35,10 @@ public class FilmController extends BaseController {
     //@deprecated 弃用注解 smart-doc
     @Resource
     FileService fileService;
+
     /**
      * 视频详情[单查]
+     *
      * @param uid 视频唯一UID|5f968bfcee3680299115bbe6
      * @return com.zy.website.ApiReturn
      * @author zhangyu
@@ -47,13 +49,18 @@ public class FilmController extends BaseController {
         ApiReturn apiReturn = new ApiReturn();
         FilmModel filmModel = filmService.getFilmByUid(uid);
         logger.info("获取视频信息:filModel={}", filmModel);
-        apiReturn.setData(filmModel);
-        apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        if (filmModel != null) {
+            apiReturn.setData(filmModel);
+            apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        } else {
+            apiReturn.setApiReturnCode(ApiReturnCode.NO_FILM_INFO);
+        }
         return apiReturn;
     }
 
     /**
      * 视频榜
+     *
      * @param typeCode 视频排榜唯一标识|FILM_ALL_NOTICE,FILM_NOTICE
      * @return com.zy.website.response.NoticeResponse
      * @author zhangyu
@@ -76,6 +83,7 @@ public class FilmController extends BaseController {
 
     /**
      * 搜索框搜索
+     *
      * @param filmSearchBarRequest
      * @return com.zy.website.ApiReturn
      * @author zhangyu
@@ -90,18 +98,17 @@ public class FilmController extends BaseController {
 
     /**
      * 首页视频展示
-     * @author zhangyu
-     * @description  首页根据顶部菜单视频展示
-     * @date 2022/3/2 11:33
+     *
      * @return com.zy.website.response.TopFilmResponse
+     * @author zhangyu
+     * @description 首页根据顶部菜单视频展示
+     * @date 2022/3/2 11:33
      */
     @RequestMapping(value = "frontPageFilm", method = RequestMethod.GET)
     public TopFilmResponse frontPageFilm() {
         TopFilmResponse topFilmResponse = filmService.frontPageFilm();
         return topFilmResponse;
     }
-
-
 
 
 }

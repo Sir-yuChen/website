@@ -113,7 +113,7 @@ api[0].list.push({
 api[0].list[8].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8090/index/hello',
+    url: 'http://localhost:8090/',
     desc: 'website  测试接口',
 });
 api[0].list.push({

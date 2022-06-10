@@ -20,7 +20,7 @@ public class PlayClearRecordRequest  implements Serializable {
 
     /***
       *  用户ID
-      * @mock 1,2,3
+      * @mock zhangyu123
       * @since
       */
     private String userUid;

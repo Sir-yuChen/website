@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-02-24
  */
 @RestController
-@RequestMapping("/index")
+@RequestMapping("/")
 public class HelloController extends BaseController {
 
     /**
@@ -21,7 +21,7 @@ public class HelloController extends BaseController {
      * @Param null
      * @return String
      **/
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "Hello website";
     }

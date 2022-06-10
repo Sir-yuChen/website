@@ -15,7 +15,7 @@ public interface PlayRecordService extends IService<PlayRecordModel> {
 
     PlayRecordResponse getPlayRecord(String key);
 
-    void setPlayRecord(PlayRecordDTO dto);
+    ApiReturn setPlayRecord(PlayRecordDTO dto);
 
     ApiReturn clearPlayRecord(PlayClearRecordRequest playClearRecordRequest, String ipAddr);
 

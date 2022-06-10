@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 
 /**
  * 图片 FilmImageController
+ *
  * @author zhangyu
  * @since 2022-02-26
  */
@@ -27,13 +28,13 @@ public class FilmImageController extends BaseController {
     /**
      * 获取首页轮播图
      *
+     * @return com.zy.website.ApiReturn
      * @author zhangyu
      * @date 2022/4/9 11:23
-     * @return com.zy.website.ApiReturn
      */
     @RequestMapping(value = "carousel", method = RequestMethod.GET)
     public ApiReturn getCarousel() {
-        ApiReturn apiReturn =  filmImageService.getCarousel();
+        ApiReturn apiReturn = filmImageService.getCarousel();
         return apiReturn;
     }
 

@@ -1,6 +1,6 @@
 package com.zy.website.response;
 
-import com.zy.website.model.dto.PlayRecordDTO;
+import com.zy.website.model.PlayRecordModel;
 import lombok.Data;
 
 import java.util.List;
@@ -18,6 +18,6 @@ public class PlayRecordResponse extends FrontResponse{
     /***
       * 播放记录
       */
-    private List<PlayRecordDTO> playRecordList;
+    private List<PlayRecordModel> playRecordList;
 
 }

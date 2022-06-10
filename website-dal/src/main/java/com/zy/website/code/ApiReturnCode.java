@@ -25,7 +25,7 @@ public enum ApiReturnCode {
     USER_NEW_PWD_SUCCESS("10008", "重置密码成功,请使用新密码登录！"),
 
     NO_PLAY_RECORD_DATA("10009", "无播放记录"),
-
+    NO_FILM_INFO("10010", "视频信息不存在"),
 
 
     /**
