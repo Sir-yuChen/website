@@ -22,6 +22,7 @@
         <start-class>com.zy.website.WebsiteApplication</start-class>
         <!-- self -->
         <website.version>${project.version}</website.version>
+        <backstage.service.version>1.0.1-SNAPSHOT</backstage.service.version>
         <!-- doc help -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -54,6 +55,8 @@
         <zookeeper.version>3.6.2</zookeeper.version>
         <com.101tec.zkclient.version>0.3</com.101tec.zkclient.version>
         <webmagic.version>0.7.3</webmagic.version>
+        <com.alibaba.dubbo.version>2.5.3</com.alibaba.dubbo.version>
+
     </properties>
 
     <dependencyManagement>
@@ -94,11 +97,29 @@
                 <artifactId>website-biz</artifactId>
                 <version>${website.version}</version>
             </dependency>
+            <!-- dubbo 依赖项目-->
+            <dependency>
+                <groupId>com.ant.backstage</groupId>
+                <artifactId>backstage_ant</artifactId>
+                <version>${backstage.service.version}</version>
+            </dependency>
             <!-- ====================  springboot starter ==================== -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.starter.version}</version>
+            </dependency>
+            <!-- springboot 整合dubbo xml-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                </exclusions>
+                <version>${com.alibaba.dubbo.version}</version>
             </dependency>
             <!--        springboot2.3.1.RELEASE 没有自动引入 validation对应的包，所以要想使用校验功能要手动引入包。-->
             <dependency>
@@ -292,15 +313,15 @@
                 <configuration>
                     <classifier>exec</classifier>
                 </configuration>
-<!--                todo 打包-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>website-service</id>-->
-<!--                        <goals>-->
-<!--                            <goal></goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
+                <!--                todo 打包-->
+                <!--                <executions>-->
+                <!--                    <execution>-->
+                <!--                        <id>website-service</id>-->
+                <!--                        <goals>-->
+                <!--                            <goal></goal>-->
+                <!--                        </goals>-->
+                <!--                    </execution>-->
+                <!--                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

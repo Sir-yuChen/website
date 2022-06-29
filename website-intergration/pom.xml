@@ -10,6 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>website-intergration</artifactId>
+    <!-- ==================== self ==================== -->
+    <dependencies>
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-dal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-biz</artifactId>
+        </dependency>
 
+    </dependencies>
 
 </project>
