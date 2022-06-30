@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.PersonInfoModel;
+import com.zy.website.facade.model.PersonInfoModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

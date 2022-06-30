@@ -1,8 +1,8 @@
 package com.zy.website.service.impl;
 
-import com.zy.website.model.PersonInfoModel;
 import com.zy.website.mapper.PersonInfoMapper;
 import com.zy.website.service.PersonInfoService;
+import com.zy.website.facade.model.PersonInfoModel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

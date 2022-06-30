@@ -1,6 +1,6 @@
 package com.zy.website.service;
 
-import com.zy.website.model.TypeRelationFilmModel;
+import com.zy.website.facade.model.TypeRelationFilmModel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

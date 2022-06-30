@@ -2,8 +2,8 @@ package com.zy.website.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zy.website.mapper.ProxyIpMapper;
-import com.zy.website.model.ProxyIpModel;
 import com.zy.website.service.ProxyIpService;
+import com.zy.website.facade.model.ProxyIpModel;
 import com.zy.website.service.processor.ProxyIpPageProcessor;
 import com.zy.website.service.processor.ProxyIpPipeline;
 import org.apache.logging.log4j.LogManager;

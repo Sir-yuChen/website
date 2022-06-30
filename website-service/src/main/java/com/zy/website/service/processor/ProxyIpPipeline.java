@@ -2,11 +2,11 @@ package com.zy.website.service.processor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zy.website.mapper.ProxyIpMapper;
-import com.zy.website.model.ProxyIpModel;
-import com.zy.website.model.dto.IpJsonDTO;
+import com.zy.website.utils.spring.ApplicationContextUtil;
+import com.zy.website.facade.model.ProxyIpModel;
+import com.zy.website.facade.model.dto.IpJsonDTO;
 import com.zy.website.utils.NetStateUtil;
 import com.zy.website.utils.RestTemplateUtils;
-import com.zy.website.utils.spring.ApplicationContextUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -3,7 +3,7 @@
 <mapper namespace="com.zy.website.mapper.PlayRecordMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zy.website.model.PlayRecordModel">
+    <resultMap id="BaseResultMap" type="PlayRecordModel">
         <id column="id" property="id" />
         <result column="play_film_uid" property="playFilmUid" />
         <result column="play_time" property="playTime" />

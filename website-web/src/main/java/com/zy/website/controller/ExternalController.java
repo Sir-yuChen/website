@@ -2,7 +2,7 @@ package com.zy.website.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zy.website.ApiReturn;
+import com.zy.website.facade.ApiReturn;
 import com.zy.website.service.ExternalService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,7 @@ public class ExternalController extends BaseController {
     /**
      * 友链
      *
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      * @author zhangyu
      * @date 2022/4/9 13:48
      */

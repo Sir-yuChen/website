@@ -167,7 +167,7 @@ public class MybatisPlusGenerator {
         packageInfo.put(ConstVal.CONTROLLER, "com.zy.website.controller");
         packageInfo.put(ConstVal.SERVICE, "com.zy.website.service");
         packageInfo.put(ConstVal.SERVICE_IMPL, "com.zy.website.service.impl");
-        packageInfo.put(ConstVal.ENTITY, "com.zy.website.model");
+        packageInfo.put(ConstVal.ENTITY, "com.zy.website.facade.model");
         packageInfo.put(ConstVal.MAPPER, "com.zy.website.mapper");
 
         /**

@@ -3,7 +3,7 @@
 <mapper namespace="com.zy.website.mapper.FilmMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zy.website.model.FilmModel">
+    <resultMap id="BaseResultMap" type="FilmModel">
         <id column="id" property="id" />
         <result column="film_uid" property="filmUid" />
         <result column="film_status" property="filmStatus" />

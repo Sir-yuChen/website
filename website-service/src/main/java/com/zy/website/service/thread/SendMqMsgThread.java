@@ -1,7 +1,7 @@
 package com.zy.website.service.thread;
 
-import com.zy.website.service.impl.FilmServiceImpl;
 import com.zy.website.utils.spring.ApplicationContextUtil;
+import com.zy.website.service.impl.FilmServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.MessageDeliveryMode;

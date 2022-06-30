@@ -2,7 +2,7 @@ package com.zy.website.service.impl;
 
 import com.rabbitmq.client.Channel;
 import com.zy.website.service.FilmService;
-import com.zy.website.variable.MqConstant;
+import com.zy.website.facade.variable.MqConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.Message;

@@ -1,6 +1,6 @@
 package com.zy.website.service;
 
-import com.zy.website.model.ProxyIpModel;
+import com.zy.website.facade.model.ProxyIpModel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

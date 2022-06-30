@@ -1,6 +1,6 @@
 package com.zy.website.config.mq;
 
-import com.zy.website.variable.MqConstant;
+import com.zy.website.facade.variable.MqConstant;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

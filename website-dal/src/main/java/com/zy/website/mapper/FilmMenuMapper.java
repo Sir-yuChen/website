@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.FilmMenuModel;
+import com.zy.website.facade.model.FilmMenuModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

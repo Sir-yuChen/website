@@ -1,11 +1,11 @@
 package com.zy.website.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zy.website.ApiReturn;
-import com.zy.website.model.PlayRecordModel;
-import com.zy.website.model.dto.PlayRecordDTO;
-import com.zy.website.request.PlayClearRecordRequest;
-import com.zy.website.response.PlayRecordResponse;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.model.PlayRecordModel;
+import com.zy.website.facade.model.dto.PlayRecordDTO;
+import com.zy.website.facade.request.PlayClearRecordRequest;
+import com.zy.website.facade.response.PlayRecordResponse;
 
 /**
  * @author zhangyu

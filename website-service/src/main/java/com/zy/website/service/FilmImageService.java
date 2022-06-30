@@ -1,8 +1,8 @@
 package com.zy.website.service;
 
-import com.zy.website.ApiReturn;
-import com.zy.website.model.FilmImageModel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.model.FilmImageModel;
 
 /**
  * <p>

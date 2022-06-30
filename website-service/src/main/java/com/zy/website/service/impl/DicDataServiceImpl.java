@@ -1,8 +1,8 @@
 package com.zy.website.service.impl;
 
-import com.zy.website.model.DicDataModel;
 import com.zy.website.mapper.DicDataMapper;
 import com.zy.website.service.DicDataService;
+import com.zy.website.facade.model.DicDataModel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

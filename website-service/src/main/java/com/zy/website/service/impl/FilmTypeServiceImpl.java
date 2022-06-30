@@ -1,8 +1,8 @@
 package com.zy.website.service.impl;
 
-import com.zy.website.model.FilmTypeModel;
 import com.zy.website.mapper.FilmTypeMapper;
 import com.zy.website.service.FilmTypeService;
+import com.zy.website.facade.model.FilmTypeModel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

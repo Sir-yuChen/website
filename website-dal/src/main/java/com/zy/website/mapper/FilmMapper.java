@@ -1,7 +1,7 @@
 package com.zy.website.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zy.website.model.FilmModel;
+import com.zy.website.facade.model.FilmModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

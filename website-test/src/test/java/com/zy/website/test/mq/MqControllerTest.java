@@ -1,9 +1,9 @@
 package com.zy.website.test.mq;
 
-import com.zy.website.service.impl.MsgProductionService;
 import com.zy.website.test.BaseTest;
+import com.zy.website.service.impl.MsgProductionService;
 import com.zy.website.utils.UUIDGenerator;
-import com.zy.website.variable.MqConstant;
+import com.zy.website.facade.variable.MqConstant;
 import org.junit.Test;
 
 import javax.annotation.Resource;

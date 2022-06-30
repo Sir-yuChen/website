@@ -1,11 +1,11 @@
 package com.zy.website.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zy.website.ApiReturn;
-import com.zy.website.model.FilmModel;
-import com.zy.website.model.dto.NoticeDTO;
-import com.zy.website.request.FilmSearchBarRequest;
-import com.zy.website.response.TopFilmResponse;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.model.FilmModel;
+import com.zy.website.facade.model.dto.NoticeDTO;
+import com.zy.website.facade.request.FilmSearchBarRequest;
+import com.zy.website.facade.response.TopFilmResponse;
 
 import java.util.List;
 

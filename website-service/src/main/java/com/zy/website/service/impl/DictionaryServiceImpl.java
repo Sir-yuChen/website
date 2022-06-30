@@ -1,8 +1,8 @@
 package com.zy.website.service.impl;
 
-import com.zy.website.model.DictionaryModel;
 import com.zy.website.mapper.DictionaryMapper;
 import com.zy.website.service.DictionaryService;
+import com.zy.website.facade.model.DictionaryModel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

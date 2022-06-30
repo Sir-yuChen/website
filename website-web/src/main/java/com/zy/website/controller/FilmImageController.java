@@ -1,7 +1,7 @@
 package com.zy.website.controller;
 
 
-import com.zy.website.ApiReturn;
+import com.zy.website.facade.ApiReturn;
 import com.zy.website.service.FilmImageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class FilmImageController extends BaseController {
     /**
      * 获取首页轮播图
      *
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      * @author zhangyu
      * @date 2022/4/9 11:23
      */

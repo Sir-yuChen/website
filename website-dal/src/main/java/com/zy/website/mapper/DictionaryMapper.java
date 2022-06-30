@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.DictionaryModel;
+import com.zy.website.facade.model.DictionaryModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

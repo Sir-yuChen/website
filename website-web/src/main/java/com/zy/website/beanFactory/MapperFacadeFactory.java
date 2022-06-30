@@ -1,9 +1,9 @@
 package com.zy.website.beanFactory;
 
-import com.zy.website.model.FilmMenuModel;
-import com.zy.website.model.FilmModel;
-import com.zy.website.model.dto.FilmInfoDTO;
-import com.zy.website.model.dto.MenuDTO;
+import com.zy.website.facade.model.FilmMenuModel;
+import com.zy.website.facade.model.FilmModel;
+import com.zy.website.facade.model.dto.FilmInfoDTO;
+import com.zy.website.facade.model.dto.MenuDTO;
 import com.zy.website.utils.DateUtil;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;

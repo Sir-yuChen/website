@@ -161,6 +161,19 @@ api[0].list[11].list.push({
     url: 'http://localhost:8090/proxyIp/getIp',
     desc: '批量爬取IP',
 });
+api[0].list.push({
+    alias: 'VerifyController',
+    order: '13',
+    link: '校验_verifycontroller',
+    desc: '校验 VerifyController',
+    list: []
+})
+api[0].list[12].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/verify/captcha',
+    desc: '随机验证码',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

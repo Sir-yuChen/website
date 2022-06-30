@@ -26,7 +26,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
         <dependency>
             <groupId>com.jcraft</groupId>

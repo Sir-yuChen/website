@@ -2,11 +2,11 @@ package com.zy.website.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zy.website.ApiReturn;
-import com.zy.website.model.dto.PlayRecordDTO;
-import com.zy.website.request.PlayClearRecordRequest;
-import com.zy.website.request.PlayRecordRequest;
-import com.zy.website.response.PlayRecordResponse;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.model.dto.PlayRecordDTO;
+import com.zy.website.facade.request.PlayClearRecordRequest;
+import com.zy.website.facade.request.PlayRecordRequest;
+import com.zy.website.facade.response.PlayRecordResponse;
 import com.zy.website.service.PlayRecordService;
 import com.zy.website.utils.NetUtils;
 import ma.glasnost.orika.MapperFacade;
@@ -41,7 +41,7 @@ public class PlayRecordController extends BaseController {
      * 获取视频播放记录
      *
      * @param request
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      * @author zhangyu
      * @date 2022/3/1 16:42
      */
@@ -85,7 +85,7 @@ public class PlayRecordController extends BaseController {
      * @param playClearRecordRequest
      * @description
      * @date 2022/4/9 13:35
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      */
     @RequestMapping(value = "clearRecord", method = RequestMethod.POST)
     public ApiReturn clearPlayRecord(@RequestBody PlayClearRecordRequest playClearRecordRequest,HttpServletRequest request) {
