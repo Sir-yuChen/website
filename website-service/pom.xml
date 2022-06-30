@@ -20,6 +20,15 @@
             <groupId>com.zy.website</groupId>
             <artifactId>website-dal</artifactId>
         </dependency>
+        <!-- springboot 整合dubbo xml-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ant.backstage</groupId>
+            <artifactId>backstage_ant</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
