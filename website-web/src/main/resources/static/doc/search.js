@@ -174,6 +174,12 @@ api[0].list[12].list.push({
     url: 'http://localhost:8090/api/verify/captcha',
     desc: '随机验证码',
 });
+api[0].list[12].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/verify/checkCaptcha',
+    desc: '验证码校验',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

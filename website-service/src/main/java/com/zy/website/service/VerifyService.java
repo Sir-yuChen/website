@@ -1,8 +1,8 @@
 package com.zy.website.service;
 
 import com.zy.website.facade.ApiReturn;
-
-import javax.servlet.http.HttpServletRequest;
+import com.zy.website.facade.request.CaptchaRequest;
+import com.zy.website.facade.request.ChekCaptchaRequest;
 
 /**
  * @param $
@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
  * @since
  **/
 public interface VerifyService {
-    ApiReturn getVerifyCode(HttpServletRequest request);
+    ApiReturn getVerifyCode(String ipAddress, CaptchaRequest captchaRequest);
+
+    ApiReturn checkVerifyCode(String ipAddress, ChekCaptchaRequest chekCaptchaRequest);
 
 }

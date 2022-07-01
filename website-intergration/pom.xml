@@ -22,7 +22,6 @@
             <groupId>com.ant.backstage</groupId>
             <artifactId>facade</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

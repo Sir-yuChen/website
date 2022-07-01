@@ -3,6 +3,7 @@ package com.zy.website.aop;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.zy.website.utils.DateUtil;
+import com.zy.website.utils.IpAddrUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -77,7 +78,7 @@ public class LogServiceAspect {
         }
         logger.info("请求地址 requestURL=【{}】", requestURI);
         logger.info("请求方式 requestMODE=【{}】", httpServletRequest.getMethod());
-        logger.info("请求 IP  requestIP=【{}】", httpServletRequest.getRemoteAddr());
+        logger.info("请求 IP  requestIP=【{}】", IpAddrUtil.getIpAddress(httpServletRequest));
         logger.info("请求时间 requestTime=【{}】", DateUtil.format(new Date(), DateUtil.YYYY_MM_DD_HHMMSS));
         logger.info("请求方法 requestTime=【{}】", method.getName());
         logger.info("请求参数 requestParams=【{}】", requestParams);
