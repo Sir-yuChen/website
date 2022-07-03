@@ -31,10 +31,11 @@ public class VerifyServiceImpl implements VerifyService {
         ApiReturn aReturn = null;
         try {
             GetVerificationCodeRequest verificationCodeRequest = new GetVerificationCodeRequest();
-            verificationCodeRequest.setUname(captchaRequest.getUserUid());
+            verificationCodeRequest.setUname(captchaRequest.getUserName());
             verificationCodeRequest.setContactType(captchaRequest.getType());
             verificationCodeRequest.setCurrentIp(ipAddress);
             com.ant.backstage.facade.ApiReturn apiReturn = verficationFacadeService.getVerificationCode(verificationCodeRequest);
+
             aReturn = mapperFacade.map(apiReturn, com.zy.website.facade.ApiReturn.class);
         } catch (Exception e) {
             logger.error("验证码获取异常");

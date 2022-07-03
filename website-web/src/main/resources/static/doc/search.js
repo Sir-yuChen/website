@@ -162,19 +162,38 @@ api[0].list[11].list.push({
     desc: '批量爬取IP',
 });
 api[0].list.push({
-    alias: 'VerifyController',
+    alias: 'UserController',
     order: '13',
-    link: '校验_verifycontroller',
-    desc: '校验 VerifyController',
+    link: '用户相关_usercontroller',
+    desc: '用户相关 UserController',
     list: []
 })
 api[0].list[12].list.push({
     order: '1',
     deprecated: 'false',
+    url: 'http://localhost:8090/api/user/login',
+    desc: '用户登录',
+});
+api[0].list[12].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/user/logout',
+    desc: '用户退登',
+});
+api[0].list.push({
+    alias: 'VerifyController',
+    order: '14',
+    link: '校验_verifycontroller',
+    desc: '校验 VerifyController',
+    list: []
+})
+api[0].list[13].list.push({
+    order: '1',
+    deprecated: 'false',
     url: 'http://localhost:8090/api/verify/captcha',
     desc: '随机验证码',
 });
-api[0].list[12].list.push({
+api[0].list[13].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8090/api/verify/checkCaptcha',

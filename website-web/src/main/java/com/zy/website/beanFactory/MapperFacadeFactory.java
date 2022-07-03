@@ -68,7 +68,6 @@ public class MapperFacadeFactory implements FactoryBean<MapperFacade> {
                     }
                 }).byDefault().register();
 
-
         return factory;
     }
 

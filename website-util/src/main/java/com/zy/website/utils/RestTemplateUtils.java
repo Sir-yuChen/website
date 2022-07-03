@@ -24,11 +24,10 @@ import java.util.*;
 public final class RestTemplateUtils {
 
     private static Logger logger = LogManager.getLogger(RestTemplateUtils.class);
-
     @Resource
     private RestTemplate httpClientTemplate;
 
- /*   @Resource
+/*    @Resource
     public void setHttpClientTemplate(RestTemplate httpClientTemplate) {
         this.httpClientTemplate = httpClientTemplate;
     }*/
@@ -113,7 +112,6 @@ public final class RestTemplateUtils {
             StringBuilder sb = new StringBuilder(url);
             params.forEach(o2 -> sb.append("/").append(o2));
             url = sb.toString().replaceAll("&$+|\\?$+", "");
-            logger.info("REST 请求URL={}", url);
             ResponseEntity<T> exchange = httpClientTemplate.exchange(url, HttpMethod.GET, new HttpEntity(null, httpHeaders), clazz);
             return exchange.getBody();
         } catch (RestClientException e) {

@@ -34,7 +34,7 @@ public class HttpClientPoolConfig {
     /**
      * 重试次数,默认2次
      */
-    private int retryTimes = 2;
+    private int retryTimes = 3;
     /**
      * 从连接池获取连接的超时时间,不宜过长,单位ms
      */

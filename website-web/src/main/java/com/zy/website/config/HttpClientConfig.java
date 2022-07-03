@@ -1,5 +1,7 @@
 package com.zy.website.config;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.zy.website.interceptor.RestTemplateInterceptor;
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
@@ -28,6 +30,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -52,10 +55,13 @@ public class HttpClientConfig {
     @Autowired
     private HttpClientPoolConfig httpClientPoolConfig;
 
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
+
     /**
      * 创建HTTP客户端工厂
      */
@@ -83,13 +89,15 @@ public class HttpClientConfig {
     /**
      * 初始化RestTemplate,并加入spring的Bean工厂，由spring统一管理
      */
-//    @Bean(name = "httpClientTemplate")
-    @Bean
+    @Bean//(name = "httpClientTemplate")
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
+
         return createRestTemplate(factory);
     }
+
     /**
      * 配置httpClient
+     *
      * @return
      */
     @Bean
@@ -134,9 +142,10 @@ public class HttpClientConfig {
 
     /**
      * 配置长连接保持策略
+     *
      * @return
      */
-    public ConnectionKeepAliveStrategy connectionKeepAliveStrategy(){
+    public ConnectionKeepAliveStrategy connectionKeepAliveStrategy() {
         return (response, context) -> {
             // Honor 'keep-alive' header
             HeaderElementIterator it = new BasicHeaderElementIterator(
@@ -148,8 +157,8 @@ public class HttpClientConfig {
                 if (value != null && "timeout".equalsIgnoreCase(param)) {
                     try {
                         return Long.parseLong(value) * 1000;
-                    } catch(NumberFormatException ignore) {
-                        log.error("解析长连接过期时间异常",ignore);
+                    } catch (NumberFormatException ignore) {
+                        log.error("解析长连接过期时间异常", ignore);
                     }
                 }
             }
@@ -163,8 +172,6 @@ public class HttpClientConfig {
             return any.map(en -> en.getValue() * 1000L).orElse(httpClientPoolConfig.getKeepAliveTime() * 1000L);
         };
     }
-
-
 
 
     /**
@@ -192,7 +199,15 @@ public class HttpClientConfig {
 
         //设置错误处理器
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
-
+        //使用自定义的拦截器
+//        restTemplate.getInterceptors().add(new RestTemplateInterceptor());
+        List<ClientHttpRequestInterceptor> interceptors
+                = restTemplate.getInterceptors();
+        if (CollectionUtils.isEmpty(interceptors)) {
+            interceptors = new ArrayList<>();
+        }
+        interceptors.add(new RestTemplateInterceptor());
+        restTemplate.setInterceptors(interceptors);
         return restTemplate;
     }
 
