@@ -24,6 +24,24 @@ public class UserLoginRequest implements Serializable {
      * @since
      */
     private String pwd;
+    /***
+     * 验证码
+     * @mock 15286
+     * @since
+     */
+    private String verifyCode;
+    /***
+     * 验证类型
+     * @mock verifcation
+     * @since
+     */
+    private String type;
+    /***
+     * IP
+     * @mock  127.0.0.1
+     * @since
+     */
+    private String ip;
 
 
 

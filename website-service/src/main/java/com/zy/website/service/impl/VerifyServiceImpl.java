@@ -51,7 +51,7 @@ public class VerifyServiceImpl implements VerifyService {
             CheckVerifyCodeRequest request = new CheckVerifyCodeRequest();
             request.setCurrentIp(ipAddress);
             request.setContactType(chekCaptchaRequest.getType());
-            request.setUname(chekCaptchaRequest.getUserUid());
+            request.setUname(chekCaptchaRequest.getUserName());
             request.setVerifyCode(chekCaptchaRequest.getVerifyCode());
             com.ant.backstage.facade.ApiReturn apiReturn = verficationFacadeService.checkVerificationCode(request);
             aReturn = mapperFacade.map(apiReturn, ApiReturn.class);

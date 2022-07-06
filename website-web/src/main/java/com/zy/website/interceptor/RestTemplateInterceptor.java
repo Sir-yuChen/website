@@ -1,5 +1,6 @@
 package com.zy.website.interceptor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +13,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Optional;
+import java.util.List;
 
 //restTemple 请求拦截器
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
@@ -26,19 +28,24 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         traceRequest(request, body);
         //统一处理token
-        //获取Token
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes srat = (ServletRequestAttributes) requestAttributes;
         HttpServletRequest formRequest = srat.getRequest();
         String token = formRequest.getHeader("Authorization"); //获取header中的token
-        if (Optional.ofNullable(token).isPresent()) {
+        if (StringUtils.isNotBlank(token)) {
             //获取到request中的header头
             HttpHeaders headers = request.getHeaders();
             //放入token
             headers.add("Authorization", token);
         }
-
         ClientHttpResponse response = execution.execute(request, body);
+        HttpHeaders headers = response.getHeaders();
+        List<String> authorization = headers.get("Authorization");
+        if (authorization != null && authorization.size() > 0) {
+            HttpServletResponse httpResponse = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+            String resToken = authorization.get(0);
+            httpResponse.setHeader("Authorization", resToken);
+        }
         traceResponse(response);
         return execution.execute(request, body);
     }

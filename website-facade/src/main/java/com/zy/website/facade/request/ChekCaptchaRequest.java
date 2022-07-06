@@ -27,7 +27,7 @@ public class ChekCaptchaRequest  implements Serializable {
      * @mock zhangyu123
      * @since
      */
-    private String userUid;
+    private String userName;
     /***
      *  验证类型
      * @mock  verifcation

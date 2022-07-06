@@ -3,7 +3,6 @@ package com.zy.website.facade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zy.website.facade.code.ApiReturnCode;
-import com.zy.website.facade.response.FrontResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,9 +10,9 @@ import lombok.EqualsAndHashCode;
  * 统一返回实体类
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL) //为null的字段不返回
-public class ApiReturn<T> extends FrontResponse {
+public class ApiReturn<T> {
     @JsonIgnore
     private String resultCode;
     @JsonIgnore
@@ -57,8 +56,7 @@ public class ApiReturn<T> extends FrontResponse {
     /**
      * 设置返回的状态码及提示信息
      *
-     * @param apiReturnCode
-     *            前台返回值的枚举类
+     * @param apiReturnCode 前台返回值的枚举类
      */
     public void setApiReturnCode(ApiReturnCode apiReturnCode) {
         this.code = apiReturnCode.getCode();

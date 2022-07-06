@@ -7,4 +7,7 @@ public interface UserService {
     ApiReturn userLogin(UserLoginRequest request);
 
     ApiReturn userLogout();
+
+    ApiReturn queryCurrentUser(String token);
+
 }
