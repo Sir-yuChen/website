@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
  * @author zhangyu
  * @since 2022-02-26
  */
@@ -25,9 +24,9 @@ import java.util.Date;
 @TableName("t_film_image")
 public class FilmImageModel extends Model<FilmImageModel> {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -83,6 +82,11 @@ public class FilmImageModel extends Model<FilmImageModel> {
      */
     @TableField("img_remark")
     private String imgRemark;
+    /**
+     * 备注
+     */
+    @TableField("img_url")
+    private String imgUrl;
 
     /**
      * 创建时间

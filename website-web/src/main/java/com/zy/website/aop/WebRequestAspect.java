@@ -8,6 +8,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@Order(1)//多个aop执行顺序 也可以实现Ordered接口 返回顺序值
 public class WebRequestAspect {
 
     private static Logger logger = LogManager.getLogger(WebRequestAspect.class);

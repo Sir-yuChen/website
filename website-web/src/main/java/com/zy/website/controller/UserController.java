@@ -27,7 +27,7 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserController extends BaseController {
 
-    private static Logger logger = LogManager.getLogger(VerifyController.class);
+    private static Logger logger = LogManager.getLogger(UserController.class);
 
     @Resource
     UserService userService;

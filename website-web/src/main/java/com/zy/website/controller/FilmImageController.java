@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @since 2022-02-26
  */
 @RestController
-@RequestMapping("/filmImage")
+@RequestMapping("/api/filmImage")
 public class FilmImageController extends BaseController {
     private static Logger logger = LogManager.getLogger(PlayRecordController.class);
 
@@ -37,6 +37,5 @@ public class FilmImageController extends BaseController {
         ApiReturn apiReturn = filmImageService.getCarousel();
         return apiReturn;
     }
-
 }
 

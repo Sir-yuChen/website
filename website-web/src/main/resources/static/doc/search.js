@@ -73,7 +73,7 @@ api[0].list.push({
 api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8090/filmImage/carousel',
+    url: 'http://localhost:8090/api/filmImage/carousel',
     desc: '获取首页轮播图',
 });
 api[0].list.push({
@@ -162,38 +162,69 @@ api[0].list[11].list.push({
     desc: '批量爬取IP',
 });
 api[0].list.push({
-    alias: 'UserController',
+    alias: 'RateLimiterController',
     order: '13',
+    link: '令牌限流测试_ratelimitercontroller',
+    desc: '令牌限流测试 RateLimiterController',
+    list: []
+})
+api[0].list[12].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8090/ratelimiter/open',
+    desc: '开启限流【10QPS,策略一】',
+});
+api[0].list[12].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8090/ratelimiter/open2',
+    desc: '开启限流【10QPS,策略二】',
+});
+api[0].list[12].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:8090/ratelimiter/close',
+    desc: '未开启限流',
+});
+api[0].list.push({
+    alias: 'UserController',
+    order: '14',
     link: '用户相关_usercontroller',
     desc: '用户相关 UserController',
     list: []
 })
-api[0].list[12].list.push({
+api[0].list[13].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/api/user/login',
     desc: '用户登录',
 });
-api[0].list[12].list.push({
+api[0].list[13].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8090/api/user/logout',
     desc: '用户退登',
 });
+api[0].list[13].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:8090/api/user/queryCurrentUser',
+    desc: '获取用户信息',
+});
 api[0].list.push({
     alias: 'VerifyController',
-    order: '14',
+    order: '15',
     link: '校验_verifycontroller',
     desc: '校验 VerifyController',
     list: []
 })
-api[0].list[13].list.push({
+api[0].list[14].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8090/api/verify/captcha',
     desc: '随机验证码',
 });
-api[0].list[13].list.push({
+api[0].list[14].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8090/api/verify/checkCaptcha',

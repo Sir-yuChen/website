@@ -57,6 +57,7 @@
         <com.101tec.zkclient.version>0.3</com.101tec.zkclient.version>
         <webmagic.version>0.7.3</webmagic.version>
         <spring.boot.dubbo.version>2.0.0</spring.boot.dubbo.version>
+        <google.guava.version>28.2-jre</google.guava.version>
 
     </properties>
 
@@ -107,18 +108,6 @@
                         <groupId>com.ant.backstage</groupId>
                         <artifactId>util</artifactId>
                     </exclusion>
-                   <!-- <exclusion>
-                        <groupId>com.ant.backstage</groupId>
-                        <artifactId>web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-ehcache</artifactId>
-                    </exclusion>-->
                 </exclusions>
                 <version>${backstage.service.version}</version>
             </dependency>
@@ -302,6 +291,12 @@
                 <groupId>us.codecraft</groupId>
                 <artifactId>webmagic-extension</artifactId>
                 <version>${webmagic.version}</version>
+            </dependency>
+            <!--guava RateLimiter限流-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -26,7 +26,7 @@ public class FilmImageServiceImpl extends ServiceImpl<FilmImageMapper, FilmImage
 
     @Override
     public ApiReturn getCarousel() {
-        //轮播图 8张
+        //轮播图 6张
         ApiReturn apiReturn = new ApiReturn();
         apiReturn.setCode(ApiReturnCode.SUCCESSFUL.getCode());
         apiReturn.setMsg(ApiReturnCode.SUCCESSFUL.getMessage());
@@ -34,7 +34,7 @@ public class FilmImageServiceImpl extends ServiceImpl<FilmImageMapper, FilmImage
         queryWrapper.lambda().eq(FilmImageModel::getImgStatus, WebsiteStatusEnum.STATUS_MENU_Y.getCode())
                 .eq(FilmImageModel::getImgType, FilmImageEnum.CAROUSEL.getCode())
                 .orderByDesc(FilmImageModel::getCreactTime)
-                .last("limit 8");
+                .last("limit 6");
         List<FilmImageModel> filmImageModels = filmImageMapper.selectList(queryWrapper);
         if (filmImageModels == null) {
             apiReturn.setCode(ApiReturnCode.NO_DATA.getCode());
