@@ -3,7 +3,7 @@
 <mapper namespace="com.zy.website.mapper.DictionaryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zy.website.model.DictionaryModel">
+    <resultMap id="BaseResultMap" type="DictionaryModel">
         <id column="id" property="id" />
         <result column="dic_type_uid" property="dicTypeUid" />
         <result column="dic_type_key" property="dicTypeKey" />

@@ -62,6 +62,22 @@
             <artifactId>jsoup</artifactId>
             <version>1.11.3</version>
         </dependency>
+
+
     </dependencies>
+
+    <build>
+        <!--      生成的jar包不能被依赖，需要spring-boot-maven-plugin需要成可执行jar包  -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

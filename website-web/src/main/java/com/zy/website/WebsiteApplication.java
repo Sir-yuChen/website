@@ -10,8 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ImportResource;
 
 @MapperScan("com.zy.website.mapper")
+@ImportResource("classpath:/spring/applicationContext-dubbo-consumer.xml") //莫要忘记引入对应模块，否者找不到资源
 @ServletComponentScan //war
 @SpringBootApplication
 @EnableJobClient        //JobClient      lts

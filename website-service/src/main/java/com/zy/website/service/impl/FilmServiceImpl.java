@@ -1,22 +1,22 @@
 package com.zy.website.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zy.website.ApiReturn;
-import com.zy.website.code.ApiReturnCode;
-import com.zy.website.enums.*;
-import com.zy.website.exception.WebsiteBusinessException;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.code.ApiReturnCode;
+import com.zy.website.facade.enums.*;
+import com.zy.website.facade.exception.WebsiteBusinessException;
+import com.zy.website.facade.model.*;
+import com.zy.website.facade.model.dto.*;
+import com.zy.website.facade.request.FilmSearchBarRequest;
+import com.zy.website.facade.response.FilmSearchBarResponse;
+import com.zy.website.facade.response.TopFilmResponse;
+import com.zy.website.facade.variable.MqConstant;
+import com.zy.website.facade.variable.Variable;
 import com.zy.website.mapper.*;
-import com.zy.website.model.*;
-import com.zy.website.model.dto.FilmInfoExternalDTO;
-import com.zy.website.model.dto.FilmInfoExternalDataDTO;
-import com.zy.website.model.dto.MenuDTO;
-import com.zy.website.model.dto.NoticeDTO;
-import com.zy.website.request.FilmSearchBarRequest;
-import com.zy.website.response.FilmSearchBarResponse;
-import com.zy.website.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
 import com.zy.website.service.thread.LargeDataThread;
 import com.zy.website.utils.DateUtil;
@@ -24,8 +24,6 @@ import com.zy.website.utils.RedisUtil;
 import com.zy.website.utils.RestTemplateUtils;
 import com.zy.website.utils.UUIDGenerator;
 import com.zy.website.utils.multi.FileUtils;
-import com.zy.website.variable.MqConstant;
-import com.zy.website.variable.Variable;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -44,7 +42,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * 服务实现类
@@ -109,20 +106,20 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             FilmLeaderboardEnum byCode = FilmLeaderboardEnum.getByCode(code);
             if (byCode == null) {
                 logger.error("枚举值获取异常 未定义 code={}", code);
-//                throw new WebsiteBusinessException(ApiReturnCode.HTTP_ERROR.getMessage(), ApiReturnCode.HTTP_ERROR.getCode());
                 return;
             }
             switch (byCode) {
                 case LEADERBOARD_ALL_NOTICE:   //所有榜单
                     //  所有榜单数据  使用异步执行多个方法
                     try {
+                        noticeDTOS.clear();//查询所以保证返回的集合为null，避免数据重复
                         CompletableFuture<NoticeDTO> filmDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_FILM_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> varietyDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_VARIETY_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> cartoonDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_CARTOON_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> usdramaDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_USDRAMA_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> hitDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_HIT_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> scoreDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getCode()));
-                        CompletableFuture<NoticeDTO> episodeDto = CompletableFuture.supplyAsync(() -> getFilmNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> varietyDto = CompletableFuture.supplyAsync(() -> getVarietyNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_VARIETY_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> cartoonDto = CompletableFuture.supplyAsync(() -> getCartoonNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_CARTOON_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> usdramaDto = CompletableFuture.supplyAsync(() -> getUsdramaNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_USDRAMA_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> hitDto = CompletableFuture.supplyAsync(() -> getHitNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_HIT_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> scoreDto = CompletableFuture.supplyAsync(() -> getScoreNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getCode()));
+                        CompletableFuture<NoticeDTO> episodeDto = CompletableFuture.supplyAsync(() -> getEpisodeNoticeData(Variable.REDIS_NOTICES_KEY, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getCode()));
                         CompletableFuture.allOf(filmDto, varietyDto, cartoonDto, usdramaDto, hitDto, scoreDto, episodeDto).join();
                         noticeDTOS.add(filmDto.get());
                         noticeDTOS.add(varietyDto.get());
@@ -135,6 +132,8 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                     } catch (Exception e) {
                         logger.error("所有视频榜单数据获取异常", e);
                     }
+                    // todo 如果FILM_ALL_NOTICE 标识，这不在执行其它标识下代码打断所以循环
+
                     break;
                 case LEADERBOARD_FILM_NOTICE:   //电影总榜
                     NoticeDTO filmDto = this.getFilmNoticeData(Variable.REDIS_NOTICES_KEY, code);
@@ -205,7 +204,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 filmResponse.setPageSize(filmModelPage.getSize());
                 filmResponse.setPageNum(filmModelPage.getCurrent());
                 filmResponse.setTotal(filmModelPage.getTotal());
-                data.add(filmResponse);
+                if (filmModelPage.getRecords().size() > 0) {
+                    data.add(filmResponse);
+                }
             }
             //明星
             Page<PersonInfoModel> personPage = new Page<>(filmSearchBarRequest.getPageNum(), filmSearchBarRequest.getPageSize());   //查询第pageNum页，每页pageSize条数据
@@ -225,7 +226,9 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                 personResponse.setPageSize(personInfoModelPage.getSize());
                 personResponse.setPageNum(personInfoModelPage.getCurrent());
                 personResponse.setTotal(personInfoModelPage.getTotal());
-                data.add(personResponse);
+                if (personInfoModelPage.getTotal() > 0) {
+                    data.add(personResponse);
+                }
             }
             logger.info("搜索框 搜索结果集合 data={}", JSONObject.toJSONString(data));
             apiReturn.setData(data);
@@ -262,14 +265,15 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             List<FilmModel> filmModel = filmMapper.selectFrontList(menu.getMenuMark());
             //拼装参数
             MenuDTO menuDTO = mapperFacade.map(menu, MenuDTO.class);
-            menuDTO.setChildList(filmModel);
-            if (filmModel != null) {
+            List<FilmInfoDTO> filmInfoDTOS = mapperFacade.mapAsList(filmModel, FilmInfoDTO.class);
+            menuDTO.setChildList(filmInfoDTOS);
+            if (filmInfoDTOS != null) {
                 menuDTOs.add(menuDTO);
             }
         });
-        List<MenuDTO> collect = menuDTOs.stream().sorted().collect(Collectors.toList());
-        logger.info("首页菜单类型 视频展示列表 数据集合collect={}", JSONObject.toJSONString(collect));
-        topFilmResponse.setTopFimlList(collect);
+        menuDTOs.stream().sorted(Comparator.comparing(MenuDTO::getMenuSequence));
+        logger.info("首页菜单类型 视频展示列表 数据集合menuDTOs={}", JSONObject.toJSONString(menuDTOs));
+        topFilmResponse.setTopFimlList(menuDTOs);
         return topFilmResponse;
     }
 
@@ -313,7 +317,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             filmNameList.forEach(filmName -> {
                 time.addAndGet(40);
                 //交换机 ，MQ内容，路由键这里没有实质作用 延迟时间单位S
-                msgProductionService.sendTimeoutMsg(MqConstant.MQ_WEBSITE_FILM_DELAY_EXCHANGE, filmName, UUIDGenerator.getUUIDReplace(), time.get());
+                msgProductionService.sendTimeoutMsg(UUIDGenerator.getUUIDReplace(), MqConstant.MQ_WEBSITE_FILM_DELAY_EXCHANGE, filmName, UUIDGenerator.getUUIDReplace(), time.get());
             });
             //删除本地文件  确认MQ中的所有延时消息已经处理完成 则删除文件
             FileUtils.deleteFile(DOWN_PATH + "//" + externalModel.getApiName() + ".text");
@@ -534,7 +538,7 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
                         filmTypeModel.setTypeAssort("TYPE");
                         filmTypeModel.setTypeName(split[i]);
                         filmTypeModel.setTypeRevealName(split[i]);
-                        filmTypeModel.setTypeMark(this.getRandomString(8));
+                        filmTypeModel.setTypeMark(getRandomString(8));
                         filmTypeMapper.insert(filmTypeModel);
                         typeRelationFilmModel.setTypeId(filmTypeModel.getId());
                         typeRelationFilmMapper.insert(typeRelationFilmModel);
@@ -695,7 +699,15 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
             noticeDTO.setNoticeData(redisNotice);
             return noticeDTO;
         }
-        List<FilmModel> filmModels = this.selectSqlData(typeCode, 20);
+        //1. 查分数 然后根据分数 筛选
+        List<FilmScoreModel> filmScoreModels = this.selectSocreSqlData(20);
+        List<FilmModel> filmModels = new ArrayList<>();
+        filmScoreModels.forEach(filmScoreModel -> {
+            QueryWrapper<FilmModel> query = new QueryWrapper<>();
+            query.lambda().eq(FilmModel::getFilmUid, filmScoreModel.getFilmUid());
+            FilmModel filmModel = filmMapper.selectOne(query);
+            filmModels.add(filmModel);
+        });
         noticeDTO.setNoticeData(filmModels);
         this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_SCORE_NOTICE.getOrder(), filmModels);
         return noticeDTO;
@@ -714,17 +726,27 @@ public class FilmServiceImpl extends ServiceImpl<FilmMapper, FilmModel> implemen
         }
         List<FilmModel> filmModels = this.selectSqlData(typeCode, 20);
         noticeDTO.setNoticeData(filmModels);
-        this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_FILM_NOTICE.getOrder(), filmModels);
+        this.setRedisNotice(redisKey, typeCode, FilmLeaderboardEnum.LEADERBOARD_EPISODE_NOTICE.getOrder(), filmModels);
         return noticeDTO;
     }
 
-
-    private List<FilmModel> selectSqlData(String typeCode, Integer number) {
+    private List<FilmModel> selectSqlData(String code, Integer number) {
+        //获取对应的视频分类标识
         QueryWrapper<FilmModel> query = new QueryWrapper<>();
-        // TODO 大数据了优化sql 条查 排序
-        query.lambda().eq(FilmModel::getFilmGenre, typeCode).orderByAsc(FilmModel::getFilmPlayCount).last("limit " + number);
-        List<FilmModel> filmModels = filmMapper.selectList(query);
+        LambdaQueryWrapper<FilmModel> last = query.lambda().orderByAsc(FilmModel::getFilmPlayCount).last("limit " + number);
+        FilmLeaderboardEnum enumObj = FilmLeaderboardEnum.getByCode(code);
+        if (Optional.ofNullable(enumObj.getTypeCode()).isPresent()) {
+            last.eq(FilmModel::getFilmGenre, enumObj.getTypeCode());
+        }
+        List<FilmModel> filmModels = filmMapper.selectList(last);
         return filmModels;
+    }
+    private List<FilmScoreModel> selectSocreSqlData(Integer number) {
+        //获取对应的视频分类标识
+        QueryWrapper<FilmScoreModel> query = new QueryWrapper<>();
+        query.lambda().orderByAsc(FilmScoreModel::getScoreRatio).last("limit " + number);
+        List<FilmScoreModel> filmScoreModels = filmScoreMapper.selectList(query);
+        return filmScoreModels;
     }
 
     //获取缓存中的排行榜信息

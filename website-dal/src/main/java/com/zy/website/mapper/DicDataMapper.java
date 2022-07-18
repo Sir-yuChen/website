@@ -1,7 +1,7 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.DicDataModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zy.website.facade.model.DicDataModel;
 
 /**
  * <p>

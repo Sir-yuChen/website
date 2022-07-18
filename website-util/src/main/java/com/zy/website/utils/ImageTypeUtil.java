@@ -39,7 +39,9 @@ public enum ImageTypeUtil {
             }
         }
         String contentType = getMIMETypeFromUrl(url);
-        if (contentType == null) return null;
+        if (contentType == null) {
+            return null;
+        }
         return mimeMapingSuffix(contentType);
     }
 

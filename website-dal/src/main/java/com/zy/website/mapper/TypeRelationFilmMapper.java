@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.TypeRelationFilmModel;
+import com.zy.website.facade.model.TypeRelationFilmModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

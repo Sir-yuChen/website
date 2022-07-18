@@ -1,16 +1,14 @@
 package com.zy.website.service;
 
-import com.zy.website.model.ExternalModel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.model.ExternalModel;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
- * @author zhangyu
- * @since 2022-03-02
+ * @author Administrator
  */
 public interface ExternalService extends IService<ExternalModel> {
+
+    ApiReturn getFriendLinks();
 
 }

@@ -1,11 +1,13 @@
 package com.zy.website.config.mq;
 
-import com.zy.website.variable.MqConstant;
+import com.zy.website.facade.variable.MqConstant;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -97,9 +99,29 @@ public class RabbitConfig {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
+        rabbitTemplate.setConfirmCallback(new MqConfirmCallback());//TODO-zy MQ回调方式二 单独实现 更加灵活
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setReturnCallback(new MqReturnCallBack());//消息回发
+        //rabbitTemplate.setChannelTransacted(true);//开启mq事务 生产勿用
         return rabbitTemplate;
     }
+    /**
+     * 实现多线程处理队列消息
+     * @RabbitListener默认是单线程监听队列
+     * 当线程消费消息容易引起消息处理缓慢，消息堆积，不能最大化利用硬件资源
+     * 可以通过配置mq工厂参数，增加并发量处理数据即可实现多线程处理监听队列，实现多线程处理消息
+     */
+    @Bean
+    public SimpleRabbitListenerContainerFactory containerFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer, ConnectionFactory connectionFactory){
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        // RabbitMQ默认是自动确认，这里改为手动确认消息
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 
+        factory.setConcurrentConsumers(10);
+        factory.setMaxConcurrentConsumers(10);
+        configurer.configure(factory,connectionFactory);
+        return factory;
+    }
     // --------------------------使用RabbitAdmin启动服务便创建交换机和队列--------------------------
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {

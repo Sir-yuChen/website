@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.PlayRecordModel;
+import com.zy.website.facade.model.PlayRecordModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

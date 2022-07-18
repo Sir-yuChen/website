@@ -3,7 +3,7 @@
 <mapper namespace="com.zy.website.mapper.DicDataMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zy.website.model.DicDataModel">
+    <resultMap id="BaseResultMap" type="DicDataModel">
         <id column="id" property="id" />
         <result column="dic_type_uid" property="dicTypeUid" />
         <result column="dic_sort" property="dicSort" />

@@ -1,6 +1,6 @@
 package com.zy.website.controller;
 
-import com.zy.website.response.MenuResponse;
+import com.zy.website.facade.response.MenuResponse;
 import com.zy.website.service.FilmMenuService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +27,7 @@ public class FilmMenuController extends BaseController {
     /**
      * 菜单加载
      * @author zhangyu
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      */
     @RequestMapping(value = "getTopMenu", method = RequestMethod.GET)
     public MenuResponse getTopMenu() {

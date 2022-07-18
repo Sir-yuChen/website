@@ -25,10 +25,14 @@
             <groupId>com.zy.website</groupId>
             <artifactId>website-dal</artifactId>
         </dependency>
-<!--        biz模块必须关联 否则lts执行为null-->
+        <!--        biz模块必须关联 否则lts执行为null-->
         <dependency>
             <groupId>com.zy.website</groupId>
             <artifactId>website-biz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zy.website</groupId>
+            <artifactId>website-intergration</artifactId>
         </dependency>
 
         <!-- ====================  springboot starter ==================== -->
@@ -63,15 +67,15 @@
             <artifactId>druid</artifactId>
         </dependency>
         <!--热部署-->
-      <!--  <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            &lt;!&ndash; 防止将依赖传递到其他模块中 &ndash;&gt;
-            <optional>true</optional>
-            &lt;!&ndash; 只在运行时起作用，打包时不打进去（防止线上执行打包后的程序，启动文件监听线程File Watcher，耗费大量的内存资源） &ndash;&gt;
-            <scope>runtime</scope>
-            <version>2.6.3</version>
-        </dependency>-->
+        <!--  <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-devtools</artifactId>
+              &lt;!&ndash; 防止将依赖传递到其他模块中 &ndash;&gt;
+              <optional>true</optional>
+              &lt;!&ndash; 只在运行时起作用，打包时不打进去（防止线上执行打包后的程序，启动文件监听线程File Watcher，耗费大量的内存资源） &ndash;&gt;
+              <scope>runtime</scope>
+              <version>2.6.3</version>
+          </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -121,6 +125,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 

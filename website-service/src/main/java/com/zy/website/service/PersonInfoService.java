@@ -1,6 +1,6 @@
 package com.zy.website.service;
 
-import com.zy.website.model.PersonInfoModel;
+import com.zy.website.facade.model.PersonInfoModel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

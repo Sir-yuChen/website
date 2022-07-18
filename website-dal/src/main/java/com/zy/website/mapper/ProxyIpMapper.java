@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.ProxyIpModel;
+import com.zy.website.facade.model.ProxyIpModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

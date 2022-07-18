@@ -1,8 +1,8 @@
 package com.zy.website.service.impl;
 
-import com.zy.website.model.TypeRelationFilmModel;
 import com.zy.website.mapper.TypeRelationFilmMapper;
 import com.zy.website.service.TypeRelationFilmService;
+import com.zy.website.facade.model.TypeRelationFilmModel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

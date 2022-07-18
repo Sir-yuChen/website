@@ -4,16 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zy.website.code.ApiReturnCode;
-import com.zy.website.model.dto.MenuDTO;
-import com.zy.website.enums.MenuTypeEnum;
-import com.zy.website.exception.WebsiteBusinessException;
+import com.zy.website.facade.code.ApiReturnCode;
 import com.zy.website.mapper.FilmMenuMapper;
-import com.zy.website.model.FilmMenuModel;
-import com.zy.website.response.MenuResponse;
 import com.zy.website.service.FilmMenuService;
+import com.zy.website.facade.model.dto.MenuDTO;
+import com.zy.website.facade.enums.MenuTypeEnum;
+import com.zy.website.facade.exception.WebsiteBusinessException;
+import com.zy.website.facade.model.FilmMenuModel;
+import com.zy.website.facade.response.MenuResponse;
 import com.zy.website.utils.RedisUtil;
-import com.zy.website.variable.Variable;
+import com.zy.website.facade.variable.Variable;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -108,7 +108,7 @@ public class FilmMenuServiceImpl extends ServiceImpl<FilmMenuMapper, FilmMenuMod
 
     public MenuDTO getMenuChild(MenuDTO menu,List<MenuDTO> filmMenuModels){
         filmMenuModels.forEach(item->{
-            if (menu.getId() == item.getParentId()) {
+            if (menu.getId().equals(item.getParentId())) {
                 if (menu.getMenuIsChild() && menu.getChildList() == null ) {
                     menu.setChildList(new ArrayList<MenuDTO>());
                 }

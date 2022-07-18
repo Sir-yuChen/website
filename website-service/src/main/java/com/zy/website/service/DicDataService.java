@@ -1,6 +1,6 @@
 package com.zy.website.service;
 
-import com.zy.website.model.DicDataModel;
+import com.zy.website.facade.model.DicDataModel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

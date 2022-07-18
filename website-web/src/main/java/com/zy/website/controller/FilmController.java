@@ -1,13 +1,13 @@
 package com.zy.website.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zy.website.ApiReturn;
-import com.zy.website.code.ApiReturnCode;
-import com.zy.website.model.FilmModel;
-import com.zy.website.model.dto.NoticeDTO;
-import com.zy.website.request.FilmSearchBarRequest;
-import com.zy.website.response.NoticeResponse;
-import com.zy.website.response.TopFilmResponse;
+import com.zy.website.facade.ApiReturn;
+import com.zy.website.facade.code.ApiReturnCode;
+import com.zy.website.facade.model.FilmModel;
+import com.zy.website.facade.model.dto.NoticeDTO;
+import com.zy.website.facade.request.FilmSearchBarRequest;
+import com.zy.website.facade.response.NoticeResponse;
+import com.zy.website.facade.response.TopFilmResponse;
 import com.zy.website.service.FilmService;
 import com.zy.website.service.impl.FileService;
 import org.apache.logging.log4j.LogManager;
@@ -35,10 +35,12 @@ public class FilmController extends BaseController {
     //@deprecated 弃用注解 smart-doc
     @Resource
     FileService fileService;
+
     /**
      * 视频详情[单查]
+     *
      * @param uid 视频唯一UID|5f968bfcee3680299115bbe6
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      * @author zhangyu
      * @date 2022/2/26 10:36
      */
@@ -47,15 +49,20 @@ public class FilmController extends BaseController {
         ApiReturn apiReturn = new ApiReturn();
         FilmModel filmModel = filmService.getFilmByUid(uid);
         logger.info("获取视频信息:filModel={}", filmModel);
-        apiReturn.setData(filmModel);
-        apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        if (filmModel != null) {
+            apiReturn.setData(filmModel);
+            apiReturn.setApiReturnCode(ApiReturnCode.SUCCESSFUL);
+        } else {
+            apiReturn.setApiReturnCode(ApiReturnCode.NO_FILM_INFO);
+        }
         return apiReturn;
     }
 
     /**
      * 视频榜
+     *
      * @param typeCode 视频排榜唯一标识|FILM_ALL_NOTICE,FILM_NOTICE
-     * @return com.zy.website.response.NoticeResponse
+     * @return com.zy.website.facade.response.NoticeResponse
      * @author zhangyu
      * @description 根据标识获取视频榜数据
      * @date 2022/2/28 14:51
@@ -76,8 +83,9 @@ public class FilmController extends BaseController {
 
     /**
      * 搜索框搜索
+     *
      * @param filmSearchBarRequest
-     * @return com.zy.website.ApiReturn
+     * @return com.zy.website.facade.ApiReturn
      * @author zhangyu
      * @description 首页搜索框
      * @date 2022/2/28 15:18
@@ -90,18 +98,17 @@ public class FilmController extends BaseController {
 
     /**
      * 首页视频展示
+     *
+     * @return com.zy.website.facade.response.TopFilmResponse
      * @author zhangyu
-     * @description  首页根据顶部菜单视频展示
+     * @description 首页根据顶部菜单视频展示
      * @date 2022/3/2 11:33
-     * @return com.zy.website.response.TopFilmResponse
      */
     @RequestMapping(value = "frontPageFilm", method = RequestMethod.GET)
     public TopFilmResponse frontPageFilm() {
         TopFilmResponse topFilmResponse = filmService.frontPageFilm();
         return topFilmResponse;
     }
-
-
 
 
 }

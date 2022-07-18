@@ -1,6 +1,6 @@
 package com.zy.website.mapper;
 
-import com.zy.website.model.FilmScoreModel;
+import com.zy.website.facade.model.FilmScoreModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

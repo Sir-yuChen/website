@@ -23,6 +23,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
 
+    @Override
     @Bean
     //自定义的cache生成器
     public KeyGenerator keyGenerator() {

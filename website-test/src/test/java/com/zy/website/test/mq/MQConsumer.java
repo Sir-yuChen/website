@@ -1,18 +1,12 @@
 package com.zy.website.test.mq;
 
 import com.rabbitmq.client.*;
+import com.zy.website.test.BaseTest;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-/**
- * @ClassName Consumer01
- * @Description TODO
- * @Author 胡泽
- * @Date 2019/12/16 22:58
- * @Version 1.0
- */
-public class MQConsumer {
+public class MQConsumer extends BaseTest {
 
     private static final String QUEUE = "helloworld";
 

@@ -2,11 +2,11 @@ package com.zy.website.service.processor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zy.website.mapper.ProxyIpMapper;
-import com.zy.website.model.ProxyIpModel;
-import com.zy.website.model.dto.IpJsonDTO;
+import com.zy.website.utils.spring.ApplicationContextUtil;
+import com.zy.website.facade.model.ProxyIpModel;
+import com.zy.website.facade.model.dto.IpJsonDTO;
 import com.zy.website.utils.NetStateUtil;
 import com.zy.website.utils.RestTemplateUtils;
-import com.zy.website.utils.spring.ApplicationContextUtil;
 import ma.glasnost.orika.MapperFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,14 +32,11 @@ public class ProxyIpPipeline implements Pipeline {
 
     private static Logger logger = LogManager.getLogger(ProxyIpPipeline.class);
 
-    private static int queueCapacity = 1000;
-
     @Override
     public void process(ResultItems resultItems, Task task) {
         List<String> rultes = (List<String>) resultItems.get("rultes");
         logger.info("ProxyIpPipeline 共获取数据{}条", rultes.size());
-        //todo 数据量大使用strem 并行流 待痛优化
-        Stream<String> stringStream = rultes.parallelStream();
+        Stream<String> stringStream = rultes.parallelStream(); //第三方接口调用过快无法获取到IP正确的信息  部分可用IP无法入库
         stringStream.forEach(str -> {
             logger.info("当前线程名: " + Thread.currentThread().getName());
             //jsoup 解析判断Html会有问题  https://www.cnblogs.com/zhangyinhua/p/8037599.html

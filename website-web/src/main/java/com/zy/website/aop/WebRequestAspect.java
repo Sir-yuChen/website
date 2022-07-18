@@ -1,6 +1,6 @@
 package com.zy.website.aop;
 
-import com.zy.website.request.FrontRequest;
+import com.zy.website.facade.request.FrontRequest;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +8,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@Order(1)//多个aop执行顺序 也可以实现Ordered接口 返回顺序值
 public class WebRequestAspect {
 
     private static Logger logger = LogManager.getLogger(WebRequestAspect.class);
@@ -50,9 +52,9 @@ public class WebRequestAspect {
             if (ArrayUtils.isNotEmpty(args)) {
                 for(int i = 0; i < args.length; i++) {
                     Object arg = args[i];
-                    if (arg != null && arg instanceof com.zy.website.request.FrontRequest) {
+                    if (arg != null && arg instanceof com.zy.website.facade.request.FrontRequest) {
                         //把请求headers中的参数设置到请求body的参数里
-                        com.zy.website.request.FrontRequest baseInputRequest = (FrontRequest) arg;
+                        com.zy.website.facade.request.FrontRequest baseInputRequest = (FrontRequest) arg;
 //                        ValidationUtils.validate(baseInputRequest);//参数验证不通过会抛出BusinessException异常
                     }
                 }
